@@ -1,3 +1,5 @@
+#folder path for desired output of the output fastqc results
+fastqc_output_folder: 
 #location of star
 star: /cluster/project8/vyp/vincent/Software/STAR-STAR_2.4.2a/bin/Linux_x86_64_static/STAR
 

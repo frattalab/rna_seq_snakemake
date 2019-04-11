@@ -1,0 +1,6 @@
+Submit to the cluster using the following command
+
+#snakemake -s TitanCNA.snakefile 
+--jobscript config/cluster_qsub.sh 
+--cluster-config config/cluster_qsub.yaml 
+--cluster-sync "qsub -l h_vmem={cluster.h_vmem},h_rt={cluster.h_rt} -pe {cluster.pe} -binding {cluster.binding}" -j 50
