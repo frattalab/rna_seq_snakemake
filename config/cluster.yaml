@@ -8,5 +8,5 @@ __default__:
 fastqc:
     h_vmem:    4G
     tmem:   4G
-    h_rt=72:00:00
+    h_rt: 72:00:00
     

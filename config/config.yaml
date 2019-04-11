@@ -1,0 +1,22 @@
+######UPDATE THIS#########
+#path to a csv with the follwing format: 
+#sample_name,unit, fast1,fast2
+#if the data is single end leave the fast2 column blank
+
+
+#########################
+##FASTQC PARAMETERS######
+#########################
+#folder path for desired output of the output fastqc results
+fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
+#path to the fastqc executable
+fastqc_path: /share/apps/genomics/fastqc-0.11.2/
+
+
+#########################
+##STAR PARAMETERS######
+#########################
+#location of star
+star: /cluster/project8/vyp/vincent/Software/STAR-STAR_2.4.2a/bin/Linux_x86_64_static/STAR
+
+cutadapt: /share/apps/python-2.7.8/bin/cutadapt
