@@ -1,7 +1,8 @@
 import re
 import pandas as pd
 import os
-configfile: "config.yaml"
+import numpy as np
+configfile: "config/config.yaml"
 
 def get_fastq_names(DATA):
     samples = pd.read_table(DATA, sep = ",")
@@ -19,25 +20,30 @@ def get_fastq_names(DATA):
     for ind, value in enumerate(stripped):
         fn.append("_".join([sample_name[ind], unit_name[ind], value]))
     
-    return(fn)
+    return(fn, fastq_list)
+
+def return_fastq_location(wildcards.fastq_name):
+	#return the file location from the fastq name
+	return(ORDER_DICT[wildcards.fastq_name])
 
 #make sure the output folder for fastqc exists before running anything
 os.system("mkdir -p {0}".format(config["fastqc_output_folder"]))
 
 
 #fastq name is the sample_unit_fastqfile 
-FASTQ_NAME = get_fastq_names(config["sampleCSVpath"])
+FASTQ_NAME, FILE_LOCATION = get_fastq_names(config["sampleCSVpath"])
+ORDER_DICT = dict(zip(FASTQ_NAME, FILE_LOCATION))
 
 rule all:
-	input: expand(config["fastqc_output_folder"] + "{fastq_name}_fastqc.html",fastq_name=FASTQ_NAME)
+	input: 
+		expand(config["fastqc_output_folder"] + "{fastq_name}_fastqc.html",fastq_name=FASTQ_NAME)
 
 rule fastqc:
 	input:
 		fastq_file = lambda wildcards: return_fastq_location(wildcards.fastq_name)
 	output:
 		out_file = config["fastqc_output_folder"] + "{fastq_name}_fastqc.html"
-	params:
-		fastqc_call = config["fastqc_path"]
+	# params:
+	# 	fastqc_call = config["fastqc_path"]
 	shell:
-
-		"{params.fastqc_call} {input.fastq_file} -o {out_file}"
+		"{config[fastqc_path]} {input.fastq_file} -o {out_file}"
