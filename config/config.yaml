@@ -13,6 +13,8 @@ fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
 fastqc_path: /share/apps/genomics/fastqc-0.11.2/fastqc
 #path to the multiqc file ######HOPEFULLY THIS WILL BE REPLACED BY A SHARE LOCATION, CURRENTLY JUST INSTALLED ON MY HOMEDRIVE
 multiqc_path: /home/annbrown/.local/bin/multiqc
+###for any additional multiqc runtime commands, if you want them it would be something like --cl_config "qualimap_config: { general_stats_coverage: [20,40,200] }", otherwise leave the parameter blank
+multiqc_configparams: ""
 
 #########################
 ##STAR PARAMETERS######

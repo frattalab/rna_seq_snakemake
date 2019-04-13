@@ -1,19 +1,22 @@
 
+configfile: "config/config.yaml"
+include: "helpers.py"
 
-FASTQ_NAME = get_fastq_names(config["sampleCSVpath"])
-def check_all_done(FASTQ_NAME):
+FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
 
-	
-rule all:
+all_files = expand(config["fastqc_output_folder"] + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
+print(all_files)
+rule all_output:
 	input:
 		config["fastqc_output_folder"] + "multiqc.html"
 
+
 rule multiqc:
     input:
-        check_all_done
+        all_files
     output:
         config["fastqc_output_folder"] + "multiqc.html"
     log:
         "logs/multiqc.log"
     shell:
-        "{config[multiqc_path]} {config[fastqc_output_folder]}"
+        "{config[multiqc_path]} -d {config[fastqc_output_folder]} -o {config[fastqc_output_folder]} {config[multiqc_configparams]} "

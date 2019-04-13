@@ -6,9 +6,10 @@ configfile: "config/config.yaml"
 def write_config_copy():
 	os.system("mkdir -p snakemake_configs")
 	os.system("")
+
 rule all:
 	input:
-		config["fastqc_output_folder"] + "multiqc.html")
+		config["fastqc_output_folder"] + "multiqc.html"
 
 include: "rules/fastqc.smk"
 include: "rules/multiqc.smk"

@@ -1,6 +1,6 @@
 Submit to the cluster using the following command
 
-snakemake -s rules/fastqc.smk \
+snakemake -s fastqc.smk\
 --jobscript cluster_qsub.sh \
 --cluster-config config/cluster.yaml \
 --cluster-sync "qsub -l h_vmem={cluster.h_vmem},h_rt={cluster.h_rt} -pe {cluster.pe}" -j 100
