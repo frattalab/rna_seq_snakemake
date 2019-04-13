@@ -10,8 +10,9 @@ sampleCSVpath: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastq_locations_4su.csv
 #folder path for desired output of the output fastqc results
 fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
 #path to the fastqc executable
-fastqc_path: /share/apps/genomics/fastqc-0.11.2/
-
+fastqc_path: /share/apps/genomics/fastqc-0.11.2/fastqc
+#path to the multiqc file ######HOPEFULLY THIS WILL BE REPLACED BY A SHARE LOCATION, CURRENTLY JUST INSTALLED ON MY HOMEDRIVE
+multiqc_path: /home/annbrown/.local/bin/multiqc
 
 #########################
 ##STAR PARAMETERS######

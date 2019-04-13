@@ -2,6 +2,7 @@ import re
 import pandas as pd
 import os
 import numpy as np
+
 configfile: "config/config.yaml"
 
 def get_fastq_names(DATA):
@@ -22,9 +23,9 @@ def get_fastq_names(DATA):
     
     return(fn, fastq_list)
 
-def return_fastq_location(wildcards.fastq_name):
+def return_fastq_location(wildcards):
 	#return the file location from the fastq name
-	return(ORDER_DICT[wildcards.fastq_name])
+	return(ORDER_DICT[wildcards])
 
 #make sure the output folder for fastqc exists before running anything
 os.system("mkdir -p {0}".format(config["fastqc_output_folder"]))
@@ -32,8 +33,11 @@ os.system("mkdir -p {0}".format(config["fastqc_output_folder"]))
 
 #fastq name is the sample_unit_fastqfile 
 FASTQ_NAME, FILE_LOCATION = get_fastq_names(config["sampleCSVpath"])
+#zip them into a directory to make getting the location easier
 ORDER_DICT = dict(zip(FASTQ_NAME, FILE_LOCATION))
-
+#first rule is a general rule that specifies the final output of everything, here we have the expected
+#output of the individual fastqc's and the multiqc html file. snakemake will check to see if these output files
+#exist if they dont it will keep going
 rule all:
 	input: 
 		expand(config["fastqc_output_folder"] + "{fastq_name}_fastqc.html",fastq_name=FASTQ_NAME)
@@ -42,8 +46,16 @@ rule fastqc:
 	input:
 		fastq_file = lambda wildcards: return_fastq_location(wildcards.fastq_name)
 	output:
-		out_file = config["fastqc_output_folder"] + "{fastq_name}_fastqc.html"
-	# params:
-	# 	fastqc_call = config["fastqc_path"]
+		out_fastqc = config["fastqc_output_folder"] + "{fastq_name}_fastqc.html",
+		out_fastzip = config["fastqc_output_folder"] + "{fastq_name}_fastqc.zip"
+	params:
+		fq_name = lambda wildcards, input: re.sub(".gz","c", input.fastq_file.rpartition('/')[2])
+	log:
+        "logs/{fastq_name}_fastqc.log"
 	shell:
-		"{config[fastqc_path]} {input.fastq_file} -o {out_file}"
+		"""
+		mkdir -p {config[fastqc_output_folder]}{wildcards.fastq_name}
+		#{config[fastqc_path]} {input.fastq_file} -o {config[fastqc_output_folder]}{wildcards.fastq_name} 
+		mv {config[fastqc_output_folder]}{wildcards.fastq_name}/{params.fq_name}_.html {output.out_fastqc} 
+		mv {config[fastqc_output_folder]}{wildcards.fastq_name}/{params.fq_name}_.zip {output.out_fastzip}
+		"""
