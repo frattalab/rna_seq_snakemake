@@ -2,24 +2,47 @@
 #path to a csv with the follwing format: 
 #sample_name,unit, fast1,fast2
 #if the data is single end leave the fast2 column blank
-sampleCSVpath: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastq_locations_4su.csv
+sampleCSVpath: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/wide_fastq.csv
 
 #########################
 ##FASTQC PARAMETERS######
 #########################
 #folder path for desired output of the output fastqc results
-fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
+fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
 #path to the fastqc executable
 fastqc_path: /share/apps/genomics/fastqc-0.11.2/fastqc
+
+
+
+#########################
+##FASTP PARAMETERS - TRIMMING HERE######
+#########################
+fastp_path: /home/annbrown/fastp
+#quality trimming is debated, and harsh cutoff can effect expression, using a soft quality trim of 10 based on this paper
+#https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2
+fastp_phred_cutoff: 10
+#use this flag if there are UMI's present, if there are, there should be a file with fastq & umi fastq present, otherwise 
+#leave this flag as an empty string: ""
+fastp_umi_fastq_file: ""
+
+
+
+#########################
+##STAR PARAMETERS - ALIGNMENT HERE######
+#########################
+#location of star exe
+star: /cluster/project8/vyp/vincent/Software/STAR-STAR_2.4.2a/bin/Linux_x86_64_static/STAR
+star_genome: ""
+
+star_extras:
+    h_vmem:    4G
+    tmem:   4G
+    h_rt: 72:00:00
+
+
+cutadapt: /share/apps/python-2.7.8/bin/cutadapt
+
 #path to the multiqc file ######HOPEFULLY THIS WILL BE REPLACED BY A SHARE LOCATION, CURRENTLY JUST INSTALLED ON MY HOMEDRIVE
 multiqc_path: /home/annbrown/.local/bin/multiqc
 ###for any additional multiqc runtime commands, if you want them it would be something like --cl_config "qualimap_config: { general_stats_coverage: [20,40,200] }", otherwise leave the parameter blank
 multiqc_configparams: ""
-
-#########################
-##STAR PARAMETERS######
-#########################
-#location of star
-star: /cluster/project8/vyp/vincent/Software/STAR-STAR_2.4.2a/bin/Linux_x86_64_static/STAR
-
-cutadapt: /share/apps/python-2.7.8/bin/cutadapt

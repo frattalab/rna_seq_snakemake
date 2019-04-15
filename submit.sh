@@ -7,5 +7,4 @@ cp config/cluster.yaml $FOLDER/cluster.yaml
 snakemake -s rna_seq.snakefile \
 --jobscript cluster_qsub.sh \
 --cluster-config config/cluster.yaml \
---jobname '$FOLDER/s.{rulename}.{jobid}' \
 --cluster-sync "qsub -l h_vmem={cluster.h_vmem},h_rt={cluster.h_rt} -pe {cluster.pe} -o $FOLDER" -j 100
