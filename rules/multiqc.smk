@@ -19,4 +19,4 @@ rule multiqc:
     log:
         "logs/multiqc.log"
     shell:
-        "{config[multiqc_path]} -d {config[fastqc_output_folder]} -o {config[fastqc_output_folder]} {config[multiqc_configparams]} "
+        "{config[multiqc_path]} -d {config[fastqc_output_folder]} -o {config[fastqc_output_folder]} {config[multiqc_configparams]}"

@@ -32,5 +32,5 @@ rule fastqc:
 	shell:
 		"""
 		mkdir -p {config[fastqc_output_folder]}{wildcards.unit}
-		{config[fastqc_path]} {input.fastq_file} -o {config[fastqc_output_folder]}{wildcards.fastq_name} 
+		{config[fastqc_path]} {input.fastq_file} -o {config[fastqc_output_folder]}{wildcards.unit} 
 		"""
