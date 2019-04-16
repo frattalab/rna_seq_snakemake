@@ -1,8 +1,15 @@
-#Submit to the cluster using the following command
+#!/bin/bash
+#Submit to the cluster, give it a unique name
+
+if [ "$0" != "" ]; then
+    RUN_NAME=$0
+else
+    RUN_NAME=$""
+fi
 
 FOLDER=$(date +"%Y%m%d%H%M")
 mkdir -p $FOLDER
-cp config/cluster.yaml $FOLDER/cluster.yaml
+cp config/config.yaml $FOLDER/$RUN_NAME.config.yaml
 
 snakemake -s rna_seq.snakefile \
 --jobscript cluster_qsub.sh \

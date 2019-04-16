@@ -10,3 +10,12 @@ fastqc:
     tmem:   4G
     h_rt: 72:00:00
     
+multiqc:
+    h_vmem:    4G
+    tmem:   4G
+    h_rt: 72:00:00
+
+fastp_trimming:
+    h_vmem:    4G
+    tmem:   4G
+    h_rt: 72:00:00

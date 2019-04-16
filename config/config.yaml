@@ -1,14 +1,24 @@
-######UPDATE THIS#########
+######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 #path to a csv with the follwing format: 
 #sample_name,unit, fast1,fast2
 #if the data is single end leave the fast2 column blank
 sampleCSVpath: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/wide_fastq.csv
+end_type: pe
+#fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
+
+fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
+fastp_trimmed_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastp_trimmed/
+######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+
 
 #########################
 ##FASTQC PARAMETERS######
 #########################
-#folder path for desired output of the output fastqc results
-fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
+
 #path to the fastqc executable
 fastqc_path: /share/apps/genomics/fastqc-0.11.2/fastqc
 
@@ -18,13 +28,20 @@ fastqc_path: /share/apps/genomics/fastqc-0.11.2/fastqc
 ##FASTP PARAMETERS - TRIMMING HERE######
 #########################
 fastp_path: /home/annbrown/fastp
+
 #quality trimming is debated, and harsh cutoff can effect expression, using a soft quality trim of 10 based on this paper
 #https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2
 fastp_phred_cutoff: 10
 #use this flag if there are UMI's present, if there are, there should be a file with fastq & umi fastq present, otherwise 
 #leave this flag as an empty string: ""
 fastp_umi_fastq_file: ""
-
+#additional parameters for paired end data
+fastp_parameters:
+  unpaired1: "fish"
+  unpaired2: "fish2"
+  qualified_quality_phred: 10
+  umi: ""
+  umi_loc: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
 
 
 #########################
@@ -33,11 +50,6 @@ fastp_umi_fastq_file: ""
 #location of star exe
 star: /cluster/project8/vyp/vincent/Software/STAR-STAR_2.4.2a/bin/Linux_x86_64_static/STAR
 star_genome: ""
-
-star_extras:
-    h_vmem:    4G
-    tmem:   4G
-    h_rt: 72:00:00
 
 
 cutadapt: /share/apps/python-2.7.8/bin/cutadapt
