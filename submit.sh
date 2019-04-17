@@ -4,8 +4,8 @@
 
 #$ -cwd
 #$ -V
-#$ -l h_vmem=4G,h_rt=6:00:00,tmem=4G
-#$ -pe smp 1
+#$ -l h_vmem=1.9G,h_rt=20:00:00,tmem=1.9G
+#$ -pe smp 2
 
 # join stdout and stderr output
 #$ -j y

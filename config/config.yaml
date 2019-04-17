@@ -4,15 +4,15 @@
 #path to a csv with the follwing format: 
 #sample_name,unit, fast1,fast2
 #if the data is single end leave the fast2 column blank
-#sampleCSVpath: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/wide_fastq.csv
-#end_type: pe
-#fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
-#fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
+sampleCSVpath: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/wide_fastq.csv
+end_type: pe
+fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
+fastp_trimmed_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastp_trimmed/
 
-sampleCSVpath: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastq_locations_4su_updated.csv
-end_type: se
-fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
-fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
+# sampleCSVpath: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastq_locations_4su.csv
+# end_type: se
+# fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
+# fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
 #mouse or human
 star_genome: ""
 ######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########

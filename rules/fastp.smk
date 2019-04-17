@@ -12,16 +12,17 @@ SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
 SAMPLES.replace(np.nan, '', regex=True)
 #so I want this rule to be run ONCE for every fast1, so the wild cards I'm giving are the 'name' of the fastq of the first read
 FASTQ_NAME = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
-FASTQ_NAME_2 = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) + "_trimmed.fastq.gz" for strpd in SAMPLES['fast2'].tolist()]
-
+FASTQ_NAME_2 = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast2'].tolist()]
+#the next two dictionaries are used so that when we cycle through the fast1_names, we can correctly get the fast2 name and unit
+NAMES_DICT = dict(zip(FASTQ_NAME, FASTQ_NAME_2))
+UNITS_DICT = dict(zip(FASTQ_NAME, UNITS))
 #I'm adding on the fastq name to the samples table so that it makes it easier to select on in later steps
 SAMPLES['fast1_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
 #here i'm defining the final output to be all the of the unit/fast1 trimmed files, this might actually become problematic for 
 #paired end since I'm not also specifying 
 rule all_trimmed:
 	input: 
-		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",zip, unit = UNITS, fastq_name=FASTQ_NAME),
-		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name2}",zip, unit = UNITS, fastq_name=FASTQ_NAME_2)
+		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",zip, unit = UNITS, fastq_name=FASTQ_NAME)
 
 #here i'm defining the final output to be all the of the unit/fast1 trimmed files
 
@@ -30,13 +31,17 @@ rule fastp_trimming:
 	#get the value in the fast1 column
 		fastq_file = lambda wildcards: SAMPLES.loc[(SAMPLES['fast1_name'] == wildcards.fastq_name) & (SAMPLES['unit'] == wildcards.unit)]["fast1"].values[0]
 	output:
-		out_fastqc = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",
-		out_fastqc2 = 
+		out_fastqc = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz"
 	params:
 		fastp_parameters = return_parsed_extra_params(config['fastp_parameters']),
-		fastq_file2 = lambda wildcards: SAMPLES.loc[(SAMPLES['fast1_name'] == wildcards.fastq_name) & (SAMPLES['unit'] == wildcards.unit)]["fast2"].values[0]
+		fastq_file2 = lambda wildcards: SAMPLES.loc[(SAMPLES['fast1_name'] == wildcards.fastq_name) & (SAMPLES['unit'] == wildcards.unit)]["fast2"].values[0],
+		out_fastqc2 = lambda wildcards: config["fastp_trimmed_output_folder"] + UNITS_DICT[wildcards.fastq_name] + "/" + NAMES_DICT[wildcards.fastq_name] + "_trimmed.fastq.gz",
+		#qc files
+		fastpjson = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.json",
+		fastphtml = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.html"
 	run:
+		print({output.out_fastqc})
 		if config["end_type"] == "se":
-			shell("{config[fastp_path]} -i {input.fastq_file} -o {output.out_fastqc} {params.fastp_parameters}")
+			shell("{config[fastp_path]} -i {input.fastq_file} -o {output.out_fastqc} --json {params.fastpjson} --html {params.fastphtml} {params.fastp_parameters}")
 		if config["end_type"] == "pe":
-			shell("{config[fastp_path]} -i {input.fastq_file} -in2 {params.fastq_file2} -o {config[fastp_trimmed_output_folder]}{output.out_fastqc} -o2 {params.out_fastqc2} {params.fastp_parameters}")
+			shell("{config[fastp_path]} --in1 {input.fastq_file} --in2 {params.fastq_file2} --out1 {output.out_fastqc} --out2 {params.out_fastqc2} --json {params.fastpjson} --html {params.fastphtml} {params.fastp_parameters}")
