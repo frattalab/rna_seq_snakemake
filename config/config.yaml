@@ -4,12 +4,17 @@
 #path to a csv with the follwing format: 
 #sample_name,unit, fast1,fast2
 #if the data is single end leave the fast2 column blank
-sampleCSVpath: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/wide_fastq.csv
-end_type: pe
+#sampleCSVpath: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/wide_fastq.csv
+#end_type: pe
 #fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
+#fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
 
-fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
-fastp_trimmed_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastp_trimmed/
+sampleCSVpath: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastq_locations_4su_updated.csv
+end_type: se
+fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
+fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
+#mouse or human
+star_genome: ""
 ######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 ######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 ######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
@@ -31,25 +36,26 @@ fastp_path: /home/annbrown/fastp
 
 #quality trimming is debated, and harsh cutoff can effect expression, using a soft quality trim of 10 based on this paper
 #https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2
-fastp_phred_cutoff: 10
 #use this flag if there are UMI's present, if there are, there should be a file with fastq & umi fastq present, otherwise 
-#leave this flag as an empty string: ""
-fastp_umi_fastq_file: ""
-#additional parameters for paired end data
+#additional parameters you might want to add on
 fastp_parameters:
-  unpaired1: "fish"
-  unpaired2: "fish2"
   qualified_quality_phred: 10
-  umi: ""
-  umi_loc: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
+  #use this flag if there are UMI's present, if there are, there should be a file with fastq & umi fastq present, otherwise 
+  #leave this flag as an empty string: ""
+  #umi: ""
+  #umi_loc: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
 
 
 #########################
 ##STAR PARAMETERS - ALIGNMENT HERE######
 #########################
 #location of star exe
-star: /cluster/project8/vyp/vincent/Software/STAR-STAR_2.4.2a/bin/Linux_x86_64_static/STAR
-star_genome: ""
+star_path: /cluster/project8/vyp/vincent/Software/STAR-STAR_2.4.2a/bin/Linux_x86_64_static/STAR
+
+extra_star_parameters:
+  outSAMattributes: MD NH
+  alignEndsType: EndToEnd
+
 
 
 cutadapt: /share/apps/python-2.7.8/bin/cutadapt
