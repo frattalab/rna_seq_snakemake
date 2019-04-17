@@ -1,11 +1,16 @@
-#performs trimming used fastp
-configfile: "config/config.yaml"
 
+configfile: "config/config.yaml"
 
 #fastq name is the sample_unit_fastqfile 
 FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
 #zip them into a directory to make getting the location easier
-ORDER_DICT = dict(zip(FASTQ_NAME, FILE_LOCATION))
+SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
+
+units = samples.unit
+fast2 = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in samples.fast2]
+ORDER_UNIT_2 = dict(zip(units,fast2))
+
+
 
 rule all_trimmed:
 	input: 
@@ -13,11 +18,20 @@ rule all_trimmed:
 
 rule fastp_trimming:
 	input:
-		fastp_input_parameters = return_fastp_inputs(config["sampleCSVpath"], config["end_type"])
+	#if the input is single end, simply get the value in the fast1 column
+		if config["end_type"] == "se":
+			fastq_file = lambda wildcards: SAMPLES.loc[SAMPLES['unit'] == wildcards.unit]["fast1"].values[0]
+		if config["end_type"] == "pe":
+			fastq_file1 = lambda wildcards: SAMPLES.loc[SAMPLES['unit'] == wildcards.unit]["fast1"].values[0],
+			fastq_file2 = lambda wildcards: SAMPLES.loc[SAMPLES['unit'] == wildcards.unit]["fast2"].values[0]
 	output:
 		out_fastqc = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq"
 	params:
-		fastp_parameters: return_parsed_fastp_params(config['fastp_parameters'])
+		fastp_parameters = return_parsed_fastp_params(config['fastp_parameters']),
+		if config["end_type"] == "pe":
+			 out_fastqc2 = lambda wildcards: config["fastp_trimmed_output_folder"] + "{unit}/" + ORDER_UNIT_2[wildcards.unit], + "_trimmed.fastq"
 	run:
-		shell("{config[fastp_path]} {input.fastp_input_parameters} {params.fastp_parameters}")
-
+		if config["end_type"] == "se":
+			shell("{config[fastp_path]} -i {input.fastq_file} -o {output.out_fastqc} {params.fastp_parameters}")
+		if config["end_type"] == "pe":
+			shell("{config[fastp_path]} -i {input.fastq_file1} -in2 {input.fastq_file1} -o {output.out_fastqc2} -o2 {params.out_fastqc2} {params.fastp_parameters}")
