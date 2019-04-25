@@ -3,8 +3,11 @@ configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml" 
 include: "rules/helpers.py"
 
-SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
-SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
+#make sure the output folder for STAR exists before running anything
+os.system("mkdir -p {0}".format(config["star_output_folder"]))
+
+def get_fastq_files_by_sample():
+	return SAMPLES["samples"][wildcards.sample]
 
 rule all_star:
 	input:
@@ -12,7 +15,7 @@ rule all_star:
 
 rule run_star:
 	input:
-
+		get_fastq_files_by_sample
 	output:
 		"star/{sample}-{unit}/Aligned.out.bam",
         "star/{sample}-{unit}/ReadsPerGene.out.tab",
@@ -36,7 +39,7 @@ rule run_star:
 		cmd = ["{config[star_path]} \
 		--readFilesIn {params.trimmed_fastqs} \
 		--readFilesCommand zcat \
-		--runThreadN {threads} \
+		--runThreadN {cluster_config[threads} \
 		--outSAMtype BAM SortedByCoordinate"]
 		print(cmd)
 		shell(cmd)

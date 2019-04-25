@@ -4,20 +4,26 @@
 #path to a csv with the follwing format: 
 #sample_name,unit, fast1,fast2
 #if the data is single end leave the fast2 column blank
-sampleCSVpath: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/wide_fastq.csv
-end_type: pe
-fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
-fastp_trimmed_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastp_trimmed/
+# sampleCSVpath: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/wide_fastq.csv
+# end_type: pe
+# fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
+# fastp_trimmed_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastp_trimmed/
+# star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned/
 
-# sampleCSVpath: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastq_locations_4su.csv
-# end_type: se
-# fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
-# fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
+######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+sampleCSVpath: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastq_locations_4su.csv
+end_type: se
+fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
+fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
+
+star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned/
+
 #mouse or human
-star_genome: ""
-######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+species: "mouse"
+#species: "human"
+
 
 
 #########################
@@ -55,6 +61,7 @@ star_path: /cluster/project8/vyp/vincent/Software/STAR-STAR_2.4.2a/bin/Linux_x86
 extra_star_parameters:
   outSAMattributes: MD NH
   alignEndsType: EndToEnd
+
 
 
 
