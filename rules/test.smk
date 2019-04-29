@@ -20,12 +20,9 @@ rule run_star:
 	input:
 		config["fastp_trimmed_output_folder"] + "{unit}/{{fastq_name}}_trimmed.fastq.gz"
 	output:
-		config['star_output'] + "{sample_name}/{unit}_temp.bam",
-        config['star_output'] + "{sample_name}/{unit}_ReadsPerGene.out.tab"
+		config['star_output'] + "{sample_name}/{unit}_temp.bam"
 	params:
-		extra_star_parameters = return_parsed_extra_params(config['fastp_parameters'])
-	threads: 12
-
+		fastp_parameters = return_parsed_extra_params(config['fastp_parameters'])
 	run:
 		shell("print {input}")
 		shell("touch test.txt")
