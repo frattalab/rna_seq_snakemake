@@ -1,7 +1,7 @@
 
 configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml" 
-include: "rules/helpers.py"
+include: "helpers.py"
 
 #make sure the output folder for STAR exists before running anything
 os.system("mkdir -p {0}".format(config["star_output_folder"]))
