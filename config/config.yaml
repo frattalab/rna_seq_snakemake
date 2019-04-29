@@ -12,7 +12,6 @@
 
 ######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 ######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 sampleCSVpath: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastq_locations_4su.csv
 end_type: se
 fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
@@ -24,7 +23,9 @@ star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned/
 species: "mouse"
 #species: "human"
 
-
+######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
+######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
+######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
 
 #########################
 ##FASTQC PARAMETERS######
@@ -61,8 +62,13 @@ star_path: /cluster/project8/vyp/vincent/Software/STAR-STAR_2.4.2a/bin/Linux_x86
 extra_star_parameters:
   outSAMattributes: MD NH
   alignEndsType: EndToEnd
+  quantMode: GeneCounts
+  outSAMtype: BAM SortedByCoordinate 
+  twopassMode: Basic
+  twopass1readsN: -1
 
-
+star_genome_mouse:
+star_genome_human:
 
 
 cutadapt: /share/apps/python-2.7.8/bin/cutadapt

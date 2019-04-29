@@ -4,7 +4,6 @@ __default__:
     pe: smp 1
     R:  y
 
-
 fastqc:
     h_vmem:    4G
     tmem:   4G
@@ -21,7 +20,7 @@ fastp_trimming:
     h_rt: 72:00:00
 
 run_star:
-    h_vmem:   2.3G
-    tmem:   2.3G
+    h_vmem:   2.6G
+    tmem:   2.6G
     pe: smp 12
     h_rt: 72:00:00

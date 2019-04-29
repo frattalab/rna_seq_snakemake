@@ -6,44 +6,38 @@ include: "rules/helpers.py"
 #make sure the output folder for STAR exists before running anything
 os.system("mkdir -p {0}".format(config["star_output_folder"]))
 
-def get_fastq_files_by_sample():
-	return SAMPLES["samples"][wildcards.sample]
+TRIMMED_OUTPUT_FOLDER = config['fastp_trimmed_output_folder']
+
+SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
+SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
+
+SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
+UNITS = SAMPLES['unit'].tolist()
 
 rule all_star:
 	input:
-		expand(config['star_output'] + "{sample_name}", fastq_name=FASTQ_NAME)
+		expand(config['star_output'] + "{sample_name}/{unit}}_Aligned.out.bam", zip, sample_name=SAMPLE_NAMES, unit=UNITS)
 
 rule run_star:
 	input:
-		get_fastq_files_by_sample
+		config["fastp_trimmed_output_folder"] + "{unit}/{{fastq_name}}_trimmed.fastq.gz"
 	output:
-		"star/{sample}-{unit}/Aligned.out.bam",
-        "star/{sample}-{unit}/ReadsPerGene.out.tab",
-	parameters:
+		config['star_output'] + "{sample_name}/{unit}_Aligned.out.bam",
+        config['star_output'] + "{sample_name}/{unit}_ReadsPerGene.out.tab"
+	params:
 		extra_star_parameters = return_parsed_extra_params(config['fastp_parameters']),
-		input_files = return_trimmed_fastqs(wildcards.unit, wildcards.fastconfig['end_type'])
-	# threads: 24
-	# ${starexec} 
-	# --readFilesIn $f1_total $f2_total 
-	# --readFilesCommand zcat 
-	# --genomeLoad ${memorymode} 
-	# --genomeDir /SAN/vyplab/HuRNASeq/reference_datasets/STAR/mouse/GrCh38.96/
-	# --runThreadN  4 $chimeraCommand 
-	# --outFileNamePrefix ${SCRATCH_DIR}/${sample} 
-	# --outSAMtype $STARoutput $twopass 
-	# --outSAMunmapped Within 
-	# --outSAMheaderHD ID:${sample} PL:Illumina
-	 STAR --genomeDir Genome1/ --genomeLoad LoadAndKeep --readFilesIn SampleTest_R1_trimmed.1M.fastq.gz SampleTest_R2_trimmed.1M.fastq.gz --readFilesCommand zcat
+		trimmed_fastqs = return_trimmed_fastqs(wildcards.unit, config['end_type']),
+		genomeDir = return_genome_dir_by_species(config['species']) 
+
+	threads: 12
 
 	run:
 		cmd = ["{config[star_path]} \
+		--genomeDir {params.genomeDir} \
 		--readFilesIn {params.trimmed_fastqs} \
+		--outFileNamePrefix /path/to/output/dir/prefix \
 		--readFilesCommand zcat \
-		--runThreadN {cluster_config[threads} \
-		--outSAMtype BAM SortedByCoordinate"]
+		--runThreadN {threads} \
+		{params.extra_star_parameters}"]
 		print(cmd)
 		shell(cmd)
-
-
-
-/cluster/project8/vyp/vincent/Software/STAR-STAR_2.4.2a/bin/Linux_x86_64_static/STAR --readFilesIn /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/190313_NS500195_0484_AH55VFBGXB/F1A_S21_R1_001_trimmed.fastq.gz --readFilesCommand zcat --runThreadN 4 --genomeDir /SAN/vyplab/HuRNASeq/reference_datasets/STAR/Mouse/GRCm38.96/star_indices_overhang100 --outSAMattributes MD NH --alignEndsType EndToEnd --outFileNamePrefix /SAN/vyplab/TDP43_RNA/4SU_mouse/star_test/190313_NS500195_0484_AH55VFBGXB 
