@@ -19,7 +19,7 @@ rule run_star:
 	input:
 		config["fastp_trimmed_output_folder"] + "{unit}/{{fastq_name}}_trimmed.fastq.gz"
 	output:
-		config['star_output'] + "{sample_name}/{unit}_temp.bam"
+		config['star_output_folder'] + "{sample_name}/{unit}_temp.bam"
 	params:
 		fastp_parameters = return_parsed_extra_params(config['fastp_parameters'])
 	run:
