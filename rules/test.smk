@@ -12,8 +12,11 @@ SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 UNITS = SAMPLES['unit'].tolist()
 
+def is_single_end(sample, unit):
+    return pd.isnull(units.loc[(sample, unit), "fast2"])
+
 def get_trimmed(wildcards):
-    if not is_single_end(**wildcards):
+    if not config['end_type']:
         # paired-end sample
         return expand(config["fastp_trimmed_output_folder"] +"{unit}/{name}_{group}_trimmed.fastq.gz",
                       group=[1, 2], **wildcards)
