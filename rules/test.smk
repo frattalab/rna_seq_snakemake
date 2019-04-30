@@ -12,13 +12,21 @@ SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 UNITS = SAMPLES['unit'].tolist()
 
+def get_trimmed(wildcards):
+    if not is_single_end(**wildcards):
+        # paired-end sample
+        return expand(config["fastp_trimmed_output_folder"] +"{unit}/{name}_{group}_trimmed.fastq.gz",
+                      group=[1, 2], **wildcards)
+    # single end sample
+    return config["fastp_trimmed_output_folder"] + "{unit}/{name}_trimmed.fastq.gz".format(**wildcards)
+
 rule all_star:
 	input:
 		expand(config['star_output_folder'] + "{sample_name}/{unit}.bam", zip, sample_name=SAMPLE_NAMES, unit=UNITS)
 
 rule run_star:
 	input:
-		lambda wildcards: get_trimmed_files(wilcards.sample_name, wildcards.unit, config["end_type"])
+		get_trimmed
 	output:
 		config['star_output_folder'] + "{sample_name}/{unit}.bam" 
 	params:

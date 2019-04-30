@@ -28,7 +28,7 @@ rule all_trimmed:
 
 #here i'm defining the final output to be all the of the unit/fast1 trimmed files
 
-rule fastp_trimming:
+rule fastp_trimming_pe:
 	input:
 	#get the value in the fast1 column
 		fastq_file = lambda wildcards: SAMPLES.loc[(SAMPLES['fast1_name'] == wildcards.fastq_name) & (SAMPLES['unit'] == wildcards.unit)]["fast1"].values[0]
@@ -39,7 +39,29 @@ rule fastp_trimming:
 	params:
 		fastp_parameters = return_parsed_extra_params(config['fastp_parameters']),
 		fastq_file2 = lambda wildcards: SAMPLES.loc[(SAMPLES['fast1_name'] == wildcards.fastq_name) & (SAMPLES['unit'] == wildcards.unit)]["fast2"].values[0],
-		out_fastqc2 = lambda wildcards: config["fastp_trimmed_output_folder"] + UNITS_DICT[wildcards.fastq_name] + "/" + NAMES_DICT[wildcards.fastq_name] + "_trimmed.fastq.gz",
+		out_fastqc2 = lambda wildcards: config["fastp_trimmed_output_folder"] + UNITS_DICT[wildcards.fastq_name] + "/" + NAMES_DICT[wildcards.fastq_name] + "_trimmed.fastq.gz"
+		#qc files
+		fastpjson = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.json",
+		fastphtml = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.html"
+	run:
+		print({output.out_fastqc})
+		if config["end_type"] == "se":
+			shell("{config[fastp_path]} -i {input.fastq_file} -o {output.out_fastqc} --json {output.fastpjson} --html {output.fastphtml} {params.fastp_parameters}")
+		if config["end_type"] == "pe":
+			shell("{config[fastp_path]} --in1 {input.fastq_file} --in2 {params.fastq_file2} --out1 {output.out_fastqc} --out2 {params.out_fastqc2} --json {output.fastpjson} --html {output.fastphtml} {params.fastp_parameters}")
+
+rule fastp_trimming_se:
+	input:
+	#get the value in the fast1 column
+		fastq_file = lambda wildcards: SAMPLES.loc[(SAMPLES['fast1_name'] == wildcards.fastq_name) & (SAMPLES['unit'] == wildcards.unit)]["fast1"].values[0]
+	output:
+		out_fastqc = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",
+		fastpjson = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.json",
+		fastphtml = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.html"
+	params:
+		fastp_parameters = return_parsed_extra_params(config['fastp_parameters']),
+		fastq_file2 = lambda wildcards: SAMPLES.loc[(SAMPLES['fast1_name'] == wildcards.fastq_name) & (SAMPLES['unit'] == wildcards.unit)]["fast2"].values[0],
+		out_fastqc2 = lambda wildcards: config["fastp_trimmed_output_folder"] + UNITS_DICT[wildcards.fastq_name] + "/" + NAMES_DICT[wildcards.fastq_name] + "_trimmed.fastq.gz"
 		#qc files
 		fastpjson = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.json",
 		fastphtml = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.html"
