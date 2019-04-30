@@ -16,16 +16,12 @@ def is_single_end(sample, unit):
     return pd.isnull(units.loc[(sample, unit), "fast2"])
 
 def get_trimmed(wildcards):
-    if not config['end_type']:
+    if config['end_type'] == "pe":
         # paired-end sample
-        return expand(config["fastp_trimmed_output_folder"] +"{unit}/{name}_{group}_trimmed.fastq.gz",
+        return expand(config["fastp_trimmed_output_folder"] +"{unit}/{name}_trimmed.fastq.gz",
                       group=[1, 2], **wildcards)
     # single end sample
     return config["fastp_trimmed_output_folder"] + "{unit}/{name}_trimmed.fastq.gz".format(**wildcards)
-
-rule all_star:
-	input:
-		expand(config['star_output_folder'] + "{sample_name}/{unit}.bam", zip, sample_name=SAMPLE_NAMES, unit=UNITS)
 
 rule run_star:
 	input:
