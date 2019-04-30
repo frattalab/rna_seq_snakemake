@@ -16,8 +16,7 @@ def is_single_end(sample, unit):
     return pd.isnull(units.loc[(sample, unit), "fast2"])
 
 def get_trimmed(wildcards):
-	print(config['end_type'])
-    if config['end_type'] == "pe":
+	if config['end_type'] == "pe":
         # paired-end sample
         return expand(config["fastp_trimmed_output_folder"] +"{unit}/{name}_{group}_trimmed.fastq.gz",
                       group=[1, 2], **wildcards)
