@@ -25,8 +25,7 @@ def get_trimmed(wildcards):
 
 rule run_star:
 	input:
-		expand(config["fastp_trimmed_output_folder"] +"{unit}/{name}_{group}_trimmed.fastq.gz",
-                      group=[1, 2], **wildcards)
+		config["fastp_trimmed_output_folder"] +"{unit}/{name}_{group}_trimmed.fastq.gz"
 	output:
 		config['star_output_folder'] + "{sample_name}/{unit}.bam" 
 	params:
