@@ -14,12 +14,13 @@ UNITS = SAMPLES['unit'].tolist()
 
 rule all_star:
 	input:
-		expand(config['star_output_folder'] + "{sample_name}/{unit}{{fastq_name}}_temp.bam", zip, sample_name=SAMPLE_NAMES, unit=UNITS)
+		expand(config['star_output_folder'] + "{sample_name}/{unit}.bam", zip, sample_name=SAMPLE_NAMES, unit=UNITS)
+
 rule run_star:
 	input:
-		config["fastp_trimmed_output_folder"] + "{unit}/{{fastq_name}}_trimmed.fastq.gz"
+		lambda wildcards: get_trimmed_files(wilcards.sample_name, wildcards.unit, config["end_type"])
 	output:
-		config['star_output_folder'] + "{sample_name}/{unit}{{fastq_name}}_temp.bam"
+		config['star_output_folder'] + "{sample_name}/{unit}.bam" 
 	params:
 		fastp_parameters = return_parsed_extra_params(config['fastp_parameters'])
 	run:

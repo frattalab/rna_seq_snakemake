@@ -32,3 +32,18 @@ def return_parsed_extra_params(extra_params):
         else: #otherwise if it's parameter that's just a flag, append just the flag
             cmd += " --{0}".format(key)
     return(cmd)
+
+
+def is_single_end(sample, unit):
+    return pd.isnull(units.loc[(sample, unit), "fast2"])
+
+
+
+
+def trimmed_fastqs(sample_name, unit):
+    SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
+    SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
+    SAMPLES['fast1_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
+    fastq_name = SAMPLES.loc[(SAMPLES.unit == unit) & \
+                                 (SAMPLES.sample_name == sample_name)].fast1_name.tolist()[0]
+    print(os.path.join(config['fastp_trimmed_output_folder'],unit,fastq_name + "_trimmed.fastq.gz"))

@@ -6,8 +6,6 @@ include: "rules/helpers.py"
 #make sure the output folder for STAR exists before running anything
 os.system("mkdir -p {0}".format(config["star_output_folder"]))
 
-TRIMMED_OUTPUT_FOLDER = config['fastp_trimmed_output_folder']
-
 SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
 SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
@@ -26,7 +24,7 @@ rule run_star:
         config['star_output'] + "{sample_name}/{unit}_ReadsPerGene.out.tab"
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['fastp_parameters']),
-		trimmed_fastqs = return_trimmed_fastqs(wildcards.unit, config['end_type']),
+		trimmed_fastqs = return_trimmed_fastqs(wilcards.sample_name, wildcards.unit, config['end_type']),
 		genomeDir = return_genome_dir_by_species(config['species']) 
 
 	threads: 12
