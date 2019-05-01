@@ -19,7 +19,13 @@ fastp_trimming:
     tmem:   4G
     h_rt: 72:00:00
 
-run_star:
+run_star_pe:
+    h_vmem:   2.6G
+    tmem:   2.6G
+    pe: smp 12
+    h_rt: 72:00:00
+
+run_star_se:
     h_vmem:   2.6G
     tmem:   2.6G
     pe: smp 12

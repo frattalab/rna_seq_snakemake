@@ -9,18 +9,18 @@ include: "rules/helpers.py"
 
 
 #zip them into a directory to make getting the location easier
-fq, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
-
 SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
-SAMPLES.replace(np.nan, '', regex=True)
-FASTQ_NAME = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
+SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
+SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
+UNITS = SAMPLES['unit'].tolist()
 
 rule all:
 	input: 
-		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",zip, unit = UNITS, fastq_name=FASTQ_NAME)
+		expand(config['star_output_folder'] + "{name}/{unit}.bam",zip, unit = UNITS,name = SAMPLE_NAMES)
 
 
 include: "rules/fastqc.smk"
 include: "rules/multiqc.smk"
 include: "rules/fastp.smk"
+include: "rules/star.smk"

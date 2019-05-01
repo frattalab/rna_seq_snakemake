@@ -44,7 +44,6 @@ rule fastp_trimming:
 		fastpjson = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.json",
 		fastphtml = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.html"
 	run:
-		print({output.out_fastqc})
 		if config["end_type"] == "se":
 			shell("{config[fastp_path]} -i {input.fastq_file} -o {output.out_fastqc} --json {output.fastpjson} --html {output.fastphtml} {params.fastp_parameters}")
 		if config["end_type"] == "pe":
