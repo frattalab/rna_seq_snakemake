@@ -34,13 +34,8 @@ rule run_star_pe:
 	threads: 12
 
 	run:
-		cmd = ["{config[star_path]} \
-		--genomeDir {params.genomeDir} \
-		--readFilesIn {input.one} {input.two}\
-		--outFileNamePrefix {config[star_output_folder]} \
-		--readFilesCommand zcat \
-		--runThreadN {threads} \
-		{params.extra_star_parameters}"]
+	run:
+		cmd = "{config[star_path]} --genomeDir {params.genomeDir} --readFilesIn {input.one} --outFileNamePrefix {config[star_output_folder]} --readFilesCommand zcat --runThreadN {threads} {params.extra_star_parameters}"
 		print(cmd)
 		shell(cmd)
 
@@ -54,12 +49,6 @@ rule run_star_se:
 		genomeDir = GENOME_DIR
 	threads: 12
 	run:
-		cmd = "{config[star_path]} \
-		--genomeDir {params.genomeDir} \
-		--readFilesIn {input.one}\
-		--outFileNamePrefix {config[star_output_folder]} \
-		--readFilesCommand zcat \
-		--runThreadN {threads} \
-		{params.extra_star_parameters}"
+		cmd = "{config[star_path]} --genomeDir {params.genomeDir} --readFilesIn {input.one} --outFileNamePrefix {config[star_output_folder]} --readFilesCommand zcat --runThreadN {threads} {params.extra_star_parameters}"
 		print(cmd)
 		shell(cmd)
