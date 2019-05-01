@@ -13,7 +13,9 @@ SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 UNITS = SAMPLES['unit'].tolist()
-
+#this function uses the text file located in the config folder "star_genomes_species.txt" and the config file species parameter to 
+#give the correct genome for the species
+GENOME_DIR = get_genome_directory(config['species'])
 
 rule all_star:
 	input:
@@ -27,14 +29,15 @@ rule run_star_pe:
 	output:
 		config['star_output_folder'] + "{name}/{unit}.bam" 
 	params:
-		fastp_parameters = return_parsed_extra_params(config['fastp_parameters'])
+		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
+		genomeDir = GENOME_DIR
 	threads: 12
 
 	run:
 		cmd = ["{config[star_path]} \
 		--genomeDir {params.genomeDir} \
-		--readFilesIn {params.trimmed_fastqs} \
-		--outFileNamePrefix /path/to/output/dir/prefix \
+		--readFilesIn {input.one} {input.two}\
+		--outFileNamePrefix {config[star_output_folder]} \
 		--readFilesCommand zcat \
 		--runThreadN {threads} \
 		{params.extra_star_parameters}"]
@@ -47,14 +50,14 @@ rule run_star_se:
 	output:
 		config['star_output_folder'] + "{name}/{unit}.bam" 
 	params:
-		fastp_parameters = return_parsed_extra_params(config['fastp_parameters'])
+		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
+		genomeDir = GENOME_DIR
 	threads: 12
-
 	run:
 		cmd = ["{config[star_path]} \
 		--genomeDir {params.genomeDir} \
-		--readFilesIn {params.trimmed_fastqs} \
-		--outFileNamePrefix /path/to/output/dir/prefix \
+		--readFilesIn {input.one} {input.two}\
+		--outFileNamePrefix {config[star_output_folder]} \
 		--readFilesCommand zcat \
 		--runThreadN {threads} \
 		{params.extra_star_parameters}"]

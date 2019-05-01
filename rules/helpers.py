@@ -56,3 +56,8 @@ def get_trimmed(unit, name):
         trimmed_files = trimmed_1
         
     return(trimmed_files)
+
+def get_genome_directory(species):
+    temp = pd.read_table("config/star_genomes_species.csv",sep = ",")
+    print(temp)
+    return(temp.genome[temp.species == species].tolist()[0])
