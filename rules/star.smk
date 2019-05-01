@@ -13,7 +13,7 @@ SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 UNITS = SAMPLES['unit'].tolist()
-#this function uses the text file located in the config folder "star_genomes_species.txt" and the config file species parameter to 
+#this function uses the text file located in the config folder "star_genomes_species.csv" and the config file species parameter to 
 #give the correct genome for the species
 GENOME_DIR = get_genome_directory(config['species'])
 

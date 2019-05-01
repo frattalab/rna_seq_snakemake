@@ -6,6 +6,7 @@
 #if the data is single end leave the fast2 column blank
 # sampleCSVpath: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/wide_fastq.csv
 # end_type: pe
+#species: "human"
 # fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
 # fastp_trimmed_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastp_trimmed/
 # star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned/
@@ -14,14 +15,13 @@
 ######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 sampleCSVpath: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastq_locations_4su.csv
 end_type: se
+#mouse or human
+species: "mouse"
 fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
 fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
 
 star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned/
 
-#mouse or human
-species: "mouse"
-#species: "human"
 
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
