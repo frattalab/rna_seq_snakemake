@@ -39,8 +39,7 @@ rule fastp_trimming:
 	params:
 		fastp_parameters = return_parsed_extra_params(config['fastp_parameters']),
 		fastq_file2 = lambda wildcards: SAMPLES.loc[(SAMPLES['fast1_name'] == wildcards.fastq_name) & (SAMPLES['unit'] == wildcards.unit)]["fast2"].values[0],
-		out_fastqc2 = lambda wildcards: config["fastp_trimmed_output_folder"] + UNITS_DICT[wildcards.fastq_name] + "/" + NAMES_DICT[wildcards.fastq_name] + "_trimmed.fastq.gz"
-		#qc files
+		out_fastqc2 = lambda wildcards: config["fastp_trimmed_output_folder"] + UNITS_DICT[wildcards.fastq_name] + "/" + NAMES_DICT[wildcards.fastq_name] + "_trimmed.fastq.gz",
 		fastpjson = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.json",
 		fastphtml = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.html"
 	run:

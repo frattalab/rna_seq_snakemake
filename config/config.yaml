@@ -20,7 +20,7 @@ species: "mouse"
 fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
 fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
 
-star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned/
+star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned2/
 
 
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
@@ -57,7 +57,7 @@ fastp_parameters:
 ##STAR PARAMETERS - ALIGNMENT HERE######
 #########################
 #location of star exe
-star_path: /cluster/project8/vyp/vincent/Software/STAR-STAR_2.4.2a/bin/Linux_x86_64_static/STAR
+star_path: /home/annbrown/STAR/
 
 extra_star_parameters:
   outSAMattributes: MD NH
