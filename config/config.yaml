@@ -57,7 +57,7 @@ fastp_parameters:
 ##STAR PARAMETERS - ALIGNMENT HERE######
 #########################
 #location of star exe
-star_path: /home/annbrown/STAR/bin/Linux_x86_64/STAR
+star_path: /home/annbrown/STAR/bin/Linux_x86_64_static/STAR
 
 extra_star_parameters:
   outSAMattributes: MD NH
@@ -66,9 +66,6 @@ extra_star_parameters:
   outSAMtype: BAM SortedByCoordinate 
   twopassMode: Basic
   twopass1readsN: -1
-
-star_genome_mouse:
-star_genome_human:
 
 
 cutadapt: /share/apps/python-2.7.8/bin/cutadapt

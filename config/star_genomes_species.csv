@@ -1,3 +1,3 @@
 species,genome
-human,/SAN/vyplab/HuRNASeq/reference_datasets/STAR/human/GRCh38.95/star_indices_overhang100
-mouse,/SAN/vyplab/HuRNASeq/reference_datasets/STAR/Mouse/GRCm38.96/star_indices_overhang100
+human,/SAN/vyplab/HuRNASeq/reference_datasets/STAR/human/GRCh38.95/star_indices_overhang100_r
+mouse,/SAN/vyplab/HuRNASeq/reference_datasets/STAR/mouse/GrCh38.96/star_indices_overhang100_r

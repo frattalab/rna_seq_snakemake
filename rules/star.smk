@@ -31,8 +31,8 @@ rule run_star_pe:
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR
-	threads: 12
-	
+	threads: 4
+
 	run:
 		cmd = "{config[star_path]} --genomeDir {params.genomeDir} --readFilesIn {input.one} --outFileNamePrefix {config[star_output_folder]} --readFilesCommand zcat --runThreadN {threads} {params.extra_star_parameters}"
 		print(cmd)
@@ -46,7 +46,7 @@ rule run_star_se:
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR
-	threads: 12
+	threads: 4
 	shell:
 		"""
 		{config[star_path]} --genomeDir {params.genomeDir} --readFilesIn {input.one} --outFileNamePrefix {config[star_output_folder]} --readFilesCommand zcat --runThreadN {threads} {params.extra_star_parameters}
