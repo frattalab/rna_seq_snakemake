@@ -63,7 +63,7 @@ extra_star_parameters:
   outSAMattributes: MD NH
   alignEndsType: EndToEnd
   quantMode: GeneCounts
-  outSAMtype: BAM SortedByCoordinate 
+  outSAMtype: BAM Unsorted 
   twopassMode: Basic
   twopass1readsN: -1
 

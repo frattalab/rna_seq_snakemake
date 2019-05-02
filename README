@@ -1,2 +1,2 @@
-#Submit to the cluster using the following command
-source ./submit.sh
+#Submit to the cluster using the following command, give a specific run name for the job with run_name
+source ./submit.sh run_name
