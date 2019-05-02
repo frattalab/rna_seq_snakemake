@@ -25,18 +25,16 @@ rule run_star_pe:
 	input:
 		one = lambda wildcards: get_trimmed(wildcards.unit, wildcards.name)[0],
 		two = lambda wildcards: get_trimmed(wildcards.unit, wildcards.name)[1]
-
 	output:
-		config['star_output_folder'] + "{name}/{unit}.bam" 
+		config['star_output_folder'] + "{name}/{unit}/{unit}_Aligned.out.bam" 
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR
 	threads: 8
-
-	run:
-		cmd = "{config[star_path]} --genomeDir {params.genomeDir} --readFilesIn {input.one} --outFileNamePrefix {config[star_output_folder]} --readFilesCommand zcat --runThreadN {threads} {params.extra_star_parameters}"
-		print(cmd)
-		shell(cmd)
+	shell:
+		"""
+		{config[star_path]} --genomeDir {params.genomeDir} --readFilesIn {input.one} --outFileNamePrefix {config[star_output_folder]}{wildcards.name}/{wildcards.unit}/{wildcards.unit}_ --readFilesCommand zcat --runThreadN {threads} {params.extra_star_parameters} --outTmpDir {params.outTmpDir}
+		"""
 
 rule run_star_se:
 	input:
@@ -46,7 +44,7 @@ rule run_star_se:
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
-		outTmpDir = config['star_output_folder'] + "{name}/{unit}"
+		outTmpDir = config['star_output_folder'] + "{name}/{unit}/_tmpdir"
 	threads: 8
 	shell:
 		"""

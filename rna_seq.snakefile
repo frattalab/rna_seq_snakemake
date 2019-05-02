@@ -17,7 +17,7 @@ UNITS = SAMPLES['unit'].tolist()
 
 rule all:
 	input: 
-		expand(config['star_output_folder'] + "{name}/{unit}.bam",zip, unit = UNITS,name = SAMPLE_NAMES)
+		expand(config['star_output_folder'] + "{name}/{unit}/{unit}_Aligned.out.bam",zip, unit = UNITS,name = SAMPLE_NAMES)
 
 
 include: "rules/fastqc.smk"
