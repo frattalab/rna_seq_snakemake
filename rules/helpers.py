@@ -54,7 +54,7 @@ def get_trimmed(name):
         trimmed_files = [trimmed_1, trimmed_2]
 
     else:
-        trimmed_files = trimmed_1
+        trimmed_files = [trimmed_1]
         
     return(trimmed_files)
 

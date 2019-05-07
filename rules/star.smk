@@ -4,7 +4,10 @@ cluster_config: "config/cluster.yaml"
 include: "helpers.py"
 #RULE ORDER DIRECTIVE soo cool. This says that you should try to run the paired end rule beofre the single end rule to produce the output, but if 
 #the proper input isn't there for the pairend end e.g. two trimmed fastqs, then run the single end.
-# ruleorder: run_star_pe > run_star_se
+if config['end_type'] == "pe":
+	ruleorder: run_star_pe > run_star_se
+else:
+	ruleorder: run_star_se > run_star_pe
 #make sure the output folder for STAR exists before running anything
 os.system("mkdir -p {0}".format(config["star_output_folder"]))
 
@@ -30,12 +33,13 @@ rule run_star_pe:
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
-		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/{name}/_tmpdir"),
-		outputPrefix = os.path.join(config['star_output_folder'] + "{name}"),
+		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/_tmpdir"),
+		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/"),
 		#taking the input files and putting them into a comma separated list
 		one = lambda wildcards: ','.join(get_trimmed(wildcards.name)[0]),
 		two = lambda wildcards: ','.join(get_trimmed(wildcards.name)[1])
-	threads: 8
+	threads: 
+		4
 	shell:
 		"""
 		{config[star_path]} --genomeDir {params.genomeDir} \
@@ -44,21 +48,22 @@ rule run_star_pe:
 		--readFilesCommand zcat --runThreadN {threads} \
 		{params.extra_star_parameters} \
 		--outTmpDir {params.outTmpDir}
-		"""
+	"""
+
 rule run_star_se:
 	input:
 		one = lambda wildcards: get_trimmed(wildcards.name)[0]
-
 	output:
 		config['star_output_folder'] + "{name}/Aligned.out.bam"
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
-		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/{name}/_tmpdir"),
-		outputPrefix = os.path.join(config['star_output_folder'] + "{name}"),
+		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/_tmpdir"),
+		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/"),
 		#taking the input files and putting them into a comma separated list
 		one = lambda wildcards: ','.join(get_trimmed(wildcards.name)[0])
-	threads: 8
+	threads: 
+		4
 	shell:
 		"""
 		{config[star_path]} --genomeDir {params.genomeDir} \
