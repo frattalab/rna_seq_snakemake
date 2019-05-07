@@ -8,7 +8,7 @@ all_files = expand(config["fastqc_output_folder"] + "{unit}/{fastq_name}_fastqc.
 rule all_output:
 	input:
 		config["fastqc_output_folder"] + "multiqc_report.html"
-
+print(all_files)
 
 rule multiqc:
     input:

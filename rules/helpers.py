@@ -35,20 +35,21 @@ def return_parsed_extra_params(extra_params):
 
 
 
-def get_trimmed(unit, name):
+def get_trimmed(name):
     #the trimmed file is the output, and the unit, we find it from the sample and and the unit which snakemake wildcards are going through
-    trimmed_1 = os.path.join(config["fastp_trimmed_output_folder"], \
-    unit, \
-    re.sub(".fastq.gz","",SAMPLES.loc[(SAMPLES.sample_name == name) & \
-        (SAMPLES.unit == unit), 'fast1'].tolist()[0].rpartition('/')[2]) + "_trimmed.fastq.gz") 
-
+    trimmed_1 = [os.path.join(config["fastp_trimmed_output_folder"],\
+                              SAMPLES.loc[(SAMPLES.fast1 == fq),'unit'].tolist()[0],\
+                              re.sub(".fastq.gz","",fq.rpartition('/')[2]) + \
+                              "_trimmed.fastq.gz") for fq in SAMPLES.loc[(SAMPLES.sample_name == name),\
+                                                                         'fast1'].tolist()]
     #if we have paired end data there will also be a trimmed 2, same thing, using the fast2 column instead
     if config['end_type'] == "pe":
         
-        trimmed_2 = os.path.join(config["fastp_trimmed_output_folder"], \
-        unit, \
-        re.sub(".fastq.gz","",SAMPLES.loc[(SAMPLES.sample_name == name) & \
-            (SAMPLES.unit == unit), 'fast2'].tolist()[0].rpartition('/')[2]) + "_trimmed.fastq.gz")
+        trimmed_2 = [os.path.join(config["fastp_trimmed_output_folder"],\
+                              SAMPLES.loc[(SAMPLES.fast2 == fq),'unit'].tolist()[0],\
+                              re.sub(".fastq.gz","",fq.rpartition('/')[2]) + \
+                              "_trimmed.fastq.gz") for fq in SAMPLES.loc[(SAMPLES.sample_name == name),\
+                                                                         'fast2'].tolist()]
         #trimmed files is a list of the two
         trimmed_files = [trimmed_1, trimmed_2]
 
@@ -57,7 +58,7 @@ def get_trimmed(unit, name):
         
     return(trimmed_files)
 
+
 def get_genome_directory(species):
     temp = pd.read_table("config/star_genomes_species.csv",sep = ",")
-    print(temp)
     return(temp.genome[temp.species == species].tolist()[0])

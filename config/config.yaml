@@ -9,7 +9,7 @@ end_type: pe
 species: "human"
 fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
 fastp_trimmed_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastp_trimmed/
-star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned/
+star_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/STAR_aligned/
 
 ######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 ######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
@@ -20,7 +20,7 @@ star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned/
 # fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
 # fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
 
-# star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned2/
+# star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned/
 
 
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
@@ -58,17 +58,27 @@ fastp_parameters:
 #########################
 #location of star exe
 star_path: /home/annbrown/STAR/bin/Linux_x86_64_static/STAR
-
+#########################
+# 4su parameters
+# extra_star_parameters:
+#   outSAMattributes: MD NH
+#   alignEndsType: EndToEnd
+#   quantMode: GeneCounts
+#   outSAMtype: BAM Unsorted 
+#   twopassMode: Basic
+#   twopass1readsN: -1
+  # outSAMunmapped: Within
+# Muscle parameters
 extra_star_parameters:
-  outSAMattributes: MD NH
+  outSAMattributes: Standard
   alignEndsType: EndToEnd
   quantMode: GeneCounts
   outSAMtype: BAM Unsorted 
-  twopassMode: Basic
-  twopass1readsN: -1
+  # twopassMode: Basic
+  # twopass1readsN: -1
+  outSAMunmapped: Within
 
 
-cutadapt: /share/apps/python-2.7.8/bin/cutadapt
 
 #path to the multiqc file ######HOPEFULLY THIS WILL BE REPLACED BY A SHARE LOCATION, CURRENTLY JUST INSTALLED ON MY HOMEDRIVE
 multiqc_path: /home/annbrown/.local/bin/multiqc
