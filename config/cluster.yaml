@@ -6,24 +6,20 @@ __default__:
 fastqc:
     h_vmem:    4G
     tmem:   4G
-    h_rt: 72:00:00
-    
+    h_rt: 72:00:00    
 multiqc:
     h_vmem:    4G
     tmem:   4G
     h_rt: 72:00:00
-
 fastp_trimming:
     h_vmem:    4G
     tmem:   4G
     h_rt: 72:00:00
-
 run_star_pe:
     h_vmem:   8G
     tmem:   8G
     pe: smp 4
     h_rt: 72:00:00
-
 run_star_se:
     h_vmem:   3.5G
     tmem:   3.5G

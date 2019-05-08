@@ -19,7 +19,7 @@ end_type: se
 species: "mouse"
 fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
 fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
-star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned_redone/
+star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned/
 
 
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
@@ -58,24 +58,19 @@ fastp_parameters:
 #location of star exe
 star_path: /home/annbrown/STAR/bin/Linux_x86_64_static/STAR
 #########################
-# 4su parameters
-# extra_star_parameters:
-#   outSAMattributes: MD NH
-#   alignEndsType: EndToEnd
-#   quantMode: GeneCounts
-#   outSAMtype: BAM Unsorted 
-#   twopassMode: Basic
-#   twopass1readsN: -1
-  # outSAMunmapped: Within
-# Muscle parameters
+######4su parameters
+
 extra_star_parameters:
-  outSAMattributes: Standard
+  outSAMattributes: MD NH
   alignEndsType: EndToEnd
   quantMode: GeneCounts
   outSAMtype: BAM Unsorted 
-  # twopassMode: Basic
-  # twopass1readsN: -1
   outSAMunmapped: Within
+
+#########################
+##SAMTOOLS PARAMETERS - ALIGNMENT HERE######
+#########################
+samtools_path: /share/apps/genomics/samtools-1.3.1/bin/samtools
 
 
 

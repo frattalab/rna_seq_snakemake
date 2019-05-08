@@ -22,19 +22,19 @@ GENOME_DIR = get_genome_directory(config['species'])
 
 rule all_star:
 	input:
-		expand(config['star_output_folder'] + "{name}/Aligned.out.bam",name = SAMPLE_NAMES)
+		expand(config['star_output_folder'] + "{name}/{name}.Aligned.out.bam",name = SAMPLE_NAMES)
 
 rule run_star_pe:
 	input:
 		one = lambda wildcards: get_trimmed(wildcards.name)[0],
 		two = lambda wildcards: get_trimmed(wildcards.name)[1]
 	output:
-		config['star_output_folder'] + "{name}/Aligned.out.bam"
+		config['star_output_folder'] + "{name}/{name}.Aligned.out.bam"
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
 		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/_tmpdir"),
-		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/"),
+		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/{name}."),
 		#taking the input files and putting them into a comma separated list
 		one = lambda wildcards: ','.join(get_trimmed(wildcards.name)[0]),
 		two = lambda wildcards: ','.join(get_trimmed(wildcards.name)[1])
@@ -54,12 +54,12 @@ rule run_star_se:
 	input:
 		one = lambda wildcards: get_trimmed(wildcards.name)[0]
 	output:
-		config['star_output_folder'] + "{name}/Aligned.out.bam"
+		config['star_output_folder'] + "{name}/{name}.Aligned.out.bam"
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
 		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/_tmpdir"),
-		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/"),
+		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/{name}."),
 		#taking the input files and putting them into a comma separated list
 		one = lambda wildcards: ','.join(get_trimmed(wildcards.name)[0])
 	threads: 

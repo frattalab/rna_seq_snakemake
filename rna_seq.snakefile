@@ -16,8 +16,8 @@ SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 UNITS = SAMPLES['unit'].tolist()
 
 rule all:
-	input: 
-		expand(config['star_output_folder'] + "{name}/Aligned.out.bam",name = SAMPLE_NAMES)
+	input:
+		expand(config['star_output_folder'] + "{name}/{name}.Aligned.out.bam",name = SAMPLE_NAMES)
 
 
 include: "rules/fastqc.smk"
