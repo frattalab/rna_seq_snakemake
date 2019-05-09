@@ -20,8 +20,11 @@ run_star_pe:
     tmem:   8G
     pe: smp 4
     h_rt: 72:00:00
-run_star_se:
-    h_vmem:   3.5G
-    tmem:   3.5G
-    pe: smp 4
+sort_index_bams:
+    h_vmem:   1.9G
+    tmem:   1.9G
+    h_rt: 72:00:00
+sort_bams:
+    h_vmem:   1.9G
+    tmem:   1.9G
     h_rt: 72:00:00
