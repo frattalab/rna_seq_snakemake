@@ -62,3 +62,7 @@ def get_trimmed(name):
 def get_genome_directory(species):
     temp = pd.read_table("config/star_genomes_species.csv",sep = ",")
     return(temp.genome[temp.species == species].tolist()[0])
+
+def return_first_passing_splice_junctions_list(SAMPLES):
+    #return a comma separate list of all the splice junction out tabs
+    return(",".join([config['star_output_folder'] + s + "/" + s + ".SJ.out.tab" for s in SAMPLES]))
