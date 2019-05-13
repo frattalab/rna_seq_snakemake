@@ -18,7 +18,7 @@ rule all_samtools:
 
 rule sort_bams:
 	input:
-		config['star_output_folder'] + "{name}/{name}.Aligned.out.bam"
+		config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam"
 	output:
 		config['star_output_folder'] + "{name}/{name}.Aligned.sorted.out.bam"
 	shell:

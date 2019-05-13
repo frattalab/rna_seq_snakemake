@@ -9,7 +9,6 @@
 
 # join stdout and stderr output
 #$ -j y
-#$ -sync y
 #$ -R y
 
 if [ "$1" != "" ]; then
