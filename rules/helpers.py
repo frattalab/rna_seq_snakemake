@@ -67,7 +67,4 @@ def return_first_passing_splice_junctions_list(name):
     SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
     #return a comma separate list of all the splice junction out tabs
     sample_list = list(set(SAMPLES.sample_name))
-    for s in test_list:
-        outname = config['star_output_folder'] + name + "/filtered_" + s.rpartition('/')[2]
-        subprocess.run(['rules/filter.sh',s,outname])
-    return()
+    return(",".join([config['star_output_folder'] + s + "/" + s + ".SJ.out.tab" for s in sample_list]))
