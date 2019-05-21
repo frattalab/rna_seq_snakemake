@@ -68,3 +68,9 @@ def return_first_passing_splice_junctions_list(name):
     #return a comma separate list of all the splice junction out tabs
     sample_list = list(set(SAMPLES.sample_name))
     return(",".join([config['star_output_folder'] + s + "/" + s + ".SJ.out.tab" for s in sample_list]))
+
+def file_len(fname):
+    with open(fname) as f:
+        for i, l in enumerate(f):
+            pass
+    return i + 1

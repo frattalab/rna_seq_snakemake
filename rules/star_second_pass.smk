@@ -16,7 +16,7 @@ ALL_OUTS = [config['star_output_folder'] + s + "/" + s + ".SJ.out.tab" for s in 
 # #give the correct genome for the species
 GENOME_DIR = get_genome_directory(config['species'])
 
-rule all_star:
+rule all_star_second:
 	input:
 		expand(config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam",name = SAMPLE_NAMES)
 
@@ -39,7 +39,7 @@ rule filter_and_copy_splice_junctions:
 		                split_line = line.split("\t")
 		                if (split_line[0] in chrm and \
 		                    split_line[4] != "0" and \
-		                    int(split_line[6]) > 0):
+		                    int(split_line[6]) > 10):
 		                    outfile.write(line)
 
 rule run_star_second_pass_pe:
@@ -49,6 +49,7 @@ rule run_star_second_pass_pe:
 		two = lambda wildcards: get_trimmed(wildcards.name)[1]
 	output:
 		config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam"
+	threads: 4
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
@@ -57,7 +58,8 @@ rule run_star_second_pass_pe:
 		#taking the input files and putting them into a comma separated list
 		one = lambda wildcards: ','.join(get_trimmed(wildcards.name)[0]),
 		two = lambda wildcards: ','.join(get_trimmed(wildcards.name)[1]),
-		splice_junctions_tabs = config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab"
+		splice_junctions_tabs = config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab",
+		sjdb = str(int(file_len(config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab") + 1))
 	shell: 
 		"""
 		rm -f -r {params.outTmpDir}
@@ -67,7 +69,8 @@ rule run_star_second_pass_pe:
 		--readFilesCommand zcat --runThreadN {threads} \
 		{params.extra_star_parameters} \
 		--outTmpDir {params.outTmpDir} \
-		--sjdbFileChrStartEnd {params.splice_junctions_tabs}
+		--sjdbFileChrStartEnd {params.splice_junctions_tabs} \
+		--limitSjdbInsertNsj {params.sjdb}
 		""" 
 
 # rule run_star_second_pass_se:
