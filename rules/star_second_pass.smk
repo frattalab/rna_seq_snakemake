@@ -64,7 +64,6 @@ rule run_star_second_pass_pe:
 		two = lambda wildcards: ','.join(get_trimmed(wildcards.name)[1]),
 		filter_sj_tab = config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab"
 	run:
-		print(shell("ulimit -a"))
 		sjdb = file_len(params.filter_sj_tab) + 1
 		cmd = """
 		rm -f -r {params.outTmpDir}
@@ -79,29 +78,33 @@ rule run_star_second_pass_pe:
 		cmd = cmd + str(sjdb)
 		shell(cmd) 
 
-# # rule run_star_second_pass_se:
-# # 	input:
-# # 		first_pass = expand(config['star_output_folder'] + "{name}/{name}.Aligned.out.bam",name = SAMPLE_NAMES),
-# # 		one = lambda wildcards: get_trimmed(wildcards.name)[0]
-# # 	output:
-# # 		config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam"
-# # 	params:
-# # 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
-# # 		genomeDir = GENOME_DIR,
-# # 		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/_tmpdir"),
-# # 		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/{name}_2pass."),
-# # 		#taking the input files and putting them into a comma separated list
-# # 		one = lambda wildcards: ','.join(get_trimmed(wildcards.name)[0]),
-# # 		#a whole list of all the sjdb files produced in the first run
-# # 		splice_junctions_tabs = "--sjdbFileChrStartEnd " + return_first_passing_splice_junctions_list()
-# # 	shell: 
-# # 		"""
-# # 		{config[star_path]} --genomeDir {params.genomeDir} \
-# # 		--readFilesIn {params.one} \
-# # 		--outFileNamePrefix {params.outputPrefix} \
-# # 		--readFilesCommand zcat --runThreadN {threads} \
-# # 		{params.extra_star_parameters} \
-# # 		--outTmpDir {params.outTmpDir} \
-# # 		{params.splice_junctions_tabs}
-# # 		""" 
-
+rule run_star_second_pass_se:
+	input:
+		test = config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab",
+		first_pass = expand(config['star_output_folder'] + "{name}/{name}.Aligned.out.bam",name = SAMPLE_NAMES),
+		one = lambda wildcards: get_trimmed(wildcards.name)[0]
+	output:
+		config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam"
+	threads: 4
+	params:
+		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
+		genomeDir = GENOME_DIR,
+		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/_tmpdir"),
+		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/{name}_2pass."),
+		#taking the input files and putting them into a comma separated list
+		one = lambda wildcards: ','.join(get_trimmed(wildcards.name)[0]),
+		filter_sj_tab = config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab"
+	run:
+		sjdb = file_len(params.filter_sj_tab) + 1
+		cmd = """
+		rm -f -r {params.outTmpDir}
+		{config[star_path]} --genomeDir {params.genomeDir} \
+		--readFilesIn {params.one}\
+		--outFileNamePrefix {params.outputPrefix} \
+		--readFilesCommand zcat --runThreadN {threads} \
+		{params.extra_star_parameters} \
+		--outTmpDir {params.outTmpDir} \
+		--sjdbFileChrStartEnd {params.filter_sj_tab} \
+		--limitSjdbInsertNsj """
+		cmd = cmd + str(sjdb)
+		shell(cmd) 
