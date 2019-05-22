@@ -69,7 +69,7 @@ rule run_star_second_pass_pe:
 		cmd = """
 		rm -f -r {params.outTmpDir}
 		{config[star_path]} --genomeDir {params.genomeDir} \
-		--readFilesIn {params.one} \
+		--readFilesIn {params.one} {params.two} \
 		--outFileNamePrefix {params.outputPrefix} \
 		--readFilesCommand zcat --runThreadN {threads} \
 		{params.extra_star_parameters} \
