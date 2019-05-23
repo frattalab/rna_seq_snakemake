@@ -7,6 +7,7 @@
 
 # join stdout and stderr output
 #$ -j y
+#$ -sync y
 #$ -R y
 
 

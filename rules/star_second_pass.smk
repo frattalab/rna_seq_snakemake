@@ -18,6 +18,11 @@ GENOME_DIR = get_genome_directory(config['species'])
 
 ruleorder: filter_and_copy_splice_junctions > run_star_second_pass_pe
 
+if config['end_type'] == "pe":
+	ruleorder: run_star_second_pass_pe > run_star_second_pass_se
+else:
+	ruleorder: run_star_second_pass_se > run_star_second_pass_pe
+
 rule all_star_second:
 	input:
 		expand(config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab",name = SAMPLE_NAMES),

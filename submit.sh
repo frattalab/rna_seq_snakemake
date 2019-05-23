@@ -26,4 +26,5 @@ snakemake -s rna_seq.snakefile \
 --cluster-config config/cluster.yaml \
 --cluster-sync "qsub -l h_vmem={cluster.h_vmem},h_rt={cluster.h_rt} -pe {cluster.pe} -o $FOLDER" \
 -j 500 \
---nolock
+--nolock \
+--latency-wait 100
