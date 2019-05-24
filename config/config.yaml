@@ -4,12 +4,12 @@
 #path to a csv with the follwing format: 
 #sample_name,unit, fast1,fast2
 # # if the data is single end leave the fast2 column blank
-# sampleCSVpath: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/wide_fastq.csv
+# sampleCSVpath: /SAN/vyplab/alb_project/data/muscle/analysis/wide_fastq.csv
 # end_type: pe
 # species: "human"
-# fastqc_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
-# fastp_trimmed_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastp_trimmed/
-# star_output_folder: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/STAR_aligned/
+# fastqc_output_folder: /SAN/vyplab/alb_project/data/muscle/analysis/fastqc/
+# fastp_trimmed_output_folder: /SAN/vyplab/alb_project/data//analysis/fastp_trimmed/
+# star_output_folder: /SAN/vyplab/alb_project/data/muscle/analysis/STAR_aligned/
 
 # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
@@ -59,13 +59,18 @@ fastp_parameters:
 star_path: /home/annbrown/STAR/bin/Linux_x86_64_static/STAR
 #########################
 
-extra_star_parameters:
+extra_star_parameters_first_pass:
+  outSAMattributes: MD NH
+  alignEndsType: EndToEnd
+  quantMode: GeneCounts
+  outSAMtype: None 
+
+extra_star_parameters_second_pass:
   outSAMattributes: MD NH
   alignEndsType: EndToEnd
   quantMode: GeneCounts
   outSAMtype: BAM Unsorted 
   outSAMunmapped: Within
-
 
 #########################
 ##SAMTOOLS PARAMETERS - ALIGNMENT HERE######

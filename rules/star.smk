@@ -24,16 +24,16 @@ GENOME_DIR = get_genome_directory(config['species'])
 
 rule all_star:
 	input:
-		expand(config['star_output_folder'] + "{name}/{name}.Aligned.out.bam",name = SAMPLE_NAMES),
-		expand(config['star_output_folder'] + "{name}/{name}.SJ.out.tab", name = SAMPLE_NAMES)
+		expand(config['star_output_folder'] + "{name}/{name}.SJ.out.tab", name = SAMPLE_NAMES),
+		expand(config['star_output_folder'] + "{name}/{name}.Log.final.out",name = SAMPLE_NAMES)
 
 rule run_star_pe:
 	input:
 		one = lambda wildcards: get_trimmed(wildcards.name)[0],
 		two = lambda wildcards: get_trimmed(wildcards.name)[1]
 	output:
-		config['star_output_folder'] + "{name}/{name}.Aligned.out.bam",
-		config['star_output_folder'] + "{name}/{name}.SJ.out.tab"
+		config['star_output_folder'] + "{name}/{name}.SJ.out.tab",
+		config['star_output_folder'] + "{name}/{name}.Log.final.out"
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
@@ -50,7 +50,7 @@ rule run_star_pe:
 		--readFilesIn {params.one} {params.two} \
 		--outFileNamePrefix {params.outputPrefix} \
 		--readFilesCommand zcat --runThreadN {threads} \
-		{params.extra_star_parameters} \
+		{params.extra_star_parameters_first_pass} \
 		--outTmpDir {params.outTmpDir}
 	"""
 
@@ -58,8 +58,8 @@ rule run_star_se:
 	input:
 		one = lambda wildcards: get_trimmed(wildcards.name)[0]
 	output:
-		config['star_output_folder'] + "{name}/{name}.Aligned.out.bam",
-		config['star_output_folder'] + "{name}/{name}.SJ.out.tab"
+		config['star_output_folder'] + "{name}/{name}.SJ.out.tab",
+		config['star_output_folder'] + "{name}/{name}.Log.final.out"
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
@@ -75,7 +75,7 @@ rule run_star_se:
 		--readFilesIn {params.one} \
 		--outFileNamePrefix {params.outputPrefix} \
 		--readFilesCommand zcat --runThreadN {threads} \
-		{params.extra_star_parameters} \
+		{params.extra_star_parameters_first_pass} \
 		--outTmpDir {params.outTmpDir}
 		"""
 

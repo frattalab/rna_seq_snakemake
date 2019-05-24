@@ -53,7 +53,7 @@ rule filter_and_copy_splice_junctions:
 rule run_star_second_pass_pe:
 	input:
 		test = config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab",
-		first_pass = expand(config['star_output_folder'] + "{name}/{name}.Aligned.out.bam",name = SAMPLE_NAMES),
+		first_pass = expand(config['star_output_folder'] + "{name}/{name}.Log.final.out",name = SAMPLE_NAMES),
 		one = lambda wildcards: get_trimmed(wildcards.name)[0],
 		two = lambda wildcards: get_trimmed(wildcards.name)[1]
 	output:
@@ -86,7 +86,7 @@ rule run_star_second_pass_pe:
 rule run_star_second_pass_se:
 	input:
 		test = config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab",
-		first_pass = expand(config['star_output_folder'] + "{name}/{name}.Aligned.out.bam",name = SAMPLE_NAMES),
+		first_pass = expand(config['star_output_folder'] + "{name}/{name}.Log.final.out",name = SAMPLE_NAMES),
 		one = lambda wildcards: get_trimmed(wildcards.name)[0]
 	output:
 		config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam"
