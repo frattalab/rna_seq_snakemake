@@ -23,7 +23,7 @@ rule all:
 
 # include: "rules/fastqc.smk"
 # include: "rules/multiqc.smk"
-#include: "rules/fastp.smk"
+include: "rules/fastp.smk"
 include: "rules/star.smk"
 include: "rules/star_second_pass.smk"
 include: "rules/samtools.smk"

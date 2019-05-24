@@ -27,7 +27,7 @@ rule all_trimmed:
 		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.html",zip, unit = UNITS, fastq_name=FASTQ_NAME)
 
 #here i'm defining the final output to be all the of the unit/fast1 trimmed files
-
+print(SAMPLES)
 rule fastp_trimming:
 	input:
 	#get the value in the fast1 column

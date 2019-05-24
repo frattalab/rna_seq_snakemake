@@ -4,22 +4,22 @@
 #path to a csv with the follwing format: 
 #sample_name,unit, fast1,fast2
 # # if the data is single end leave the fast2 column blank
-# sampleCSVpath: /SAN/vyplab/alb_project/data/muscle/analysis/wide_fastq.csv
-# end_type: pe
-# species: "human"
-# fastqc_output_folder: /SAN/vyplab/alb_project/data/muscle/analysis/fastqc/
-# fastp_trimmed_output_folder: /SAN/vyplab/alb_project/data//analysis/fastp_trimmed/
-# star_output_folder: /SAN/vyplab/alb_project/data/muscle/analysis/STAR_aligned/
+sampleCSVpath: /SAN/vyplab/alb_projects/data/muscle/wide_fastq.csv
+end_type: pe
+species: "human"
+fastqc_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastqc/
+fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/analysis/fastp_trimmed/
+star_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/STAR_aligned/
 
 # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-sampleCSVpath: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastq_locations_4su.csv
-end_type: se
-#mouse or human
-species: "mouse"
-fastqc_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned/fastqc/
-fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastp_trimmed/
-star_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned/
+# sampleCSVpath: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastq_locations_4su.csv
+# end_type: se
+# #mouse or human
+# species: "mouse"
+# fastqc_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned/fastqc/
+# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastp_trimmed/
+# star_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned/
 
 
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
