@@ -35,7 +35,7 @@ rule run_star_pe:
 		config['star_output_folder'] + "{name}/{name}.SJ.out.tab",
 		config['star_output_folder'] + "{name}/{name}.Log.final.out"
 	params:
-		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
+		extra_star_parameters_first_pass = return_parsed_extra_params(config['extra_star_parameters_first_pass']),
 		genomeDir = GENOME_DIR,
 		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/_tmpdir"),
 		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/{name}."),
@@ -61,7 +61,7 @@ rule run_star_se:
 		config['star_output_folder'] + "{name}/{name}.SJ.out.tab",
 		config['star_output_folder'] + "{name}/{name}.Log.final.out"
 	params:
-		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
+		extra_star_parameters_first_pass = return_parsed_extra_params(config['extra_star_parameters_first_pass']),
 		genomeDir = GENOME_DIR,
 		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/_tmpdir"),
 		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/{name}."),

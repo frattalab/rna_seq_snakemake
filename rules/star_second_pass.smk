@@ -25,8 +25,9 @@ else:
 
 rule all_star_second:
 	input:
-		expand(config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab",name = SAMPLE_NAMES),
-		expand(config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam",name = SAMPLE_NAMES)
+		expand(config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab", name = SAMPLE_NAMES),
+		expand(config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam", name = SAMPLE_NAMES),
+		expand(config['star_output_folder'] + "{name}/{name}_2pass.Log.final.out", name = SAMPLE_NAMES)
 
 rule filter_and_copy_splice_junctions:
 	input:
@@ -36,7 +37,7 @@ rule filter_and_copy_splice_junctions:
 		config['star_output_folder'] + "{name}/filtered_combined.SJ.out.tab"
 	#make a quick thing called chrm that has the standard chroms, loop through all the sj.out files
 	#make sure the first column is in the standard chroms, make sure that it's not a 'non-canoical splice junction(5th column != 0)
-	#and the junction is supported by at least one unique mapper, if that's all true, then write the line.
+	#and the junction is supported by at least 10 unique mappers, if that's all true, then write the line.
 	run:
 		chrm = [str(x) for x in range(1,23)] + ["X","Y"]
 		output_name = config['star_output_folder'] + wildcards.name + "/filtered_combined.SJ.out.tab"
@@ -57,10 +58,11 @@ rule run_star_second_pass_pe:
 		one = lambda wildcards: get_trimmed(wildcards.name)[0],
 		two = lambda wildcards: get_trimmed(wildcards.name)[1]
 	output:
-		config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam"
+		config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam",
+		config['star_output_folder'] + "{name}/{name}_2pass.Log.final.out"
 	threads: 4
 	params:
-		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
+		extra_star_parameters_second_pass = return_parsed_extra_params(config['extra_star_parameters_second_pass']),
 		genomeDir = GENOME_DIR,
 		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/_tmpdir"),
 		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/{name}_2pass."),
@@ -76,7 +78,7 @@ rule run_star_second_pass_pe:
 		--readFilesIn {params.one} {params.two} \
 		--outFileNamePrefix {params.outputPrefix} \
 		--readFilesCommand zcat --runThreadN {threads} \
-		{params.extra_star_parameters} \
+		{params.extra_star_parameters_second_pass} \
 		--outTmpDir {params.outTmpDir} \
 		--sjdbFileChrStartEnd {params.filter_sj_tab} \
 		--limitSjdbInsertNsj """
@@ -89,10 +91,11 @@ rule run_star_second_pass_se:
 		first_pass = expand(config['star_output_folder'] + "{name}/{name}.Log.final.out",name = SAMPLE_NAMES),
 		one = lambda wildcards: get_trimmed(wildcards.name)[0]
 	output:
-		config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam"
+		config['star_output_folder'] + "{name}/{name}_2pass.Aligned.out.bam",
+		config['star_output_folder'] + "{name}/{name}_2pass.Log.final.out"
 	threads: 4
 	params:
-		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
+		extra_star_parameters_second_pass = return_parsed_extra_params(config['extra_star_parameters_second_pass']),
 		genomeDir = GENOME_DIR,
 		outTmpDir = os.path.join(config['star_output_folder'] + "{name}/_tmpdir"),
 		outputPrefix = os.path.join(config['star_output_folder'] + "{name}/{name}_2pass."),
@@ -107,7 +110,7 @@ rule run_star_second_pass_se:
 		--readFilesIn {params.one}\
 		--outFileNamePrefix {params.outputPrefix} \
 		--readFilesCommand zcat --runThreadN {threads} \
-		{params.extra_star_parameters} \
+		{params.extra_star_parameters_second_pass} \
 		--outTmpDir {params.outTmpDir} \
 		--sjdbFileChrStartEnd {params.filter_sj_tab} \
 		--limitSjdbInsertNsj """

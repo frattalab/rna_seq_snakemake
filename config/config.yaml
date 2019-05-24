@@ -13,13 +13,13 @@
 
 # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-sampleCSVpath: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastq_locations_4su.csv
+sampleCSVpath: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastq_locations_4su.csv
 end_type: se
 #mouse or human
 species: "mouse"
-fastqc_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastqc/
-fastp_trimmed_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/fastp_trimmed/
-star_output_folder: /SAN/vyplab/TDP43_RNA/4SU_mouse/STAR_aligned/
+fastqc_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned/fastqc/
+fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastp_trimmed/
+star_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned/
 
 
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
@@ -60,7 +60,6 @@ star_path: /home/annbrown/STAR/bin/Linux_x86_64_static/STAR
 #########################
 
 extra_star_parameters_first_pass:
-  outSAMattributes: MD NH
   alignEndsType: EndToEnd
   quantMode: GeneCounts
   outSAMtype: None 
