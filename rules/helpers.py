@@ -33,7 +33,22 @@ def return_parsed_extra_params(extra_params):
             cmd += " --{0}".format(key)
     return(cmd)
 
+def return_fastq(fastq_name,unit, first_pair = True):
+    SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
+    SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
+    SAMPLES['fast1_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
+    if first_pair:
+        return(SAMPLES.loc[(SAMPLES['fast1_name'] == fastq_name) & (SAMPLES['unit'] == unit)]["fast1"].values[0])
+    else:
+        return(SAMPLES.loc[(SAMPLES['fast1_name'] == fastq_name) & (SAMPLES['unit'] == unit)]["fast2"].values[0])
 
+def return_fastq2_name(fastq_name,unit):
+    SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
+    SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
+    SAMPLES['fast1_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
+    SAMPLES['fast2_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast2'].tolist()]
+    fast2_name = SAMPLES.loc[(SAMPLES['fast1_name'] == fastq_name) & (SAMPLES['unit'] == unit)]["fast2_name"].values[0]
+    return(config["fastp_trimmed_output_folder"] + fast2_name + "_trimmed.fastq.gz")
 
 def get_trimmed(name):
     #the trimmed file is the output, and the unit, we find it from the sample and and the unit which snakemake wildcards are going through

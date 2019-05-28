@@ -13,6 +13,7 @@ SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
 SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
+FASTQ_NAME = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
 UNITS = SAMPLES['unit'].tolist()
 
 rule all:
@@ -23,7 +24,7 @@ rule all:
 
 # include: "rules/fastqc.smk"
 # include: "rules/multiqc.smk"
-include: "rules/fastp.smk"
+#include: "rules/fastp.smk"
 include: "rules/star.smk"
 include: "rules/star_second_pass.smk"
 include: "rules/samtools.smk"
