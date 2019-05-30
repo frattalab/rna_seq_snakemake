@@ -3,23 +3,24 @@
 ######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 #path to a csv with the follwing format: 
 #sample_name,unit, fast1,fast2
-# # if the data is single end leave the fast2 column blank
+# if the data is single end leave the fast2 column blank
 sampleCSVpath: /SAN/vyplab/alb_projects/data/muscle/wide_fastq.csv
 end_type: pe
 species: "human"
 fastqc_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastqc/
-fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastp_trimmed/
-star_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/STAR_aligned/
+fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastp_trimmed_again/
+#star_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/STAR_aligned/
+star_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/STAR_aligned_two_pass_basic/
 
-# #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-# #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+# # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+# # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 # sampleCSVpath: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastq_locations_4su.csv
 # end_type: se
 # #mouse or human
 # species: "mouse"
 # fastqc_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned/fastqc/
 # fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastp_trimmed/
-# star_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned/
+# star_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned_two_pass_redone/
 
 
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
@@ -38,7 +39,7 @@ fastqc_path: /share/apps/genomics/fastqc-0.11.2/fastqc
 #########################
 ##FASTP PARAMETERS - TRIMMING HERE######
 #########################
-fastp_path: /home/annbrown/fastp
+fastp_path: /SAN/vyplab/alb_projects/tools/fastp
 
 #quality trimming is debated, and harsh cutoff can effect expression, using a soft quality trim of 10 based on this paper
 #https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2
@@ -59,17 +60,19 @@ fastp_parameters:
 star_path: /home/annbrown/STAR/bin/Linux_x86_64_static/STAR
 #########################
 
-extra_star_parameters_first_pass:
-  alignEndsType: EndToEnd
-  quantMode: GeneCounts
-  outSAMtype: None 
+# extra_star_parameters_first_pass:
+#   alignEndsType: EndToEnd
+#   quantMode: GeneCounts
+#   outSAMtype: None
+#   outSJfilterReads: Unique 
 
-extra_star_parameters_second_pass:
+extra_star_parameters:
   outSAMattributes: MD NH
-  alignEndsType: EndToEnd
   quantMode: GeneCounts
   outSAMtype: BAM Unsorted 
   outSAMunmapped: Within
+  twopassMode: Basic
+
 
 #########################
 ##SAMTOOLS PARAMETERS - ALIGNMENT HERE######

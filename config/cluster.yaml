@@ -15,6 +15,12 @@ fastp_trimming:
     h_vmem:    4G
     tmem:   4G
     h_rt: 72:00:00
+
+run_star_first_pass:
+    h_vmem:   8G
+    tmem:   8G
+    pe: smp 4
+    h_rt: 72:00:00
 run_star_pe:
     h_vmem:   8G
     tmem:   8G
@@ -26,8 +32,8 @@ run_star_se:
     pe: smp 4
     h_rt: 72:00:00
 run_star_second_pass_pe:
-    h_vmem:   8G
-    tmem:   8G
+    h_vmem:   20G
+    tmem:   20G
     pe: smp 4
     h_rt: 72:00:00
 run_star_second_pass_se:

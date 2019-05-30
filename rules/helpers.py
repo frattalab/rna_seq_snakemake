@@ -2,6 +2,8 @@ import re
 import pandas as pd
 import os
 import numpy as np
+import subprocess
+from subprocess import PIPE
 
 def get_fastq_names(DATA):
     samples = pd.read_table(DATA, sep = ",")
@@ -48,7 +50,7 @@ def return_fastq2_name(fastq_name,unit):
     SAMPLES['fast1_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
     SAMPLES['fast2_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast2'].tolist()]
     fast2_name = SAMPLES.loc[(SAMPLES['fast1_name'] == fastq_name) & (SAMPLES['unit'] == unit)]["fast2_name"].values[0]
-    return(config["fastp_trimmed_output_folder"] + fast2_name + "_trimmed.fastq.gz")
+    return(config["fastp_trimmed_output_folder"] + unit + "/"+ fast2_name + "_trimmed.fastq.gz")
 
 def get_trimmed(name):
     #the trimmed file is the output, and the unit, we find it from the sample and and the unit which snakemake wildcards are going through
@@ -73,6 +75,28 @@ def get_trimmed(name):
         
     return(trimmed_files)
 
+def return_all_trimmed(SAMPLES, pair = 1):
+    #make a list of all the files trimme
+    if pair == 1:
+        list_of_trimmed = [config['fastp_trimmed_output_folder'] + \
+        SAMPLES.loc[(SAMPLES.fast1 == fq),'unit'].tolist()[0] + \
+        "/" +
+        re.sub(".fastq.gz","",fq.rpartition('/')[2]) +\
+        "_trimmed.fastq.gz" for fq in SAMPLES.fast1]
+        
+        return(list_of_trimmed)
+    else:
+        if config["end_type"] == "pe":
+
+            list_of_trimmed = [config['fastp_trimmed_output_folder'] + \
+            SAMPLES.loc[(SAMPLES.fast2 == fq),'unit'].tolist()[0] + \
+            "/" +
+            re.sub(".fastq.gz","",fq.rpartition('/')[2]) +\
+            "_trimmed.fastq.gz" for fq in SAMPLES.fast2]
+            
+            return(list_of_trimmed)
+        else:
+            return(" ")
 
 def get_genome_directory(species):
     temp = pd.read_table("config/star_genomes_species.csv",sep = ",")
@@ -85,7 +109,16 @@ def return_first_passing_splice_junctions_list(name):
     return(",".join([config['star_output_folder'] + s + "/" + s + ".SJ.out.tab" for s in sample_list]))
 
 def file_len(fname):
-    with open(fname) as f:
-        for i, l in enumerate(f):
-            pass
-    return i + 1
+    file_name = config['star_output_folder'] + "n_uniq_sj.txt"
+    exists = os.path.isfile(file_name)
+    if exists:
+        with open(file_name, "r") as result_file:
+            return(max(int(result_file.read()),1000000))
+    else:
+        cmd = """awk -F'\\t' '!seen[$1, $2,$3,$4]++' """
+        cmd = cmd + fname + " | wc -l"
+        lines = subprocess.run(cmd,shell=True,stdout=PIPE)
+
+        with open(file_name, "w") as text_file:
+            print(int(lines.stdout),file=text_file)
+        return(max(int(lines.stdout),1000000))
