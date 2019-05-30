@@ -16,24 +16,37 @@ SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 UNITS = SAMPLES['unit'].tolist()
+
+FASTQ_NAME = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
+FASTQ_NAME2 = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast2'].tolist()]
+
 #this function uses the text file located in the config folder "star_genomes_species.csv" and 
 #the config file species parameter to 
 #give the correct genome for the species
 GENOME_DIR = get_genome_directory(config['species'])
+		
+all_trimmed_one = expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",zip, unit = UNITS, fastq_name=FASTQ_NAME)
+all_trimmed_two = expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",zip, unit = UNITS, fastq_name=FASTQ_NAME2),
 
 
 rule all_star:
 	input:
 		expand(config['star_output_folder'] + "{name}/{name}.SJ.out.tab", name = SAMPLE_NAMES),
-		expand(config['star_output_folder'] + "{name}/{name}.Log.final.out",name = SAMPLE_NAMES)
+		expand(config['star_output_folder'] + "{name}/{name}.Log.final.out",name = SAMPLE_NAMES),
+		expand(config['star_output_folder'] + "{name}/{name}.Aligned.out.bam",name = SAMPLE_NAMES)
+
 
 rule run_star_pe:
 	input:
 		one = lambda wildcards: get_trimmed(wildcards.name)[0],
-		two = lambda wildcards: get_trimmed(wildcards.name)[1]
+		two = lambda wildcards: get_trimmed(wildcards.name)[1],
+		all_trimmed_one,
+		all_trimmed_two
 	output:
 		config['star_output_folder'] + "{name}/{name}.SJ.out.tab",
-		config['star_output_folder'] + "{name}/{name}.Log.final.out"
+		config['star_output_folder'] + "{name}/{name}.Log.final.out",
+		config['star_output_folder'] + "{name}/{name}.Aligned.out.bam",name = SAMPLE_NAMES
+
 	params:
 		extra_star_parameters_first_pass = return_parsed_extra_params(config['extra_star_parameters_first_pass']),
 		genomeDir = GENOME_DIR,
@@ -56,7 +69,8 @@ rule run_star_pe:
 
 rule run_star_se:
 	input:
-		one = lambda wildcards: get_trimmed(wildcards.name)[0]
+		one = lambda wildcards: get_trimmed(wildcards.name)[0],
+		all_trimmed_one
 	output:
 		config['star_output_folder'] + "{name}/{name}.SJ.out.tab",
 		config['star_output_folder'] + "{name}/{name}.Log.final.out"

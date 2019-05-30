@@ -9,7 +9,17 @@ rule all_output:
 	input:
 		config["fastqc_output_folder"] + "multiqc_report.html"
 
-rule multiqc:
+rule multiqc_fastqc:
+    input:
+        all_files
+    output:
+        config["fastqc_output_folder"] + "multiqc_report.html"
+    log:
+        "logs/multiqc.log"
+    shell:
+        "{config[multiqc_path]} -d {config[fastqc_output_folder]} -o {config[fastqc_output_folder]} {config[multiqc_configparams]}"
+
+rule multiqc_star:
     input:
         all_files
     output:

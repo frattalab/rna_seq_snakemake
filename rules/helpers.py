@@ -102,23 +102,3 @@ def get_genome_directory(species):
     temp = pd.read_table("config/star_genomes_species.csv",sep = ",")
     return(temp.genome[temp.species == species].tolist()[0])
 
-def return_first_passing_splice_junctions_list(name):
-    SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
-    #return a comma separate list of all the splice junction out tabs
-    sample_list = list(set(SAMPLES.sample_name))
-    return(",".join([config['star_output_folder'] + s + "/" + s + ".SJ.out.tab" for s in sample_list]))
-
-def file_len(fname):
-    file_name = config['star_output_folder'] + "n_uniq_sj.txt"
-    exists = os.path.isfile(file_name)
-    if exists:
-        with open(file_name, "r") as result_file:
-            return(max(int(result_file.read()),1000000))
-    else:
-        cmd = """awk -F'\\t' '!seen[$1, $2,$3,$4]++' """
-        cmd = cmd + fname + " | wc -l"
-        lines = subprocess.run(cmd,shell=True,stdout=PIPE)
-
-        with open(file_name, "w") as text_file:
-            print(int(lines.stdout),file=text_file)
-        return(max(int(lines.stdout),1000000))
