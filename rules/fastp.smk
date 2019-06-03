@@ -29,7 +29,6 @@ rule all_trimmed:
 #here i'm defining the final output to be all the of the unit/fast1 trimmed files
 rule fastp_trimming_pe:
 	input:
-	#get the value in the fast1 column
 		fastq_file = lambda wildcards: return_fastq(wildcards.fastq_name,wildcards.unit,first_pair = True),
 		fastq_file2 = lambda wildcards: return_fastq(wildcards.fastq_name,wildcards.unit,first_pair = False)
 	output:

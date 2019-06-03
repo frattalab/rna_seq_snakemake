@@ -29,7 +29,7 @@ rule sort_index_bams:
 	input:
 		config['star_output_folder'] + "{name}/{name}.Aligned.sorted.out.bam"
 	output:
-		config['star_output_folder'] + "{name}/{name}..Aligned.sorted.out.bam.bai"
+		config['star_output_folder'] + "{name}/{name}.Aligned.sorted.out.bam.bai"
 	shell:
 		"""
 		{config[samtools_path]} index {input}
