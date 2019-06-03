@@ -21,8 +21,8 @@ run_star_first_pass:
     pe: smp 4
     h_rt: 72:00:00
 run_star_pe:
-    h_vmem:   8G
-    tmem:   8G
+    h_vmem:   10G
+    tmem:   10G
     pe: smp 4
     h_rt: 72:00:00
 run_star_se:
@@ -30,7 +30,6 @@ run_star_se:
     tmem:   8G
     pe: smp 4
     h_rt: 72:00:00
-
 sort_index_bams:
     h_vmem:   1.9G
     tmem:   1.9G

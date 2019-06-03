@@ -35,7 +35,6 @@ else:
 	all_trimmed_two = [""]
 
 
-
 rule all_star:
 	input:
 		expand(config['star_output_folder'] + "{name}/{name}.SJ.out.tab", name = SAMPLE_NAMES),
@@ -75,13 +74,14 @@ rule run_star_pe:
 	"""
 
 rule run_star_se:
-	input:
+	input:		
 		all_trimmed_one,
-		one = lambda wildcards: get_trimmed(wildcards.name)[0],
-
+		one = lambda wildcards: get_trimmed(wildcards.name)[0]
 	output:
 		config['star_output_folder'] + "{name}/{name}.SJ.out.tab",
-		config['star_output_folder'] + "{name}/{name}.Log.final.out"
+		config['star_output_folder'] + "{name}/{name}.Log.final.out",
+		config['star_output_folder'] + "{name}/{name}.Aligned.out.bam"
+
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
@@ -94,10 +94,9 @@ rule run_star_se:
 	shell:
 		"""
 		{config[star_path]} --genomeDir {params.genomeDir} \
-		--readFilesIn {params.one} \
+		--readFilesIn {params.one}\
 		--outFileNamePrefix {params.outputPrefix} \
 		--readFilesCommand zcat --runThreadN {threads} \
 		{params.extra_star_parameters} \
 		--outTmpDir {params.outTmpDir}
-		"""
-
+	"""
