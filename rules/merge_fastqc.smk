@@ -8,17 +8,11 @@ SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
-# #if paired end, use the paired end rule to run, if single end use the single end rule to run
-# if config['end_type'] == "pe":
-# 	ruleorder: merge_trimmed_pe > merge_trimmed_se
-# else:
-# 	ruleorder: merge_trimmed_se > merge_trimmed_pe
-
-print(SAMPLE_NAMES)
 
 rule merge_all_trimmed:
 	input:
 		expand(config['merged_fastq_folder'] + "{name}_1.merged.fastq.gz", name = SAMPLE_NAMES)
+		
 if config['end_type'] == "pe":
 	rule merge_trimmed:
 		input:

@@ -99,6 +99,6 @@ def return_all_trimmed(SAMPLES, pair = 1):
             return(" ")
 
 def get_genome_directory(species):
-    temp = pd.read_table("config/star_genomes_species.csv",sep = ",")
+    temp = pd.read_table("config/reference_files_species.csv",sep = ",")
     return(temp.genome[temp.species == species].tolist()[0])
 
