@@ -63,12 +63,6 @@ fastp_parameters:
 star_path: /home/annbrown/STAR/bin/Linux_x86_64_static/STAR
 #########################
 
-# extra_star_parameters_first_pass:
-#   alignEndsType: EndToEnd
-#   quantMode: GeneCounts
-#   outSAMtype: None
-#   outSJfilterReads: Unique 
-
 extra_star_parameters:
   outSAMattributes: MD NH
   quantMode: GeneCounts
@@ -84,8 +78,10 @@ extra_star_parameters:
 #########################
 samtools_path: /share/apps/genomics/samtools-1.3.1/bin/samtools
 
-
-
+#########################
+##FEATURECOUNTS PARAMETERS - COUNTING HERE######
+#########################
+feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
 #path to the multiqc file ######HOPEFULLY THIS WILL BE REPLACED BY A SHARE LOCATION, CURRENTLY JUST INSTALLED ON MY HOMEDRIVE
 multiqc_path: /home/annbrown/.local/bin/multiqc
 ###for any additional multiqc runtime commands, if you want them it would be something like --cl_config "qualimap_config: { general_stats_coverage: [20,40,200] }", otherwise leave the parameter blank

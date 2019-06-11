@@ -38,7 +38,7 @@ def return_parsed_extra_params(extra_params):
 def return_fastq(fastq_name,unit, first_pair = True):
     SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
     SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
-    SAMPLES['fast1_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
+    SAMPLES['fast1_name'] = [re.sub("_1.fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
     if first_pair:
         return(SAMPLES.loc[(SAMPLES['fast1_name'] == fastq_name) & (SAMPLES['unit'] == unit)]["fast1"].values[0])
     else:
@@ -102,3 +102,6 @@ def get_genome_directory(species):
     temp = pd.read_table("config/reference_files_species.csv",sep = ",")
     return(temp.genome[temp.species == species].tolist()[0])
 
+def get_gtf(species):
+    temp = pd.read_table("config/reference_files_species.csv",sep = ",")
+    return(temp.gtf[temp.species == species].tolist()[0])

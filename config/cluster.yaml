@@ -25,7 +25,6 @@ run_star_pe:
     tmem:   10G
     pe: smp 4
     h_rt: 72:00:00
-    jobname: "{rule.name}_{wildcards.name}.{jobid}"
 run_star_se:
     h_vmem:   8G
     tmem:   8G

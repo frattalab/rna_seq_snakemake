@@ -49,6 +49,7 @@ rule run_star_pe:
 		4
 	shell:
 		"""
+		rm -rf {params.outTmpDir}
 		{config[star_path]} --genomeDir {params.genomeDir} \
 		--readFilesIn {input.one} {input.two} \
 		--outFileNamePrefix {params.outputPrefix} \
@@ -73,6 +74,7 @@ rule run_star_se:
 		4
 	shell:
 		"""
+		rm -rf {params.outTmpDir}
 		{config[star_path]} --genomeDir {params.genomeDir} \
 		--readFilesIn {input.one} \
 		--outFileNamePrefix {params.outputPrefix} \

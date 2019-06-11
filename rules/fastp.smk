@@ -10,24 +10,25 @@ os.system("mkdir -p {0}".format(config["fastp_trimmed_output_folder"]))
 SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
 SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 #so I want this rule to be run ONCE for every fast1, so the wild cards I'm giving are the 'name' of the fastq of the first read
-FASTQ_NAME = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
+#FASTQ_NAME = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
+FASTQ_NAME = [re.sub("_1.fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
 
 UNITS = SAMPLES['unit'].tolist()
 
 
 rule all_trimmed:
 	input: 
-		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",zip, unit = UNITS, fastq_name=FASTQ_NAME),
+		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_1_trimmed.fastq.gz",zip, unit = UNITS, fastq_name=FASTQ_NAME),
 		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.json",zip, unit = UNITS, fastq_name=FASTQ_NAME),
 		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.html",zip, unit = UNITS, fastq_name=FASTQ_NAME),
-		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_2_trimmed.fastq.gz" if config["end_type"] == "pe" else [], fastq_name = FASTQ_NAME)
+		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_2_trimmed.fastq.gz" if config["end_type"] == "pe" else [], zip, unit = UNITS,fastq_name=FASTQ_NAME)
 
 rule fastp_trimming:
 	input:
 	#get the value in the fast1 column
 		fastq_file = lambda wildcards: return_fastq(wildcards.fastq_name,wildcards.unit,first_pair = True)
 	output:
-		out_fastqc = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",
+		out_fastqc = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_1_trimmed.fastq.gz",
 		fastpjson = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.json",
 		fastphtml = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.html",
 		out_fastqc2 = config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_2_trimmed.fastq.gz" if config["end_type"] == "pe" else []
