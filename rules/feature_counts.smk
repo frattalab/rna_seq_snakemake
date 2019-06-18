@@ -25,8 +25,10 @@ rule feature_counts:
 	output:
 		out_name = config['feature_counts_output_folder'] + "{name}_featureCounts_results.txt"
 	params:
-		ref_anno = REFERENCE_ANNOTATION
-	shell:
-		"""
-		{config[feature_counts_path]} -a {params.ref_anno} -o {output.out_name} {input.aligned_bam}
-		"""
+		ref_anno = REFERENCE_ANNOTATION,
+		stranded = config['feature_counts_strand_info']
+	run:
+		if config["end_type"] == "pe":
+			shell("{config[feature_counts_path]} -p -t exon -g gene_id -a {params.ref_anno} -o {output.out_name} {input.aligned_bam}")
+		if config["end_type"] == "se":
+			shell("{config[feature_counts_path]} -a {params.ref_anno} -o {output.out_name} {params.stranded} {input.aligned_bam}")
