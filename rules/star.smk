@@ -56,7 +56,7 @@ rule run_star_pe:
 		--readFilesCommand zcat --runThreadN {threads} \
 		{params.extra_star_parameters} \
 		--outTmpDir {params.outTmpDir}
-	"""
+		"""
 
 rule run_star_se:
 	input:		
@@ -81,4 +81,4 @@ rule run_star_se:
 		--readFilesCommand zcat --runThreadN {threads} \
 		{params.extra_star_parameters} \
 		--outTmpDir {params.outTmpDir}
-	"""
+		"""
