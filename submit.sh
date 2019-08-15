@@ -17,9 +17,10 @@ else
     RUN_NAME=$""
 fi
 
-FOLDER=$(date +"%Y%m%d%H%M")
-mkdir -p submissions/$FOLDER
-cp config/config.yaml submissions/$FOLDER/$RUN_NAME.config.yaml
+FOLDER=submissions/$(date +"%Y%m%d%H%M")
+
+mkdir -p $FOLDER
+cp config/config.yaml $FOLDER/$RUN_NAMEconfig.yaml
 
 snakemake -s rna_seq.snakefile \
 --jobscript cluster_qsub.sh \
