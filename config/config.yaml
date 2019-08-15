@@ -41,7 +41,7 @@ feature_counts_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/feat
 #########################
 
 #path to the fastqc executable
-fastqc_path: /share/apps/genomics/fastqc-0.11.2/fastqc
+fastqc_path: /share/apps/genomics/FastQC-0.11.8/fastqc
 
 
 
@@ -89,6 +89,6 @@ samtools_path: /share/apps/genomics/samtools-1.3.1/bin/samtools
 #########################
 feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
 #path to the multiqc file ######HOPEFULLY THIS WILL BE REPLACED BY A SHARE LOCATION, CURRENTLY JUST INSTALLED ON MY HOMEDRIVE
-multiqc_path: /home/annbrown/.local/bin/multiqc
+multiqc_path: /share/apps/python-3.6.4-shared/bin/multiqc
 ###for any additional multiqc runtime commands, if you want them it would be something like --cl_config "qualimap_config: { general_stats_coverage: [20,40,200] }", otherwise leave the parameter blank
 multiqc_configparams: ""

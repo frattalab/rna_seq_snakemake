@@ -10,6 +10,7 @@
 # join stdout and stderr output
 #$ -j y
 #$ -R y
+source /share/apps/examples/source_files/python/python-3.6.4.source
 
 if [ "$1" != "" ]; then
     RUN_NAME=$1
@@ -22,7 +23,7 @@ FOLDER=submissions/$(date +"%Y%m%d%H%M")
 mkdir -p $FOLDER
 cp config/config.yaml $FOLDER/$RUN_NAMEconfig.yaml
 
-snakemake -s rna_seq.snakefile \
+snakemake -s rules/fastqc.smk \
 --jobscript cluster_qsub.sh \
 --cluster-config config/cluster.yaml \
 --cluster-sync "qsub -R y -l h_vmem={cluster.h_vmem},h_rt={cluster.h_rt} -pe {cluster.pe} -o $FOLDER" \
