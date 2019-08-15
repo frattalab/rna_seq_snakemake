@@ -18,8 +18,8 @@ else
 fi
 
 FOLDER=$(date +"%Y%m%d%H%M")
-mkdir -p $FOLDER
-cp config/config.yaml $FOLDER/$RUN_NAME.config.yaml
+mkdir -p submissions/$FOLDER
+cp config/config.yaml submissions/$FOLDER/$RUN_NAME.config.yaml
 
 snakemake -s rna_seq.snakefile \
 --jobscript cluster_qsub.sh \
