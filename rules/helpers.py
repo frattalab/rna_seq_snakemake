@@ -16,7 +16,7 @@ def get_fastq_names(DATA):
     #strip it down to just the name of the file bit
     stripped = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in fastq_list]
     #now combine these three lists to get a meaningfull and unique string for each fastq file
-    
+
     return(stripped, fastq_list, unit_name)
 
 def return_fastq_location(wildcards):
@@ -61,7 +61,7 @@ def get_trimmed(name):
                                                                          'fast1'].tolist()]
     #if we have paired end data there will also be a trimmed 2, same thing, using the fast2 column instead
     if config['end_type'] == "pe":
-        
+
         trimmed_2 = [os.path.join(config["fastp_trimmed_output_folder"],\
                               SAMPLES.loc[(SAMPLES.fast2 == fq),'unit'].tolist()[0],\
                               re.sub(".fastq.gz","",fq.rpartition('/')[2]) + \
@@ -72,7 +72,7 @@ def get_trimmed(name):
 
     else:
         trimmed_files = [trimmed_1]
-        
+
     return(trimmed_files)
 
 def return_all_trimmed(SAMPLES, pair = 1):
@@ -83,7 +83,7 @@ def return_all_trimmed(SAMPLES, pair = 1):
         "/" +
         re.sub(".fastq.gz","",fq.rpartition('/')[2]) +\
         "_trimmed.fastq.gz" for fq in SAMPLES.fast1]
-        
+
         return(list_of_trimmed)
     else:
         if config["end_type"] == "pe":
@@ -93,14 +93,18 @@ def return_all_trimmed(SAMPLES, pair = 1):
             "/" +
             re.sub(".fastq.gz","",fq.rpartition('/')[2]) +\
             "_trimmed.fastq.gz" for fq in SAMPLES.fast2]
-            
+
             return(list_of_trimmed)
         else:
             return(" ")
 
-def get_genome_directory(species):
+def get_species_version(species):
     temp = pd.read_table("config/reference_files_species.csv",sep = ",")
-    return(temp.genome[temp.species == species].tolist()[0])
+    return(temp.species_version[temp.species == species].tolist()[0])
+
+def get_genome_fasta(species):
+    temp = pd.read_table("config/reference_files_species.csv",sep = ",")
+    return(temp.genome_fa[temp.species == species].tolist()[0])
 
 def get_gtf(species):
     temp = pd.read_table("config/reference_files_species.csv",sep = ",")

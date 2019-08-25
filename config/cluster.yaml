@@ -3,10 +3,15 @@ __default__:
     h_rt:   1:0:0
     pe: smp 1
     R:  y
+generate_genome:
+    h_vmem:    4G
+    tmem:   4G
+    h_rt: 72:00:00
+    pe: smp 8
 fastqc:
     h_vmem:    4G
     tmem:   4G
-    h_rt: 72:00:00    
+    h_rt: 72:00:00
 multiqc:
     h_vmem:    4G
     tmem:   4G

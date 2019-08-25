@@ -3,38 +3,42 @@
 ######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 #path to a csv with the follwing format:
 #sample_name,unit, fast1,fast2
-# # if the data is single end leave the fast2 column blank
-sampleCSVpath: /SAN/vyplab/alb_projects/data/muscle/wide_fastq.csv
-end_type: pe
-species: "human"
-#you can leave this blank for paired end
-feature_counts_strand_info: ""
-#always end paths with a trailing slash, or there will be errors :)
-fastqc_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastqc/
-fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastp_trimmed_again/
-star_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/STAR_aligned/
-merged_fastq_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/merged_fastqs/
-feature_counts_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/feature_counts/
+# # # if the data is single end leave the fast2 column blank
+# sampleCSVpath: /SAN/vyplab/alb_projects/data/muscle/wide_fastq.csv
+# end_type: pe
+# species: "human"
+# #you can leave this blank for paired end
+# feature_counts_strand_info: ""
+# #always end paths with a trailing slash, or there will be errors :)
+# fastqc_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastqc/
+# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastp_trimmed_again/
+# star_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/STAR_aligned/
+# merged_fastq_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/merged_fastqs/
+# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/feature_counts/
 
 
-# # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-# # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-# sampleCSVpath: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastq_locations_4su.csv
-# end_type: se
-# #mouse or human
-# species: "mouse"
-# ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py if you are unsure
-# feature_counts_strand_info: "-s 1"
-# fastqc_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastqc/
-# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastp_trimmed/
-# star_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned/
-# merged_fastq_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/merged_fastqs/
-# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/feature_counts/
+# # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+# # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+sampleCSVpath: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastq_locations_4su.csv
+end_type: se
+readLen: 75
+#mouse or human
+species: "mouse"
+####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure
+feature_counts_strand_info: "-s 1"
+
+
+fastqc_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastqc/
+fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastp_trimmed/
+star_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned_redone/
+merged_fastq_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/merged_fastqs/
+feature_counts_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/feature_counts/
 
 
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
+STAR_indices: /SAN/vyplab/vyplab_reference_genomes/STAR/
 
 #########################
 ##FASTQC PARAMETERS######
@@ -70,7 +74,7 @@ star_path: /home/annbrown/STAR/bin/Linux_x86_64_static/STAR
 #########################
 
 extra_star_parameters:
-  outSAMattributes: MD NH
+  outSAMattributes: MD NH XS
   quantMode: GeneCounts
   outSAMtype: BAM Unsorted
   outSAMunmapped: Within
@@ -88,7 +92,7 @@ samtools_path: /share/apps/genomics/samtools-1.3.1/bin/samtools
 ##FEATURECOUNTS PARAMETERS - COUNTING HERE######
 #########################
 feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
-#path to the multiqc file ######HOPEFULLY THIS WILL BE REPLACED BY A SHARE LOCATION, CURRENTLY JUST INSTALLED ON MY HOMEDRIVE
+#path to the multiqc file
 multiqc_path: /share/apps/python-3.6.4-shared/bin/multiqc
 ###for any additional multiqc runtime commands, if you want them it would be something like --cl_config "qualimap_config: { general_stats_coverage: [20,40,200] }", otherwise leave the parameter blank
 multiqc_configparams: ""

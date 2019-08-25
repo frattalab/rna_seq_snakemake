@@ -19,8 +19,9 @@ rule all:
 
 # include: "rules/fastqc.smk"
 # include: "rules/multiqc.smk"
-#include: "rules/fastp.smk"
+include: "rules/fastp.smk"
 include: "rules/merge_fastqc.smk"
+include: "rules/generate_star_index.smk"
 include: "rules/star.smk"
 include: "rules/samtools.smk"
 include: "rules/feature_counts.smk"

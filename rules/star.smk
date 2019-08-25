@@ -1,11 +1,11 @@
 import os
 configfile: "config/config.yaml"
-cluster_config: "config/cluster.yaml" 
+cluster_config: "config/cluster.yaml"
 include: "helpers.py"
 
 
 #include: "rules/fastp.smk"
-#RULE ORDER DIRECTIVE 
+#RULE ORDER DIRECTIVE
 #if paired end, use the paired end rule to run, if single end use the single end rule to run
 if config['end_type'] == "pe":
 	ruleorder: run_star_pe > run_star_se
@@ -18,34 +18,33 @@ SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
 SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
+SPECIES_VERSION = get_species_version(config['species'])
 
-
-#this function uses the text file located in the config folder "star_genomes_species.csv" and 
-#the config file species parameter to 
+#this function uses the text file located in the config folder "star_genomes_species.csv" and
+#the config file species parameter to
 #give the correct genome for the species
-GENOME_DIR = get_genome_directory(config['species'])
-		
+GENOME_DIR = os.path.join(config['STAR_indices'],config['species'],SPECIES_VERSION,"star_indices_overhang" + str(config['readLen']))
+print(GENOME_DIR)
 
-rule all_star:
+rule all_samtools:
 	input:
-		expand(config['star_output_folder'] + "{name}.SJ.out.tab", name = SAMPLE_NAMES),
-		expand(config['star_output_folder'] + "{name}.Log.final.out",name = SAMPLE_NAMES),
-		expand(config['star_output_folder'] + "{name}.Aligned.out.bam",name = SAMPLE_NAMES)
+		config['star_output_folder'] + "{name}.Aligned.sorted.out.bam",
+		config['star_output_folder'] + "{name}.Aligned.sorted.out.bam.bai"
 
 rule run_star_pe:
-	input:		
+	input:
 		one = config['merged_fastq_folder'] + "{name}_1.merged.fastq.gz",
 		two = config['merged_fastq_folder'] + "{name}_2.merged.fastq.gz"
 	output:
 		config['star_output_folder'] + "{name}.SJ.out.tab",
 		config['star_output_folder'] + "{name}.Log.final.out",
-		config['star_output_folder'] + "{name}.Aligned.out.bam"
+		temp(config['star_output_folder'] + "{name}.Aligned.out.bam")
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
 		outTmpDir = os.path.join(config['star_output_folder'] + "{name}_tmpdir"),
 		outputPrefix = os.path.join(config['star_output_folder'] + "{name}."),
-	threads: 
+	threads:
 		4
 	shell:
 		"""
@@ -59,18 +58,18 @@ rule run_star_pe:
 		"""
 
 rule run_star_se:
-	input:		
+	input:
 		one = config['merged_fastq_folder'] + "{name}_1.merged.fastq.gz"
 	output:
 		config['star_output_folder'] + "{name}.SJ.out.tab",
 		config['star_output_folder'] + "{name}.Log.final.out",
-		config['star_output_folder'] + "{name}.Aligned.out.bam"
+		temp(config['star_output_folder'] + "{name}.Aligned.out.bam")
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
 		outTmpDir = os.path.join(config['star_output_folder'] + "{name}_tmpdir"),
 		outputPrefix = os.path.join(config['star_output_folder'] + "{name}."),
-	threads: 
+	threads:
 		4
 	shell:
 		"""
@@ -81,4 +80,23 @@ rule run_star_se:
 		--readFilesCommand zcat --runThreadN {threads} \
 		{params.extra_star_parameters} \
 		--outTmpDir {params.outTmpDir}
+		"""
+		
+rule sort_bams:
+	input:
+		config['star_output_folder'] + "{name}.Aligned.out.bam"
+	output:
+		config['star_output_folder'] + "{name}.Aligned.sorted.out.bam"
+	shell:
+		"""
+		{config[samtools_path]} sort {input} -o {output}
+		"""
+rule sort_index_bams:
+	input:
+		config['star_output_folder'] + "{name}.Aligned.sorted.out.bam"
+	output:
+		config['star_output_folder'] + "{name}.Aligned.sorted.out.bam.bai"
+	shell:
+		"""
+		{config[samtools_path]} index {input}
 		"""

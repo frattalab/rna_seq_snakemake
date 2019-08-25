@@ -2,7 +2,7 @@
 
 import os
 configfile: "config/config.yaml"
-cluster_config: "config/cluster.yaml" 
+cluster_config: "config/cluster.yaml"
 include: "helpers.py"
 
 SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")

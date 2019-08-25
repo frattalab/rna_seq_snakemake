@@ -4,7 +4,7 @@ include: "helpers.py"
 
 
 
-#make sure the output folder for fastqc exists before running anything
+#make sure the output folder for fastptrimming exists before running anything
 os.system("mkdir -p {0}".format(config["fastp_trimmed_output_folder"]))
 #read in a samples table
 SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
@@ -17,7 +17,7 @@ UNITS = SAMPLES['unit'].tolist()
 
 
 rule all_trimmed:
-	input: 
+	input:
 		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_1_trimmed.fastq.gz",zip, unit = UNITS, fastq_name=FASTQ_NAME),
 		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.json",zip, unit = UNITS, fastq_name=FASTQ_NAME),
 		expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_fastp.html",zip, unit = UNITS, fastq_name=FASTQ_NAME),
