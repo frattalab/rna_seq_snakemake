@@ -55,10 +55,11 @@ def return_fastq2_name(fastq_name,unit):
 def get_trimmed(name):
     #the trimmed file is the output, and the unit, we find it from the sample and and the unit which snakemake wildcards are going through
     trimmed_1 = [os.path.join(config["fastp_trimmed_output_folder"],\
-                              SAMPLES.loc[(SAMPLES.fast1 == fq),'unit'].tolist()[0],\
-                              re.sub(".fastq.gz","",fq.rpartition('/')[2]) + \
-                              "_trimmed.fastq.gz") for fq in SAMPLES.loc[(SAMPLES.sample_name == name),\
-                                                                         'fast1'].tolist()]
+                          SAMPLES.loc[(SAMPLES.fast1 == fq),'unit'].tolist()[0],\
+                          re.sub(".fastq.gz","",fq.rpartition('/')[2]) + \
+                          "_trimmed.fastq.gz") for fq in SAMPLES.loc[(SAMPLES.sample_name == name),\
+                                                                     'fast1'].tolist()]
+
     #if we have paired end data there will also be a trimmed 2, same thing, using the fast2 column instead
     if config['end_type'] == "pe":
 

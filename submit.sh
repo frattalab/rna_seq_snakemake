@@ -10,7 +10,7 @@
 # join stdout and stderr output
 #$ -j y
 #$ -R y
-source /share/apps/examples/source_files/python/python-3.6.4.source
+
 
 if [ "$1" != "" ]; then
     RUN_NAME=$1

@@ -28,8 +28,8 @@ print(GENOME_DIR)
 
 rule all_samtools:
 	input:
-		config['star_output_folder'] + "{name}.Aligned.sorted.out.bam",
-		config['star_output_folder'] + "{name}.Aligned.sorted.out.bam.bai"
+		expand(config['star_output_folder'] + "{name}.Aligned.sorted.out.bam",name = SAMPLE_NAMES),
+		expand(config['star_output_folder'] + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES)
 
 rule run_star_pe:
 	input:
@@ -81,15 +81,17 @@ rule run_star_se:
 		{params.extra_star_parameters} \
 		--outTmpDir {params.outTmpDir}
 		"""
-		
+
 rule sort_bams:
 	input:
 		config['star_output_folder'] + "{name}.Aligned.out.bam"
 	output:
 		config['star_output_folder'] + "{name}.Aligned.sorted.out.bam"
+	threads:
+		4
 	shell:
 		"""
-		{config[samtools_path]} sort {input} -o {output}
+		{config[samtools_path]} sort -@ {threads} {input} -o {output}
 		"""
 rule sort_index_bams:
 	input:
