@@ -27,9 +27,9 @@ rule generate_genome:
 		"""
 		{config[star_path]} \
 	    --runThreadN {threads} \
-	    --runMode: genomeGenerate \
-	    --genomeDir: {GENOME_DIR} \
-	    --genomeFastaFiles: {input.fasta} \
-	    --sjdbGTFfile: {input.gtf} \
-	    --sjdbOverhang: {params.sjdbOverhang}
+	    --runMode genomeGenerate \
+	    --genomeDir {GENOME_DIR} \
+	    --genomeFastaFiles {input.fasta} \
+	    --sjdbGTFfile {input.gtf} \
+	    --sjdbOverhang {params.sjdbOverhang}
 		"""
