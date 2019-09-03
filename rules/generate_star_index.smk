@@ -31,5 +31,6 @@ rule generate_genome:
 	    --genomeDir {GENOME_DIR} \
 	    --genomeFastaFiles {input.fasta} \
 	    --sjdbGTFfile {input.gtf} \
-	    --sjdbOverhang {params.sjdbOverhang}
+	    --sjdbOverhang {params.sjdbOverhang} \
+		--genomeSAsparseD 10
 		"""

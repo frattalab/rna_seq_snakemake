@@ -6,7 +6,7 @@ import subprocess
 from subprocess import PIPE
 
 def get_fastq_names(DATA):
-    samples = pd.read_table(DATA, sep = ",")
+    samples = pd.read_csv(DATA, sep = ",")
     #take all the fasqs and combine them to a list remove any nas
     fastq_list = samples.fast1.dropna().tolist() + samples.fast2.dropna().tolist()
     #if there are any missing values pandas gets annoyed so replace nans with empty string
@@ -46,7 +46,7 @@ def return_fastq(fastq_name,unit, first_pair = True):
         return(SAMPLES.loc[(SAMPLES['fast1_name'] == fastq_name) & (SAMPLES['unit'] == unit)]["fast2"].values[0])
 
 def return_fastq2_name(fastq_name,unit):
-    SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
+    SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
     SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
     SAMPLES['fast1_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
     SAMPLES['fast2_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast2'].tolist()]
@@ -105,13 +105,13 @@ def return_all_trimmed(SAMPLES, pair = 1):
             return(" ")
 
 def get_species_version(species):
-    temp = pd.read_table("config/reference_files_species.csv",sep = ",")
+    temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return(temp.species_version[temp.species == species].tolist()[0])
 
 def get_genome_fasta(species):
-    temp = pd.read_table("config/reference_files_species.csv",sep = ",")
+    temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return(temp.genome_fa[temp.species == species].tolist()[0])
 
 def get_gtf(species):
-    temp = pd.read_table("config/reference_files_species.csv",sep = ",")
+    temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return(temp.gtf[temp.species == species].tolist()[0])

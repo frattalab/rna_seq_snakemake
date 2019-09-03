@@ -4,8 +4,8 @@ __default__:
     pe: smp 1
     R:  y
 generate_genome:
-    h_vmem:    4G
-    tmem:   4G
+    h_vmem:    6G
+    tmem:   6G
     h_rt: 72:00:00
     pe: smp 8
 fastqc:

@@ -5,7 +5,7 @@ configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml"
 include: "helpers.py"
 
-SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
+SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
 SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()

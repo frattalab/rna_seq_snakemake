@@ -7,7 +7,7 @@ include: "helpers.py"
 #make sure the output folder for fastptrimming exists before running anything
 os.system("mkdir -p {0}".format(config["fastp_trimmed_output_folder"]))
 #read in a samples table
-SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
+SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
 SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 #so I want this rule to be run ONCE for every fast1, so the wild cards I'm giving are the 'name' of the fastq of the first read
 #FASTQ_NAME = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
@@ -19,7 +19,7 @@ rule merge_all_trimmed:
     input:
         expand(config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",zip, unit = UNITS,fastq_name = FASTQ_NAME),
         expand(config['merged_fastq_folder'] + "{name}_1.merged.fastq.gz", name = SAMPLE_NAMES),
-        expand(config["merged_fastq_folder"] + "{name}_2.merged.fastq.gz" if config["end_type"] == "pe" else [], zip,name = SAMPLE_NAMES)
+        expand(config["merged_fastq_folder"] + "{name}_2.merged.fastq.gz" if config["end_type"] == "pe" else [],name = SAMPLE_NAMES)
 
 if config['end_type'] == "pe":
     rule fastp_trimming:

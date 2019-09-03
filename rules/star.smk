@@ -14,7 +14,7 @@ else:
 #make sure the output folder for STAR exists before running anything
 os.system("mkdir -p {0}".format(config["star_output_folder"]))
 
-SAMPLES = pd.read_table(config["sampleCSVpath"], sep = ",")
+SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
 SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
@@ -33,6 +33,7 @@ rule all_samtools:
 
 rule run_star_pe:
 	input:
+		generated_index = GENOME_DIR + "/SA",
 		one = config['merged_fastq_folder'] + "{name}_1.merged.fastq.gz",
 		two = config['merged_fastq_folder'] + "{name}_2.merged.fastq.gz"
 	output:
@@ -59,6 +60,7 @@ rule run_star_pe:
 
 rule run_star_se:
 	input:
+		generated_index = GENOME_DIR + "/SA",
 		one = config['merged_fastq_folder'] + "{name}_1.merged.fastq.gz"
 	output:
 		config['star_output_folder'] + "{name}.SJ.out.tab",
