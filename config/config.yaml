@@ -35,38 +35,20 @@
 # feature_counts_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/feature_counts/
 # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-sampleCSVpath: /SAN/vyplab/alb_projects/data/ibm_geo/ibm_geo_sample_table.csv
+sampleCSVpath: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/original_mefs.csv
 end_type: pe
-readLen: 100
+readLen: 50
 #mouse or human
-species: "human"
+species: "mouse"
 ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure
-feature_counts_strand_info: "-s 1"
+feature_counts_strand_info: "-s 2"
 
 #
-fastqc_output_folder: /SAN/vyplab/alb_projects/data/ibm_geo/fastqc/
-fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/ibm_geo/fastp_trimmed/
-star_output_folder: /SAN/vyplab/alb_projects/data/ibm_geo/STAR_aligned/
-merged_fastq_folder: /SAN/vyplab/alb_projects/data/ibm_geo/merged_fastqs/
-feature_counts_output_folder: /SAN/vyplab/alb_projects/data/ibm_geo/feature_counts/
-
-
-# # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-# # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-# sampleCSVpath: /SAN/vyplab/alb_projects/data/herzog_2017/herzog_sample_sheet.csv
-# end_type: se
-# readLen: 50
-# #mouse or human
-# species: "mouse"
-# ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure
-# feature_counts_strand_info: "-s 1"
-#
-# #
-# fastqc_output_folder: /SAN/vyplab/alb_projects/data/herzog_2017/fastqc/
-# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/herzog_2017/fastp_trimmed/
-# star_output_folder: /SAN/vyplab/alb_projects/data/herzog_2017/STAR_aligned/
-# merged_fastq_folder: /SAN/vyplab/alb_projects/data/herzog_2017/merged_fastqs/
-# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/herzog_2017/feature_counts/
+fastqc_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/fastqc/
+fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/fastp_trimmed/
+star_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/STAR_aligned/
+merged_fastq_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/merged_fastqs/
+feature_counts_output_folder: /SAN/vyplab/alb_projects/original_data_tdp_mefs/herzog_2017/feature_counts/
 #
 
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########

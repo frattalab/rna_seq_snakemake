@@ -35,15 +35,15 @@ def return_parsed_extra_params(extra_params):
             cmd += " --{0}".format(key)
     return(cmd)
 
-def return_fastq(fastq_name,unit, first_pair = True):
+def return_fastq(sample_name,unit, first_pair = True):
     SAMPLES = pd.read_csv(config["sampleCSVpath"])
     SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
     SAMPLES['fast1_name'] = [strpd.rpartition('/')[2].split(".")[0] for strpd in SAMPLES['fast1'].tolist()]
-    SAMPLES['fast2_name'] = [strpd.rpartition('/')[2].split(".")[0] for strpd in SAMPLES['fast2'].tolist()]
+
     if first_pair:
-        return(SAMPLES.loc[(SAMPLES['fast1_name'] == fastq_name) & (SAMPLES['unit'] == unit)]["fast1"].values[0])
+        return(SAMPLES.loc[(SAMPLES['sample_name'] == sample_name) & (SAMPLES['unit'] == unit)]["fast1"].values[0])
     else:
-        return(SAMPLES.loc[(SAMPLES['fast1_name'] == fastq_name) & (SAMPLES['unit'] == unit)]["fast2"].values[0])
+        return(SAMPLES.loc[(SAMPLES['sample_name'] == sample_name) & (SAMPLES['unit'] == unit)]["fast2"].values[0])
 
 def return_fastq2_name(fastq_name,unit):
     SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
@@ -63,8 +63,6 @@ def get_trimmed(name):
     config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",
     trimmed_1 = [os.path.join(config["fastp_trimmed_output_folder"],SAMPLES.loc[(SAMPLES.fast1_name == fq),'unit'].tolist()[0], \
                               fq + "_trimmed.fastq.gz") for fq in sample_fastqs]
-
-
 
 
     #if we have paired end data there will also be a trimmed 2, same thing, using the fast2 column instead
