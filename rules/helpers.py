@@ -45,32 +45,23 @@ def return_fastq(sample_name,unit, first_pair = True):
     else:
         return(SAMPLES.loc[(SAMPLES['sample_name'] == sample_name) & (SAMPLES['unit'] == unit)]["fast2"].values[0])
 
-def return_fastq2_name(fastq_name,unit):
-    SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
-    SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
-    SAMPLES['fast1_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
-    SAMPLES['fast2_name'] = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast2'].tolist()]
-    fast2_name = SAMPLES.loc[(SAMPLES['fast1_name'] == fastq_name) & (SAMPLES['unit'] == unit)]["fast2_name"].values[0]
-    return(config["fastp_trimmed_output_folder"] + unit + "/"+ fast2_name + "_trimmed.fastq.gz")
-
 def get_trimmed(name):
     #the trimmed file is the output, and the unit, we find it from the sample and and the unit which snakemake wildcards are going through
     SAMPLES = pd.read_csv(config["sampleCSVpath"])
     SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
-    SAMPLES['fast1_name'] = [strpd.rpartition('/')[2].split(".")[0] for strpd in SAMPLES['fast1'].tolist()]
-    SAMPLES['fast2_name'] = [strpd.rpartition('/')[2].split(".")[0] for strpd in SAMPLES['fast2'].tolist()]
-    sample_fastqs = SAMPLES.loc[(SAMPLES.sample_name == name),'fast1_name'].tolist()
-    config["fastp_trimmed_output_folder"] + "{unit}/{fastq_name}_trimmed.fastq.gz",
-    trimmed_1 = [os.path.join(config["fastp_trimmed_output_folder"],SAMPLES.loc[(SAMPLES.fast1_name == fq),'unit'].tolist()[0], \
-                              fq + "_trimmed.fastq.gz") for fq in sample_fastqs]
+
+    config["fastp_trimmed_output_folder"] + "{unit}_{name}_R1_trimmed.fastq.gz"
+
+    unit_fastqs = SAMPLES.loc[(SAMPLES.sample_name == name),'unit'].tolist()
+    unit_fastqs2 = [u + "_" + name for u in unit_fastqs]
+
+    trimmed_1 = [os.path.join(config["fastp_trimmed_output_folder"],u + "_R1_trimmed.fastq.gz") for u in unit_fastqs2]
 
 
     #if we have paired end data there will also be a trimmed 2, same thing, using the fast2 column instead
     if config['end_type'] == "pe":
-        sample_fastqs = SAMPLES.loc[(SAMPLES.sample_name == name),'fast2_name'].tolist()
+        trimmed_2 = [os.path.join(config["fastp_trimmed_output_folder"],u + "_R2_trimmed.fastq.gz") for u in unit_fastqs2]
 
-        trimmed_2 = [os.path.join(config["fastp_trimmed_output_folder"],SAMPLES.loc[(SAMPLES.fast2_name == fq),'unit'].tolist()[0], \
-                                  fq + "_trimmed.fastq.gz") for fq in sample_fastqs]
         #trimmed files is a list of the two
         trimmed_files = [trimmed_1, trimmed_2]
 

@@ -16,13 +16,16 @@ name = [strpd.rpartition('/')[2].split(".")[0] for strpd in SAMPLES['fast1'].tol
 
 UNITS = SAMPLES['unit'].tolist()
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
-print(SAMPLE_NAMES)
+
 rule merge_all_trimmed:
     input:
         expand(config["fastp_trimmed_output_folder"] + "{unit}_{name}_R1_trimmed.fastq.gz",zip, unit = UNITS,name = SAMPLE_NAMES),
         expand(config["fastp_trimmed_output_folder"] + "{unit}_{name}_R2_trimmed.fastq.gz" if config["end_type"] == "pe" else [],zip, unit = UNITS,name = SAMPLE_NAMES),
         expand(config['merged_fastq_folder'] + "{name}_1.merged.fastq.gz", name = SAMPLE_NAMES),
-        expand(config["merged_fastq_folder"] + "{name}_2.merged.fastq.gz" if config["end_type"] == "pe" else [],name = SAMPLE_NAMES),
+        expand(config["merged_fastq_folder"] + "{name}_2.merged.fastq.gz" if config["end_type"] == "pe" else [],name = SAMPLE_NAMES)
+    wildcard_constraints:
+        name="|".join(SAMPLE_NAMES),
+        unit="|".join(UNITS)
 
 if config['end_type'] == "pe":
     rule fastp_trimming:
@@ -30,6 +33,9 @@ if config['end_type'] == "pe":
         #get the value in the fast1 column
             fastq_file = lambda wildcards: return_fastq(wildcards.name,wildcards.unit,first_pair = True),
             fastq_file2 = lambda wildcards: return_fastq(wildcards.name,wildcards.unit,first_pair = False)
+        wildcard_constraints:
+            name="|".join(SAMPLE_NAMES),
+            unit="|".join(UNITS)
         output:
             out_fastqc = config["fastp_trimmed_output_folder"] + "{unit}_{name}_R1_trimmed.fastq.gz",
             out_fastqc2 = config["fastp_trimmed_output_folder"] + "{unit}_{name}_R2_trimmed.fastq.gz",
@@ -48,6 +54,9 @@ else:
             input:
             #get the value in the fast1 column
                 fastq_file = lambda wildcards: return_fastq(wildcards.name,wildcards.unit,first_pair = True)
+            wildcard_constraints:
+                name="|".join(SAMPLE_NAMES),
+                unit="|".join(UNITS)
             output:
                 out_fastqc = config["fastp_trimmed_output_folder"] + "{unit}_{name}_R1_trimmed.fastq.gz",
                 fastpjson = config["fastp_trimmed_output_folder"] + "{unit}_{name}_fastp.json",
@@ -68,6 +77,8 @@ if config['end_type'] == "pe":
         input:
             one = lambda wildcards: get_trimmed(wildcards.name)[0],
             two = lambda wildcards: get_trimmed(wildcards.name)[1]
+        wildcard_constraints:
+            name="|".join(SAMPLE_NAMES)
         output:
             out_one = config['merged_fastq_folder'] + "{name}_1.merged.fastq.gz",
             out_two = config['merged_fastq_folder'] + "{name}_2.merged.fastq.gz"
@@ -84,6 +95,8 @@ else:
     rule merge_trimmed:
         input:
             one = lambda wildcards: get_trimmed(wildcards.name)[0]
+        wildcard_constraints:
+            name="|".join(SAMPLE_NAMES)
         output:
             out_one = config['merged_fastq_folder'] + "{name}_1.merged.fastq.gz"
         params:
