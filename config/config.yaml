@@ -48,7 +48,7 @@ fastqc_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/fastq
 fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/fastp_trimmed/
 star_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/STAR_aligned/
 merged_fastq_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/merged_fastqs/
-feature_counts_output_folder: /SAN/vyplab/alb_projects/original_data_tdp_mefs/herzog_2017/feature_counts/
+feature_counts_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/feature_counts/
 #
 
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
