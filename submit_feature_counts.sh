@@ -21,7 +21,7 @@ FOLDER=$(date +"%Y%m%d%H%M")
 mkdir -p $FOLDER
 cp config/config.yaml $FOLDER/$RUN_NAME.config.yaml
 
-snakemake -s rules/feature_counts.smk \
+snakemake -s single_steps/feature_counts.smk \
 --jobscript cluster_qsub.sh \
 --cluster-config config/cluster.yaml \
 --cluster-sync "qsub -R y -l h_vmem={cluster.h_vmem},h_rt={cluster.h_rt} -pe {cluster.pe} -o $FOLDER" \
