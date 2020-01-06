@@ -1,7 +1,7 @@
 import os
 configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml"
-include: "helpers.py"
+include: "/SAN/vyplab/alb_projects/pipelines/rna_seq_snakemake/rules/helpers.py"
 
 
 

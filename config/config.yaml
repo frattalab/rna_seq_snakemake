@@ -4,17 +4,18 @@
 #path to a csv with the follwing format:
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
-# sampleCSVpath: /SAN/vyplab/alb_projects/data/muscle/wide_fastq.csv
-# end_type: pe
-# species: "human"
-# #you can leave this blank for paired end
-# feature_counts_strand_info: ""
-# #always end paths with a trailing slash, or there will be errors :)
-# fastqc_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastqc/
-# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastp_trimmed_again/
-# star_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/STAR_aligned/
-# merged_fastq_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/merged_fastqs/
-# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/feature_counts/
+sampleCSVpath: /SAN/vyplab/alb_projects/data/muscle/wide_fastq.csv
+end_type: pe
+species: "human"
+readLen: 150
+
+feature_counts_strand_info: "-s 2"
+#always end paths with a trailing slash, or there will be errors :)
+fastqc_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastqc/
+fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastp_trimmed_again/
+star_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/STAR_aligned/
+merged_fastq_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/merged_fastqs/
+feature_counts_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/feature_counts/
 #
 
 # # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
@@ -35,21 +36,37 @@
 # feature_counts_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/feature_counts/
 # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-sampleCSVpath: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/original_mefs.csv
-end_type: pe
-readLen: 50
-#mouse or human
-species: "mouse"
-####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure
-feature_counts_strand_info: "-s 2"
-
+# sampleCSVpath: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/original_mefs.csv
+# end_type: pe
+# readLen: 50
+# #mouse or human
+# species: "mouse"
+# ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure; activate kallisto conda
+# see also https://github.com/igordot/genomics/blob/master/notes/rna-seq-strand.md
+# feature_counts_strand_info: "-s 2"
 #
-fastqc_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/fastqc/
-fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/fastp_trimmed/
-star_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/STAR_aligned/
-merged_fastq_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/merged_fastqs/
-feature_counts_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/feature_counts/
+# #
+# fastqc_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/fastqc/
+# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/fastp_trimmed/
+# star_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/STAR_aligned/
+# merged_fastq_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/merged_fastqs/
+# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/feature_counts/
+# #
+# # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+# #####BILAL MOUSE#########
+# ########bilal_mouse information
+# end_type: pe
+# readLen: 50
+# # #mouse or human
+# species: "mouse"
+# feature_counts_strand_info: "-s 2"
 #
+# sampleCSVpath: /SAN/vyplab/alb_projects/data/bilal_mouse/mouse_samples1.csv
+# fastqc_output_folder: /SAN/vyplab/alb_projects/data/bilal_mouse/fastqc/
+# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/bilal_mouse/fastp_trimmed/
+# star_output_folder: /SAN/vyplab/alb_projects/data/bilal_mouse/STAR_aligned/
+# merged_fastq_folder: /SAN/vyplab/alb_projects/data/bilal_mouse/merged_fastqs/
+# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/bilal_mouse/feature_counts_recount/
 
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########

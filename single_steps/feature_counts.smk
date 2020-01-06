@@ -1,13 +1,15 @@
 import os
 # a top level folder where the bams reside
-project_dir = "/SAN/vyplab/alb_projects/data/nicol_fus/"
-out_spot = "feature_counts/"
-bam_spot = "linked_bams/"
+project_dir = "/SAN/vyplab/alb_projects/data/muscle/analysis/"
+out_spot = "feature_counts_strand_other/"
+bam_spot = "STAR_aligned/"
 
 # mouse and human gtf, comment dependening on your species
-gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/mouse/gencode/gencode.vM22.annotation.gtf"
+# gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/mouse/gencode/gencode.vM22.annotation.gtf"
 # gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v31.annotation.gtf"
-feature_counts_strand_info = ""
+gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v31.no_chr.annotation.gtf"
+
+feature_counts_strand_info = "-s 1"
 end_type = "pe"
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
 feature_counts_path = "/SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts"
@@ -33,6 +35,6 @@ rule feature_counts:
     run:
         shell("mkdir -p {output_dir}")
         if end_type == "pe":
-            shell("{feature_counts_path} -p -t exon -g gene_id -a {params.ref_anno} -o {output.out_name} {input.aligned_bam}")
+            shell("{feature_counts_path} -p -t exon -g gene_id -a {params.ref_anno} -o {output.out_name} {params.stranded} {input.aligned_bam}")
         if end_type == "se":
             shell("{feature_counts_path} -a {params.ref_anno} -o {output.out_name} {params.stranded} {input.aligned_bam}")

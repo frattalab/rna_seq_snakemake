@@ -39,8 +39,7 @@ sort_bams:
     tmem:   2G
     pe: smp 4
     h_rt: 72:00:00
-run_slam_dunk:
-    h_vmem:    4G
-    tmem:   4G
-    pe: smp 4
+run_te:
+    h_vmem:    16G
+    tmem:   16G
     h_rt: 72:00:00

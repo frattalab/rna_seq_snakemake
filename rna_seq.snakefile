@@ -17,6 +17,7 @@ rule all:
 	input:
 		GENOME_DIR + "/SA",
 		expand(config['feature_counts_output_folder'] + "{name}_featureCounts_results.txt", name = SAMPLE_NAMES)
+	shadow: "minimal"
 
 
 # include: "rules/fastqc.smk"

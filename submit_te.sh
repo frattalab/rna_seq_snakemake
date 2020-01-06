@@ -20,9 +20,9 @@ fi
 FOLDER=submissions/$(date +"%Y%m%d%H%M")
 
 mkdir -p $FOLDER
-cp config/config.yaml $FOLDER/$RUN_NAMEconfig.yaml
+cp single_steps/te_count.smk $FOLDER/$RUN_NAME_te_count.smk
 
-snakemake -s rules/te_count.smk \
+snakemake -s single_steps/te_count.smk \
 --jobscript cluster_qsub.sh \
 --cluster-config config/cluster.yaml \
 --cluster-sync "qsub -R y -l h_vmem=14G,h_rt=14G -o $FOLDER" \
