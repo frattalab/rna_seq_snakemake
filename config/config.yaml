@@ -16,7 +16,11 @@
 # star_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/STAR_aligned/
 # merged_fastq_folder: /SAN/vyplab/alb_projects/data/klim_tdp/merged_fastqs/
 # feature_counts_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/feature_counts/
+<<<<<<< HEAD
 project_top_level: /SAN/vyplab/alb_projects/data/axon_seq/
+=======
+
+>>>>>>> e539eb66c119c712182fd0aa61eb70d705fed462
 sampleCSVpath: /SAN/vyplab/alb_projects/data/axon_seq/human_axonal_data.csv
 end_type: se
 species: "human"
@@ -24,11 +28,19 @@ readLen: 50
 
 feature_counts_strand_info: "-s 0"
 #always end paths with a trailing slash, or there will be errors :)
+<<<<<<< HEAD
 fastqc_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/fastqc/
 fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/fastp_trimmed/
 star_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/STAR_aligned/
 merged_fastq_folder: /SAN/vyplab/alb_projects/data/axon_seq/merged_fastqs/
 feature_counts_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/feature_counts/
+=======
+fastqc_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/fastqc_human/
+fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/fastp_trimmed_human/
+star_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/STAR_aligned_human/
+merged_fastq_folder: /SAN/vyplab/alb_projects/data/axon_seq/merged_fastqs_human/
+feature_counts_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/feature_counts_human/
+>>>>>>> e539eb66c119c712182fd0aa61eb70d705fed462
 #
 #
 
