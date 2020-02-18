@@ -15,7 +15,7 @@
 if [ "$1" != "" ]; then
     RUN_NAME=$1
 else
-    RUN_NAME=$""
+    RUN_NAME=$"run_config"
 fi
 
 FOLDER=submissions/$(date +"%Y%m%d%H%M")

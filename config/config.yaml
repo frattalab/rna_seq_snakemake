@@ -4,18 +4,32 @@
 #path to a csv with the follwing format:
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
-sampleCSVpath: /SAN/vyplab/alb_projects/data/muscle/wide_fastq.csv
-end_type: pe
-species: "human"
-readLen: 150
+# sampleCSVpath: /SAN/vyplab/alb_projects/data/klim_tdp/Klim_support.csv
+# end_type: pe
+# species: "human"
+# readLen: 75
+#
+# feature_counts_strand_info: "-s 0"
+# #always end paths with a trailing slash, or there will be errors :)
+# fastqc_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/fastqc/
+# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/fastp_trimmed/
+# star_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/STAR_aligned/
+# merged_fastq_folder: /SAN/vyplab/alb_projects/data/klim_tdp/merged_fastqs/
+# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/feature_counts/
 
-feature_counts_strand_info: "-s 2"
+sampleCSVpath: /SAN/vyplab/alb_projects/data/axon_seq/human_axonal_data.csv
+end_type: se
+species: "human"
+readLen: 50
+
+feature_counts_strand_info: "-s 0"
 #always end paths with a trailing slash, or there will be errors :)
-fastqc_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastqc/
-fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastp_trimmed_again/
-star_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/STAR_aligned/
-merged_fastq_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/merged_fastqs/
-feature_counts_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/feature_counts/
+fastqc_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/fastqc_human/
+fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/fastp_trimmed_human/
+star_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/STAR_aligned_human/
+merged_fastq_folder: /SAN/vyplab/alb_projects/data/axon_seq/merged_fastqs_human/
+feature_counts_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/feature_counts_human/
+#
 #
 
 # # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
