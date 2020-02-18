@@ -104,3 +104,11 @@ def get_genome_fasta(species):
 def get_gtf(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return(temp.gtf[temp.species == species].tolist()[0])
+# takes the featurcounts strand and returns the interpretation for kallisto_output_folder
+def get_kallisto_strand(fcStrand):
+    if fcStrand == "-s 0":
+        return("")
+    elif fcStrand == "-s 1":
+        return("--fr-stranded")
+    elif fcStrand == "-s 2":
+        return("--rf-stranded")

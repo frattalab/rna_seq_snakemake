@@ -22,7 +22,7 @@ rule generate_genome:
 	params:
 		sjdbOverhang = config['readLen'] - 1
 	threads:
-		8
+		4
 	shell:
 		"""
 		{config[star_path]} \

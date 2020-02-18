@@ -7,7 +7,7 @@ generate_genome:
     h_vmem:    6G
     tmem:   6G
     h_rt: 72:00:00
-    pe: smp 8
+    pe: smp 4
 fastqc:
     h_vmem:    4G
     tmem:   4G

@@ -4,18 +4,32 @@
 #path to a csv with the follwing format:
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
-sampleCSVpath: /SAN/vyplab/alb_projects/data/muscle/wide_fastq.csv
-end_type: pe
+# sampleCSVpath: /SAN/vyplab/alb_projects/data/klim_tdp/Klim_support.csv
+# end_type: pe
+# species: "human"
+# readLen: 75
+#
+# feature_counts_strand_info: "-s 0"
+# #always end paths with a trailing slash, or there will be errors :)
+# fastqc_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/fastqc/
+# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/fastp_trimmed/
+# star_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/STAR_aligned/
+# merged_fastq_folder: /SAN/vyplab/alb_projects/data/klim_tdp/merged_fastqs/
+# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/feature_counts/
+project_top_level: /SAN/vyplab/alb_projects/data/axon_seq/
+sampleCSVpath: /SAN/vyplab/alb_projects/data/axon_seq/human_axonal_data.csv
+end_type: se
 species: "human"
-readLen: 150
+readLen: 50
 
-feature_counts_strand_info: "-s 2"
+feature_counts_strand_info: "-s 0"
 #always end paths with a trailing slash, or there will be errors :)
-fastqc_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastqc/
-fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/fastp_trimmed_again/
-star_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/STAR_aligned/
-merged_fastq_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/merged_fastqs/
-feature_counts_output_folder: /SAN/vyplab/alb_projects/data/muscle/analysis/feature_counts/
+fastqc_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/fastqc/
+fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/fastp_trimmed/
+star_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/STAR_aligned/
+merged_fastq_folder: /SAN/vyplab/alb_projects/data/axon_seq/merged_fastqs/
+feature_counts_output_folder: /SAN/vyplab/alb_projects/data/axon_seq/feature_counts/
+#
 #
 
 # # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
@@ -129,3 +143,7 @@ feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/b
 multiqc_path: /share/apps/python-3.6.4-shared/bin/multiqc
 ###for any additional multiqc runtime commands, if you want them it would be something like --cl_config "qualimap_config: { general_stats_coverage: [20,40,200] }", otherwise leave the parameter blank
 multiqc_configparams: ""
+#########################
+##KALLISTO PARAMETERS - COUNTING HERE######
+#########################
+kallisto_indices: /SAN/vyplab/vyplab_reference_genomes/kallisto/
