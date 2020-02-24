@@ -38,13 +38,3 @@ rule fastqc:
 		mkdir -p {config[fastqc_output_folder]}{wildcards.unit}
 		{config[fastqc_path]} {input.fastq_file} -o {config[fastqc_output_folder]}{wildcards.unit}
 		"""
-
-rule multiqc_fastqc:
-    input:
-        all_files
-    output:
-        config["fastqc_output_folder"] + "fastqc_multiqc_report.html"
-    log:
-        "logs/multiqc.log"
-    shell:
-        "{config[multiqc_path]} -d {config[fastqc_output_folder]} -o {config[fastqc_output_folder]} --title fastqc {config[multiqc_configparams]}"

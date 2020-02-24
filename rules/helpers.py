@@ -112,3 +112,10 @@ def get_kallisto_strand(fcStrand):
         return("--fr-stranded")
     elif fcStrand == "-s 2":
         return("--rf-stranded")
+def get_collectRnaSeq_strand(fcStrand):
+    if fcStrand == "-s 0":
+        return("")
+    elif fcStrand == "-s 1":
+        return("FIRST_READ_TRANSCRIPTION_STRAND")
+    elif fcStrand == "-s 2":
+        return("SECOND_READ_TRANSCRIPTION_STRAND")
