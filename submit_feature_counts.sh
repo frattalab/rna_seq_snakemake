@@ -20,7 +20,7 @@ fi
 FOLDER=$(date +"%Y%m%d%H%M")
 WRITEFOLDER=submission/$FOLDER
 mkdir -p $WRITEFOLDER
-cp config/config.yaml $WRITEFOLDER/$RUN_NAME.config.yaml
+cp single_steps/feature_counts.smk $WRITEFOLDER/feature_counts.smk
 
 snakemake -s single_steps/feature_counts.smk \
 --jobscript cluster_qsub.sh \
