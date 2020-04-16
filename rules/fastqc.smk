@@ -22,7 +22,7 @@ all_files = expand(config["fastqc_output_folder"] + "{unit}/{fastq_name}_fastqc.
 rule all_fstq:
 	input:
 		expand(config["fastqc_output_folder"] + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS),
-		config["fastqc_output_folder"] + "fastqc_multiqc_report.html"
+		#config["fastqc_output_folder"] + "fastqc_multiqc_report.html"
 
 rule fastqc:
 	input:
