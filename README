@@ -1,4 +1,4 @@
-The only thing you should need to edit is the config.yaml file. All paths should end with a trailing /
+The only thing you should need to edit is the config.yaml file. All directory paths should end with a trailing /
 
 Submit to the cluster using the following command, give a specific run name for the job with run_name
 `source submit.sh run_name`
