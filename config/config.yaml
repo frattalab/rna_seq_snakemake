@@ -117,7 +117,7 @@ fastp_parameters:
 ##STAR PARAMETERS - ALIGNMENT HERE######
 #########################
 #location of star exe
-star_path: /home/annbrown/tools/STAR/bin/Linux_x86_64_static/STAR
+star_path: /SAN/vyplab/alb_projects/tools/STAR/bin/Linux_x86_64_static/STAR
 #########################
 ## note: I'm using hard clipping because GRAND-SLAM perfers this, star
 ## has a different default to perform softclipping, just be aware
