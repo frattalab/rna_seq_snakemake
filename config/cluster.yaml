@@ -43,3 +43,13 @@ run_te:
     h_vmem:    16G
     tmem:   16G
     h_rt: 72:00:00
+validate_fastq_pairing:
+    h_vmem:   8G
+    tmem:   8G
+    pe: smp 2
+    h_rt: 72:00:00
+interleave_fastqs:
+    h_vmem:   8G
+    tmem:   8G
+    pe: smp 2
+    h_rt: 72:00:00
