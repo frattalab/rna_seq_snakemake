@@ -47,6 +47,7 @@ if config['end_type'] == "pe":
             fastphtml = config["fastp_trimmed_output_folder"] + "{unit}_{name}_fastp.html"
         shell:
             """
+            free -h
             {config[fastp_path]} --in1 {input.fastq_file} --in2 {input.fastq_file2} --out1 {output.out_fastqc} --out2 {output.out_fastqc2} --json {output.fastpjson} --html {output.fastphtml} {params.fastp_parameters}
             """
 else:

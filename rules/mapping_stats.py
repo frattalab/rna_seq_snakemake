@@ -3,8 +3,8 @@ import re, string, pandas as pd, numpy as np, yaml
 
 from librarySize import *
 
-project_folder = "/SAN/vyplab/alb_projects/data/4su_ward_ipsc_control_pilot/"
-sampleCSVpath = project_folder + "ward_controls_sample_sheet.csv"
+project_folder = "/SAN/vyplab/alb_projects/data/4su_full_ward_tdp_kd_ipsc/"
+sampleCSVpath = project_folder + "ward_time_course_samples.csv"
 star_output_folder = project_folder + "STAR_aligned/"
 feature_counts_output_folder = project_folder + "feature_counts/"
 
@@ -34,4 +34,4 @@ stats = {'sample': SAMPLE_NAMES, \
 df = pd.DataFrame(stats)
 print(df)
 
-df.to_csv(file_name, sep=',')
+df.to_csv(mappingStats, sep=',')
