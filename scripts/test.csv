@@ -1,3 +1,0 @@
-,gc_content,q20_bases,q20_rate,q30_bases,q30_rate,read1_mean_length,read2_mean_length,total_bases,total_reads,insert_size_peak,sample_name
-before_filtering,0.601268,19137098853.0,0.956418,18141199711.0,0.906645,250.0,250.0,20009147000.0,80036588.0,103.0,TDPKD_2_1h
-after_filtering,0.506544,10359113940.0,0.980372,10030279751.0,0.949251,132.0,132.0,10566517830.0,79970468.0,103.0,TDPKD_2_1h
