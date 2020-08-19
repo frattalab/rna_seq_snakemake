@@ -16,8 +16,8 @@
 # star_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/STAR_aligned/
 # merged_fastq_folder: /SAN/vyplab/alb_projects/data/klim_tdp/merged_fastqs/
 # feature_counts_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/feature_counts/
-project_top_level: /home/annbrown/data/linked_bams_ftd_brain/
-sampleCSVpath: /home/annbrown/data/linked_bams_ftd_brain/ftd_brain_sample_table.csv
+project_top_level: /SAN/vyplab/sbs_projects/
+sampleCSVpath: /SAN/vyplab/alb_projects/data/ward_bams/ward_bams.csv
 end_type: pe
 species: "human"
 readLen: 100
@@ -27,10 +27,16 @@ feature_counts_strand_info: "-s 0"
 fastqc_output_folder: /home/annbrown/data/linked_bams_ftd_brain/fastqc/
 fastp_trimmed_output_folder: /home/annbrown/data/linked_bams_ftd_brain/fastp_trimmed/
 star_output_folder: /home/annbrown/data/linked_bams_ftd_brain/STAR_aligned/
-merged_fastq_folder: /home/annbrown/data/linked_bams_ftd_brain/merged_fastqs/
+merged_fastq_folder: /SAN/vyplab/alb_projects/data/ward_bams/pulled_fastq/
 feature_counts_output_folder: /home/annbrown/data/linked_bams_ftd_brain/feature_counts/
 #
 #
+
+##################################
+##FASTQ INTERLEAVING OPTIONS######
+##################################
+interleave_master_output_folder: /SAN/vyplab/alb_projects/data/ward_bams/interleaved_fastq/
+
 
 # # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
 # # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
@@ -86,6 +92,9 @@ feature_counts_output_folder: /home/annbrown/data/linked_bams_ftd_brain/feature_
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
 ######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
 STAR_indices: /SAN/vyplab/vyplab_reference_genomes/STAR/
+
+#Path to directory containing all bbmap scripts (use os.path.join so trailing slash doesn't matter)
+bbmap_path: /SAN/vyplab/alb_projects/tools/BBMap_38_86/bbmap/
 
 #########################
 ##FASTQC PARAMETERS######
