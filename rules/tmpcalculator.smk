@@ -1,7 +1,13 @@
 import os
-singlestep = TRUE
+include: "helpers.py"
+configfile: "config/config.yaml"
+cluster_config: "config/cluster.yaml"
+include: "helpers.py"
 
-if singlestep == TRUE:
+
+singlestep = "true"
+
+if singlestep == "true":
     project_folder =  "/SAN/vyplab/alb_projects/data/buratti_new_shsy5y/"
     end_type = "pe"
     suffix = ".Aligned.sorted.out"
@@ -9,9 +15,7 @@ if singlestep == TRUE:
     SAMPLE_NAMES, = glob_wildcards(star_output_folder + "{sample}" + suffix + ".bam")
     print(SAMPLE_NAMES)
 else:
-    configfile: "config/config.yaml"
-    cluster_config: "config/cluster.yaml"
-    include: "helpers.py"
+
     suffix = ".Aligned.sorted.out"
     SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
     SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
