@@ -13,9 +13,11 @@ if singlestep == "true":
     suffix = ".Aligned.sorted.out"
     star_output_folder = project_folder + "STAR_aligned"
     SAMPLE_NAMES, = glob_wildcards(star_output_folder + "{sample}" + suffix + ".bam")
+    tpm_output_folder = project_folder + "TPMcalculator"
+
     print(SAMPLE_NAMES)
 else:
-
+    project_folder = config["project_top_level"]
     suffix = ".Aligned.sorted.out"
     SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
     SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
@@ -25,15 +27,19 @@ else:
     os.system("mkdir -p {0}".format(config["feature_counts_output_folder"]))
     star_output_folder = config['star_output_folder']
     end_type = config["end_type"]
+    tpm_output_folder = project_folder + "TPMcalculator"
 #this function uses the text file located in the config folder "star_genomes_species.csv" and
 #the config file species parameter to
 #give the correct genome for the species
 REFERENCE_ANNOTATION = get_gtf(config['species'])
 
+os.system("mkdir -p {0}".format(config["tpm_output_folder"]))
+
 rule tpmcounts:
 	input:
 		expand(star_output_folder + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES)
 
+rule mak
 rule tpmcalculator_path:
 	input:
 		aligned_bam = star_output_folder + "{name}.Aligned.sorted.out.bam",
@@ -42,23 +48,9 @@ rule tpmcalculator_path:
 		star_output_folder + "{name}" + suffix + "_genes.out"
 	params:
 		ref_anno = REFERENCE_ANNOTATION,
-		stranded = config['feature_counts_strand_info']
+
 	run:
 		if config["end_type"] == "pe":
-			shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -p -e -a")
+			shell("cd {tpm_output_folder} \  {config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -p -e -a")
 		if config["end_type"] == "se":
-			shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -e -a")
-# rule move_tpm_output:
-# 	input:
-# 		aligned_bam = star_output_folder + "{name}.Aligned.sorted.out.bam",
-# 		aligned_bai = star_output_folder + "{name}.Aligned.sorted.out.bam.bai"
-# 	output:
-# 		out_name = config['feature_counts_output_folder'] + "{name}_featureCounts_results.txt"
-# 	params:
-# 		ref_anno = REFERENCE_ANNOTATION,
-# 		stranded = config['feature_counts_strand_info']
-# 	run:
-# 		if config["end_type"] == "pe":
-# 			shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -p -e -a")
-# 		if config["end_type"] == "se":
-# 			shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -e -a")
+			shell(" cd {tpm_output_folder} \  {config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -e -a")
