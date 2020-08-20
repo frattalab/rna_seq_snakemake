@@ -1,5 +1,23 @@
 The only thing you should need to edit is the config.yaml file. All directory paths should end with a trailing /
 
+The pipeline now has specific defined workflows. These are currently:
+
+#### fastq_qc
+1. Trim reads with fastp
+2. Generate QC reports with FASTQC
+
+#### interleave_fastq_qc
+1. Trim reads with fastp
+2. Generate QC reports with FASTQC
+3. Combine paired end read files into single, interleaved FASTQ file with bbmap
+
+#### align
+1. Trim reads with fastp
+2. Generate QC reports with FASTQC
+3. Align reads to genome with STAR
+4. Generate gene (raw) read count tables with FeatureCounts
+
+
 Submit to the cluster using the following command, give a specific run name for the job with run_name
 `source submit.sh run_name`
 
