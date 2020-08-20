@@ -24,7 +24,6 @@ else:
 
     SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
     #make sure the output folder for featureCounts exists before running anything
-    os.system("mkdir -p {0}".format(config["feature_counts_output_folder"]))
     star_output_folder = config['star_output_folder']
     end_type = config["end_type"]
     tpm_output_folder = project_folder + "TPMcalculator"
@@ -39,7 +38,7 @@ rule tpmcounts:
 	input:
 		expand(star_output_folder + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES)
 
-rule mak
+
 rule tpmcalculator_path:
 	input:
 		aligned_bam = star_output_folder + "{name}.Aligned.sorted.out.bam",
