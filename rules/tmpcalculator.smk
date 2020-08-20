@@ -1,9 +1,6 @@
 import os
 include: "helpers.py"
 configfile: "config/config.yaml"
-cluster_config: "config/cluster.yaml"
-include: "helpers.py"
-
 
 singlestep = "true"
 
@@ -13,6 +10,7 @@ if singlestep == "true":
     suffix = ".Aligned.sorted.out"
     star_output_folder = project_folder + "all_bams_sym"
     SAMPLE_NAMES, = glob_wildcards(star_output_folder + "{sample}" + suffix + ".bam")
+
     tpm_output_folder = project_folder + "TPMcalculator"
 
     print(SAMPLE_NAMES)
@@ -32,7 +30,7 @@ else:
 #give the correct genome for the species
 REFERENCE_ANNOTATION = get_gtf(config['species'])
 
-os.system("mkdir -p {0}".format(config["tpm_output_folder"]))
+os.system("mkdir -p {0}".format("tpm_output_folder"))
 
 rule tpmcounts:
 	input:
