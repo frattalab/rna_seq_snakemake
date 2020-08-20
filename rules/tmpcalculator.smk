@@ -8,10 +8,10 @@ include: "helpers.py"
 singlestep = "true"
 
 if singlestep == "true":
-    project_folder =  "/SAN/vyplab/alb_projects/data/buratti_new_shsy5y/"
+    project_folder =  "/SAN/vyplab/alb_projects/data/tdp_ko_collection/"
     end_type = "pe"
     suffix = ".Aligned.sorted.out"
-    star_output_folder = project_folder + "STAR_aligned"
+    star_output_folder = project_folder + "all_bams_sym"
     SAMPLE_NAMES, = glob_wildcards(star_output_folder + "{sample}" + suffix + ".bam")
     tpm_output_folder = project_folder + "TPMcalculator"
 
