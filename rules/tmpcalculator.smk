@@ -2,9 +2,9 @@ import os
 include: "helpers.py"
 configfile: "config/config.yaml"
 
-singlestep = "true"
+#singlestep = "true"
 
-if singlestep == "true":
+if config["tpm_singlestep"] == "true":
     project_folder =  "/SAN/vyplab/alb_projects/data/tdp_ko_collection/"
     end_type = "pe"
     suffix = ".Aligned.sorted.out"
@@ -22,15 +22,16 @@ else:
 
     SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
     #make sure the output folder for featureCounts exists before running anything
-    star_output_folder = config['star_output_folder']
+    star_output_folder = get_output_dir(project_folder, config['star_output_folder'])
     end_type = config["end_type"]
-    tpm_output_folder = project_folder + "TPMcalculator"
+    tpm_output_folder = get_output_dir(project_folder, config["tpmcalculator_output_folder"])
+
 #this function uses the text file located in the config folder "star_genomes_species.csv" and
 #the config file species parameter to
 #give the correct genome for the species
 REFERENCE_ANNOTATION = get_gtf(config['species'])
 
-os.system("mkdir -p {0}".format("tpm_output_folder"))
+os.system("mkdir -p {0}".format(tpm_output_folder))
 
 rule tpmcounts:
     input:
