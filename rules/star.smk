@@ -2,21 +2,21 @@ import os
 configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml"
 include: "helpers.py"
-
-
-#include: "rules/fastp.smk"
-#RULE ORDER DIRECTIVE
-#if paired end, use the paired end rule to run, if single end use the single end rule to run
+include: "fastp.smk"
+# RULE ORDER DIRECTIVE
+# if paired end, use the paired end rule to run, if single end use the single end rule to run
 if config['end_type'] == "pe":
 	ruleorder: run_star_pe > run_star_se
 else:
 	ruleorder: run_star_se > run_star_pe
+
 
 #make sure the output folder for STAR exists before running anything
 star_outdir = get_output_dir(config["project_top_level"], config['star_output_folder'])
 os.system("mkdir -p {0}".format(star_outdir))
 
 merged_outdir = get_output_dir(config['project_top_level'], config['merged_fastq_folder'])
+
 
 SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
 SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
@@ -108,3 +108,4 @@ rule sort_index_bams:
 		"""
 		{config[samtools_path]} index {input}
 		"""
+

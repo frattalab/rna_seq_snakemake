@@ -1,23 +1,23 @@
 import os
 # a top level folder where the bams reside
-project_dir = "/home/annbrown/data/luisier/"
+project_dir = "/SAN/vyplab/alb_projects/data/buratti_new_shsy5y/"
 out_spot = "feature_counts/"
-bam_spot = "linked_bams/"
+bam_spot = "STAR_aligned/"
 
 # mouse and human gtf, comment dependening on your species
 # gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/mouse/gencode/gencode.vM22.annotation.gtf"
 # gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v31.annotation.gtf"
-gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v31.annotation.gtf"
+gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v34.annotation.gtf"
 
-feature_counts_strand_info = "-s 1"
-end_type = "se"
+feature_counts_strand_info = "-s 0"
+end_type = "pe"
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
 feature_counts_path = "/SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts"
 
 output_dir = os.path.join(project_dir,out_spot)
 bam_dir = os.path.join(project_dir,bam_spot)
 
-SAMPLES, = glob_wildcards(bam_dir + "{sample}.bam")
+SAMPLES, = glob_wildcards(bam_dir + "{sample}.Aligned.sorted.out.bam")
 print(SAMPLES)
 
 rule all:
@@ -26,7 +26,7 @@ rule all:
 
 rule feature_counts:
     input:
-        aligned_bam = bam_dir + "{sample}.bam"
+        aligned_bam = bam_dir + "{sample}.Aligned.sorted.out.bam"
     output:
         out_name = output_dir + "{sample}_featureCounts_results.txt"
     params:
@@ -35,6 +35,6 @@ rule feature_counts:
     run:
         shell("mkdir -p {output_dir}")
         if end_type == "pe":
-            shell("{feature_counts_path} -p -t exon -g gene_id -a {params.ref_anno} -o {output.out_name} {params.stranded} {input.aligned_bam}")
+            shell("{feature_counts_path} --extraAttributes gene_name -p -t exon -g gene_id -a {params.ref_anno} -o {output.out_name} {params.stranded} {input.aligned_bam}")
         if end_type == "se":
-            shell("{feature_counts_path} -a {params.ref_anno} -o {output.out_name} {params.stranded} {input.aligned_bam}")
+            shell("{feature_counts_path} --extraAttributes gene_name -a {params.ref_anno} -o {output.out_name} {params.stranded} {input.aligned_bam}")
