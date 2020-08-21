@@ -33,21 +33,22 @@ REFERENCE_ANNOTATION = get_gtf(config['species'])
 os.system("mkdir -p {0}".format("tpm_output_folder"))
 
 rule tpmcounts:
-	input:
-		expand(star_output_folder + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES)
+    input:
+        expand(star_output_folder + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES)
 
 
 rule tpmcalculator_path:
-	input:
-		aligned_bam = star_output_folder + "{name}.Aligned.sorted.out.bam",
-		aligned_bai = star_output_folder + "{name}.Aligned.sorted.out.bam.bai"
-	output:
-		star_output_folder + "{name}" + suffix + "_genes.out"
-	params:
-		ref_anno = REFERENCE_ANNOTATION,
-
-	run:
-		if config["end_type"] == "pe":
-			shell("cd {tpm_output_folder} \  {config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -p -e -a")
-		if config["end_type"] == "se":
-			shell(" cd {tpm_output_folder} \  {config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -e -a")
+    input:
+        aligned_bam = star_output_folder + "{name}.Aligned.sorted.out.bam",
+        aligned_bai = star_output_folder + "{name}.Aligned.sorted.out.bam.bai"
+    output:
+        star_output_folder + "{name}" + suffix + "_genes.out"
+    params:
+        ref_anno = REFERENCE_ANNOTATION
+    run:
+        if config["end_type"] == "pe":
+            shell("cd {tpm_output_folder})
+            shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -p -e -a")
+        if config["end_type"] == "se":
+            shell("cd {tpm_output_folder})
+            shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -e -a")
