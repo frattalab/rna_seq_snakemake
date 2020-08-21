@@ -47,8 +47,8 @@ rule tpmcalculator_path:
         ref_anno = REFERENCE_ANNOTATION
     run:
         if config["end_type"] == "pe":
-            shell("cd {tpm_output_folder})
+            shell("cd {tpm_output_folder}")
             shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -p -e -a")
         if config["end_type"] == "se":
-            shell("cd {tpm_output_folder})
+            shell("cd {tpm_output_folder}")
             shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -e -a")
