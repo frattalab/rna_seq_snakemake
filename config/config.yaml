@@ -35,6 +35,7 @@ project_top_level: /SAN/vyplab/sbs_projects/
 #below you can specify the names of rulesubdirectories
 #if the provided path string is RELATIVE, the string will be joined with project_top_level to form the output directory path
 #if the provided path string is ABSOLUTE, the output for the given rule will be stored in the provided string (NOT WITHIN project_top_level)
+#In practice leaving as relative defaults is best option...
 
 #suggest name like <rule>_output_folder & <rule>_subdir_folder - can split key/string by '_'[0] to map keys (NO - this is way too complicated...)
 
@@ -43,6 +44,7 @@ fastp_trimmed_output_folder: fastp_trimmed/
 star_output_folder: STAR_aligned/
 merged_fastq_folder: pulled_fastq/
 feature_counts_output_folder: feature_counts/
+tpmcalculator_output_folder: TPMcalculator/ #this is redundant due to only outputting to working dir unless make simple rule to copy output here
 interleave_master_output_folder: interleaved_fastq/
 
 
@@ -99,6 +101,17 @@ star_path: /SAN/vyplab/alb_projects/tools/STAR/bin/Linux_x86_64_static/STAR
 feature_counts_strand_info: "-s 0"
 
 feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
+
+
+
+#########################
+## TPM CALCULATOR OPTIONS
+#########################
+
+tpmcalculator_path: /SAN/vyplab/alb_projects/tools/TPMcalculator/bin/TPMcalculator
+
+#put anything other than "true" if you're not AL
+tpm_singlestep: "false"
 
 
 

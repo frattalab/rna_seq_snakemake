@@ -51,6 +51,7 @@ elif workflow == "align":
 			input:
 				GENOME_DIR + "/SA",
 				expand(feature_counts_outdir + "{name}_featureCounts_results.txt", name = SAMPLE_NAMES),
+				expand(star_output_folder + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES),
 				expand(star_outdir + "{name}.Aligned.sorted.out.bam", name = SAMPLE_NAMES),
 				expand(star_outdir + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES),
 				# expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
@@ -63,6 +64,7 @@ elif workflow == "align":
 		include: "rules/generate_star_index.smk"
 		include: "rules/star.smk"
 		include: "rules/feature_counts.smk"
+		include: "rules/tmpcalculator.smk"
 
 
 

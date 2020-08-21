@@ -16,6 +16,7 @@ The pipeline now has specific defined workflows. These are currently:
 2. Generate QC reports with FASTQC
 3. Align reads to genome with STAR
 4. Generate gene (raw) read count tables with FeatureCounts
+5. Generate gene TPM values with TPMcalculator
 
 
 Submit to the cluster using the following command, give a specific run name for the job with run_name
