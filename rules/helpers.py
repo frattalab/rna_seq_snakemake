@@ -119,3 +119,20 @@ def get_collectRnaSeq_strand(fcStrand):
         return("FIRST_READ_TRANSCRIPTION_STRAND")
     elif fcStrand == "-s 2":
         return("SECOND_READ_TRANSCRIPTION_STRAND")
+
+
+def get_output_dir(project_top_level, rule_output_path):
+    '''
+    Return path to output directory (with trailing slash)
+    if rule_output_path is relative, then it is appended to project_top_level
+    if rule_output_path is absolute then rule_output_path is returned
+    '''
+
+    if os.path.isabs(rule_output_path):
+        if rule_output_path.endswith('/'):
+            return rule_output_path
+        else:
+            return rule_output_path + "/"
+
+    else:
+        return os.path.join(project_top_level, rule_output_path, '')

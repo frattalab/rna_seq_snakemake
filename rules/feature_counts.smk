@@ -7,8 +7,12 @@ SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
 SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
+
+feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
+star_outdir = get_output_dir(config["project_top_level"], config['star_output_folder'])
+
 #make sure the output folder for featureCounts exists before running anything
-os.system("mkdir -p {0}".format(config["feature_counts_output_folder"]))
+os.system("mkdir -p {0}".format(feature_counts_outdir))
 #this function uses the text file located in the config folder "star_genomes_species.csv" and
 #the config file species parameter to
 #give the correct genome for the species
@@ -16,14 +20,14 @@ REFERENCE_ANNOTATION = get_gtf(config['species'])
 
 rule all_featurecounts:
 	input:
-		expand(config['feature_counts_output_folder'] + "{name}_featureCounts_results.txt", name = SAMPLE_NAMES)
+		expand(feature_counts_outdir + "{name}_featureCounts_results.txt", name = SAMPLE_NAMES)
 
 rule feature_counts:
 	input:
-		aligned_bam = config['star_output_folder'] + "{name}.Aligned.sorted.out.bam",
-		aligned_bai = config['star_output_folder'] + "{name}.Aligned.sorted.out.bam.bai"
+		aligned_bam = star_outdir + "{name}.Aligned.sorted.out.bam",
+		aligned_bai = star_outdir + "{name}.Aligned.sorted.out.bam.bai"
 	output:
-		out_name = config['feature_counts_output_folder'] + "{name}_featureCounts_results.txt"
+		out_name = feature_counts_outdir + "{name}_featureCounts_results.txt"
 	params:
 		ref_anno = REFERENCE_ANNOTATION,
 		stranded = config['feature_counts_strand_info']
