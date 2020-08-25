@@ -1,4 +1,6 @@
 import os
+import subprocess
+
 include: "helpers.py"
 configfile: "config/config.yaml"
 
@@ -29,8 +31,8 @@ else:
 #the config file species parameter to
 #give the correct genome for the species
 REFERENCE_ANNOTATION = get_gtf(config['species'])
-
 os.system("mkdir -p {0}".format("tpm_output_folder"))
+
 
 rule tpmcounts:
     input:
@@ -46,9 +48,10 @@ rule tpmcalculator_path:
     params:
         ref_anno = REFERENCE_ANNOTATION
     run:
+        shell("echo moving into {tpm_output_folder}")
+        shell("cd {tpm_output_folder}")
         if config["end_type"] == "pe":
-            shell("cd {tpm_output_folder}")
             shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -p -e -a")
+            subprocess.run(["ls", "-l"])
         if config["end_type"] == "se":
-            shell("cd {tpm_output_folder}")
             shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -e -a")
