@@ -1,107 +1,51 @@
-######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-######UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
+######------------------------------------------------
+## UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION
+######------------------------------------------------
+
 #path to a csv with the follwing format:
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
-# sampleCSVpath: /SAN/vyplab/alb_projects/data/klim_tdp/Klim_support.csv
-# end_type: pe
-# species: "human"
-# readLen: 75
-#
-# feature_counts_strand_info: "-s 0"
-# #always end paths with a trailing slash, or there will be errors :)
-# fastqc_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/fastqc/
-# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/fastp_trimmed/
-# star_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/STAR_aligned/
-# merged_fastq_folder: /SAN/vyplab/alb_projects/data/klim_tdp/merged_fastqs/
-# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/klim_tdp/feature_counts/
-project_top_level: /SAN/vyplab/sbs_projects/
+# Double check README for instructions for constructing a valid sample csv table
 sampleCSVpath: /SAN/vyplab/alb_projects/data/ward_bams/ward_bams.csv
+
+#If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
 end_type: pe
+
+#mouse or human
 species: "human"
+
 readLen: 100
 
-feature_counts_strand_info: "-s 0"
+# one of 'fastq_qc', 'align', 'interleave_fastq_qc'
+#See README for description of what each workflow involves
+workflow: align
+
+
+
+######------------------------------
+## WHERE DO YOU WANT OUTPUT TO GO?
+######------------------------------
+
 #always end paths with a trailing slash, or there will be errors :)
-fastqc_output_folder: /home/annbrown/data/linked_bams_ftd_brain/fastqc/
-fastp_trimmed_output_folder: /home/annbrown/data/linked_bams_ftd_brain/fastp_trimmed/
-star_output_folder: /home/annbrown/data/linked_bams_ftd_brain/STAR_aligned/
-merged_fastq_folder: /SAN/vyplab/alb_projects/data/ward_bams/pulled_fastq/
-feature_counts_output_folder: /home/annbrown/data/linked_bams_ftd_brain/feature_counts/
-#
-#
 
-##################################
-##FASTQ INTERLEAVING OPTIONS######
-##################################
-interleave_master_output_folder: /SAN/vyplab/alb_projects/data/ward_bams/interleaved_fastq/
+#master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
+project_top_level: /SAN/vyplab/sbs_projects/
 
 
-# # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-# # # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-# sampleCSVpath: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastq_locations_4su.csv
-# end_type: se
-# readLen: 75
-# #mouse or human
-# species: "mouse"
-# ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure
-# feature_counts_strand_info: "-s 1"
-#
-#
-# fastqc_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastqc/
-# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/fastp_trimmed/
-# star_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/STAR_aligned_redone/
-# merged_fastq_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/merged_fastqs/
-# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/4su_tdp_f210i/feature_counts/
-# # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-# #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-# sampleCSVpath: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/original_mefs.csv
-# end_type: pe
-# readLen: 50
-# #mouse or human
-# species: "mouse"
-# ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure; activate kallisto conda
-# see also https://github.com/igordot/genomics/blob/master/notes/rna-seq-strand.md
-# feature_counts_strand_info: "-s 2"
-#
-# #
-# fastqc_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/fastqc/
-# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/fastp_trimmed/
-# star_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/STAR_aligned/
-# merged_fastq_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/merged_fastqs/
-# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/original_data_tdp_mefs/feature_counts/
-# #
-# # #####UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION#########
-# #####BILAL MOUSE#########
-# ########bilal_mouse information
-# end_type: pe
-# readLen: 50
-# # #mouse or human
-# species: "mouse"
-# feature_counts_strand_info: "-s 2"
-#
-# sampleCSVpath: /SAN/vyplab/alb_projects/data/bilal_mouse/mouse_samples1.csv
-# fastqc_output_folder: /SAN/vyplab/alb_projects/data/bilal_mouse/fastqc/
-# fastp_trimmed_output_folder: /SAN/vyplab/alb_projects/data/bilal_mouse/fastp_trimmed/
-# star_output_folder: /SAN/vyplab/alb_projects/data/bilal_mouse/STAR_aligned/
-# merged_fastq_folder: /SAN/vyplab/alb_projects/data/bilal_mouse/merged_fastqs/
-# feature_counts_output_folder: /SAN/vyplab/alb_projects/data/bilal_mouse/feature_counts_recount/
+#below you can specify the names of rulesubdirectories
+#if the provided path string is RELATIVE, the string will be joined with project_top_level to form the output directory path
+#if the provided path string is ABSOLUTE, the output for the given rule will be stored in the provided string (NOT WITHIN project_top_level)
+#In practice leaving as relative defaults is best option...
 
-######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
-######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
-######IF YOU DON'T KNOW WHAT YOU'RE DOING DON'T FIDDLE WITH THESE NEXT LINES#########
-STAR_indices: /SAN/vyplab/vyplab_reference_genomes/STAR/
+#suggest name like <rule>_output_folder & <rule>_subdir_folder - can split key/string by '_'[0] to map keys (NO - this is way too complicated...)
 
-#Path to directory containing all bbmap scripts (use os.path.join so trailing slash doesn't matter)
-bbmap_path: /SAN/vyplab/alb_projects/tools/BBMap_38_86/bbmap/
-
-#########################
-##FASTQC PARAMETERS######
-#########################
-
-#path to the fastqc executable
-fastqc_path: /share/apps/genomics/FastQC-0.11.8/fastqc
+fastqc_output_folder: fastqc/
+fastp_trimmed_output_folder: fastp_trimmed/
+star_output_folder: STAR_aligned/
+merged_fastq_folder: pulled_fastq/
+feature_counts_output_folder: feature_counts/
+tpmcalculator_output_folder: TPMcalculator/ #this is redundant due to only outputting to working dir unless make simple rule to copy output here
+interleave_master_output_folder: interleaved_fastq/
 
 
 
@@ -122,11 +66,11 @@ fastp_parameters:
   #umi_loc: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
 
 
-#########################
-##STAR PARAMETERS - ALIGNMENT HERE######
-#########################
-#location of star exe
-star_path: /SAN/vyplab/alb_projects/tools/STAR/bin/Linux_x86_64_static/STAR
+
+#####------------------------------
+## STAR PARAMETERS
+#####------------------------------
+
 #########################
 ## note: I'm using hard clipping because GRAND-SLAM perfers this, star
 ## has a different default to perform softclipping, just be aware
@@ -140,22 +84,76 @@ extra_star_parameters:
   twopassMode: Basic
   alignEndsType: EndToEnd
 
+#DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
+STAR_indices: /SAN/vyplab/vyplab_reference_genomes/STAR/
+
+#location of star exe
+star_path: /SAN/vyplab/alb_projects/tools/STAR/bin/Linux_x86_64_static/STAR
 
 
-#########################
-##SAMTOOLS PARAMETERS - ALIGNMENT HERE######
-#########################
-samtools_path: /share/apps/genomics/samtools-1.9/bin/samtools
 
 #########################
 ##FEATURECOUNTS PARAMETERS - COUNTING HERE######
 #########################
+
+####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
+#consult featureCounts documentation for correct string to pass
+feature_counts_strand_info: "-s 0"
+
 feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
-#path to the multiqc file
-multiqc_path: /share/apps/python-3.6.4-shared/bin/multiqc
-###for any additional multiqc runtime commands, if you want them it would be something like --cl_config "qualimap_config: { general_stats_coverage: [20,40,200] }", otherwise leave the parameter blank
-multiqc_configparams: ""
+
+
+
+#########################
+## TPM CALCULATOR OPTIONS
+#########################
+
+tpmcalculator_path: /SAN/vyplab/alb_projects/tools/TPMcalculator/bin/TPMcalculator
+
+#put anything other than "true" if you're not AL
+tpm_singlestep: "false"
+
+
+
 #########################
 ##KALLISTO PARAMETERS - COUNTING HERE######
 #########################
+
 kallisto_indices: /SAN/vyplab/vyplab_reference_genomes/kallisto/
+
+
+
+#########################
+##FASTQC PARAMETERS######
+#########################
+
+#path to the fastqc executable
+fastqc_path: /share/apps/genomics/FastQC-0.11.8/fastqc
+
+
+
+#########################
+## MULTIQC PARAMETERS
+#########################
+
+###for any additional multiqc runtime commands, if you want them it would be something like --cl_config "qualimap_config: { general_stats_coverage: [20,40,200] }", otherwise leave the parameter blank
+multiqc_configparams: ""
+
+#path to the multiqc file
+multiqc_path: /share/apps/python-3.6.4-shared/bin/multiqc
+
+
+
+#########################
+## SAMTOOLS PARAMETERS - ALIGNMENT HERE######
+#########################
+samtools_path: /share/apps/genomics/samtools-1.9/bin/samtools
+
+
+
+########################
+## OTHER PATHS TO SCRIPT/TOOL DIRECTORIES
+########################
+
+#Path to directory containing all bbmap scripts (use os.path.join so trailing slash doesn't matter)
+bbmap_path: /SAN/vyplab/alb_projects/tools/BBMap_38_86/bbmap/

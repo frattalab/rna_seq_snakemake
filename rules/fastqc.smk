@@ -3,10 +3,11 @@ include: "helpers.py"
 
 configfile: "config/config.yaml"
 
-
+#get output folder
+fastqc_outdir = get_output_dir(config["project_top_level"], config["fastqc_output_folder"])
 
 #make sure the output folder for fastqc exists before running anything
-os.system("mkdir -p {0}".format(config["fastqc_output_folder"]))
+os.system("mkdir -p {0}".format(fastqc_outdir))
 
 
 #fastq name is the sample_unit_fastqfile
@@ -17,24 +18,25 @@ ORDER_DICT = dict(zip(FASTQ_NAME, FILE_LOCATION))
 #output of the individual fastqc's and the multiqc html file. snakemake will check to see if these output files
 #exist if they dont it will keep going
 
-all_files = expand(config["fastqc_output_folder"] + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
+all_files = expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
 
 rule all_fstq:
 	input:
-		expand(config["fastqc_output_folder"] + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS),
-		#config["fastqc_output_folder"] + "fastqc_multiqc_report.html"
+		expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS),
+		#fastqc_outdir + "fastqc_multiqc_report.html"
 
 rule fastqc:
 	input:
 		fastq_file = lambda wildcards: return_fastq_location(wildcards.fastq_name)
 	output:
-		out_fastqc = config["fastqc_output_folder"] + "{unit}/{fastq_name}_fastqc.html"
+		out_fastqc = fastqc_outdir + "{unit}/{fastq_name}_fastqc.html"
 	params:
-		fq_name = lambda wildcards, input: re.sub(".fastq.gz","_fastqc", input.fastq_file.rpartition('/')[2])
+		fq_name = lambda wildcards, input: re.sub(".fastq.gz","_fastqc", input.fastq_file.rpartition('/')[2]),
+		outdir = fastqc_outdir
 	log:
         "logs/{fastq_name}_fastqc.log"
 	shell:
 		"""
-		mkdir -p {config[fastqc_output_folder]}{wildcards.unit}
+		mkdir -p {params.outdir}{wildcards.unit}
 		{config[fastqc_path]} {input.fastq_file} -o {config[fastqc_output_folder]}{wildcards.unit}
 		"""
