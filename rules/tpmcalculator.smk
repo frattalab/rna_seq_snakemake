@@ -36,7 +36,7 @@ os.system("mkdir -p {0}".format("tpm_output_folder"))
 
 rule tpmcounts:
     input:
-        expand(star_output_folder + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES)
+        expand(tpm_output_folder + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES)
 
 
 rule tpmcalculator_path:
