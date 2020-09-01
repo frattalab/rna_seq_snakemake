@@ -6,7 +6,7 @@
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
 # Double check README for instructions for constructing a valid sample csv table
-sampleCSVpath: /SAN/vyplab/alb_projects/data/ward_bams/ward_bams.csv
+sampleCSVpath:  /SAN/vyplab/alb_projects/data/tdp_ko_collection/all_the_kd_plus_muscles.csv
 
 #If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
 end_type: pe
@@ -29,7 +29,7 @@ workflow: align
 #always end paths with a trailing slash, or there will be errors :)
 
 #master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
-project_top_level: /SAN/vyplab/sbs_projects/
+project_top_level: /SAN/vyplab/alb_projects/data/tdp_ko_collection/
 
 
 #below you can specify the names of rulesubdirectories
