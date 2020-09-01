@@ -44,7 +44,7 @@ rule tpmcalculator_path:
         aligned_bam = star_output_folder + "{name}.Aligned.sorted.out.bam",
         aligned_bai = star_output_folder + "{name}.Aligned.sorted.out.bam.bai"
     output:
-        star_output_folder + "{name}" + suffix + "_genes.out"
+        tpm_output_folder + "{name}" + suffix + "_genes.out"
     params:
         ref_anno = REFERENCE_ANNOTATION
     run:
