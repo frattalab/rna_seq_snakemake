@@ -36,8 +36,8 @@ elif workflow == "fastq_qc":
 
 elif workflow == "interleave_fastq_qc":
 		rule all:
-		    input:
-		        expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS),
+			input:
+				expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS),
 				expand(interleaved_outdir + "{name}_interleaved.fastq.gz", name = SAMPLE_NAMES)
 			shadow: "minimal"
 
@@ -64,7 +64,7 @@ elif workflow == "align":
 		include: "rules/generate_star_index.smk"
 		include: "rules/star.smk"
 		include: "rules/feature_counts.smk"
-		include: "rules/tmpcalculator.smk"
+		include: "rules/tpmcalculator.smk"
 
 
 
