@@ -42,7 +42,7 @@ project_top_level: /SAN/vyplab/alb_projects/data/4su_full_ward_tdp_kd_ipsc/
 fastqc_output_folder: fastqc/
 fastp_trimmed_output_folder: fastp_trimmed_redo/
 star_output_folder: STAR_aligned/
-merged_fastq_folder: merged_fastqs_redo/
+merged_fastq_folder: merged_fastqs/
 feature_counts_output_folder: feature_counts/
 tpmcalculator_output_folder: TPMcalculator/ #this is redundant due to only outputting to working dir unless make simple rule to copy output here
 interleave_master_output_folder: interleaved_fastq/
