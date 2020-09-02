@@ -26,45 +26,45 @@ if workflow not in ['fastq_qc','align','interleave_fastq_qc']:
 	raise ValueError("{0} is an invalid value for 'workflow' - must be one of {1}".format(workflow, ', '.join(['fastq_qc','align','interleave_fastq_qc'])))
 
 elif workflow == "fastq_qc":
-		rule all:
-			input:
-				expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
-			shadow: "minimal"
+	rule all:
+		input:
+			expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
+		shadow: "minimal"
 
-		include: "rules/fastp.smk"
-		include: "rules/fastqc.smk"
+	include: "rules/fastp.smk"
+	include: "rules/fastqc.smk"
 
 elif workflow == "interleave_fastq_qc":
-		rule all:
-			input:
-				expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS),
-				expand(interleaved_outdir + "{name}_interleaved.fastq.gz", name = SAMPLE_NAMES)
-			shadow: "minimal"
+	rule all:
+		input:
+			expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS),
+			expand(interleaved_outdir + "{name}_interleaved.fastq.gz", name = SAMPLE_NAMES)
+		shadow: "minimal"
 
-		include: "rules/fastp.smk"
-		include: "rules/fastqc.smk"
-		include: "rules/interleave_fastqs.smk"
+	include: "rules/fastp.smk"
+	include: "rules/fastqc.smk"
+	include: "rules/interleave_fastqs.smk"
 
 
 elif workflow == "align":
-		rule all:
-			input:
-				GENOME_DIR + "/SA",
-				expand(feature_counts_outdir + "{name}_featureCounts_results.txt", name = SAMPLE_NAMES),
-				expand(star_output_folder + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES),
-				expand(star_outdir + "{name}.Aligned.sorted.out.bam", name = SAMPLE_NAMES),
-				expand(star_outdir + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES),
-				# expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
-				#expand(config['project_top_level'] + "multiqc_report.html")
-			shadow: "minimal"
+	rule all:
+		input:
+			GENOME_DIR + "/SA",
+			expand(feature_counts_outdir + "{name}_featureCounts_results.txt", name = SAMPLE_NAMES),
+			expand(star_output_folder + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES),
+			expand(star_outdir + "{name}.Aligned.sorted.out.bam", name = SAMPLE_NAMES),
+			expand(star_outdir + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES),
+			# expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
+			#expand(config['project_top_level'] + "multiqc_report.html")
+		shadow: "minimal"
 
-		#Not necessary to specify include rules each time but doing to make wf easier to follow
-		include: "rules/fastp.smk"
-		include: "rules/fastqc.smk"
-		include: "rules/generate_star_index.smk"
-		include: "rules/star.smk"
-		include: "rules/feature_counts.smk"
-		include: "rules/tpmcalculator.smk"
+	#Not necessary to specify include rules each time but doing to make wf easier to follow
+	include: "rules/fastp.smk"
+	include: "rules/fastqc.smk"
+	include: "rules/generate_star_index.smk"
+	include: "rules/star.smk"
+	include: "rules/feature_counts.smk"
+	include: "rules/tpmcalculator.smk"
 
 
 
