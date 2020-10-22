@@ -19,8 +19,8 @@ The pipeline now has specific defined workflows. These are currently:
 5. Generate gene TPM values with TPMcalculator
 
 
-Submit to the cluster using the following command, give a specific run name for the job with run_name
-`source submit.sh run_name`
+Submit to the cluster using the following command. The **first argument** should be your **workflow of choice** (*{workflow}*), followed by a specific **run name for the job** (*{run_name}*, optional but recommended).
+`source submit.sh {workflow} {run_name}`
 
 
 You should have Snakemake executable from your path. Check that this is the case before submission by typing in "which snakemake" at the command line. It should say this:
