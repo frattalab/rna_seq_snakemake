@@ -3,7 +3,7 @@ import os
 import subprocess
 
 configfile: "config/config.yaml"
-include: "rules/helpers.py"
+include: "../rules/helpers.py"
 SPECIES_VERSION = get_species_version(config['species'])
 GENOME_DIR = os.path.join(config['STAR_indices'],config['species'],SPECIES_VERSION,"star_indices_overhang" + str(config['readLen']))
 FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
@@ -19,12 +19,12 @@ interleaved_outdir = get_output_dir(config['project_top_level'], config['interle
 star_outdir = get_output_dir(config["project_top_level"], config['star_output_folder'])
 feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
 
-include: "rules/fastp.smk"
-include: "rules/fastqc.smk"
-include: "rules/generate_star_index.smk"
-include: "rules/star.smk"
-include: "rules/feature_counts.smk"
-include: "rules/tpmcalculator.smk"
+include: "../rules/fastp.smk"
+include: "../rules/fastqc.smk"
+include: "../rules/generate_star_index.smk"
+include: "../rules/star.smk"
+include: "../rules/feature_counts.smk"
+include: "../rules/tpmcalculator.smk"
 
 rule all:
     input:

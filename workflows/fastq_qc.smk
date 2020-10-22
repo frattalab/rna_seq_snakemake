@@ -3,7 +3,7 @@ import os
 import subprocess
 
 configfile: "config/config.yaml"
-include: "rules/helpers.py"
+include: "../rules/helpers.py"
 SPECIES_VERSION = get_species_version(config['species'])
 GENOME_DIR = os.path.join(config['STAR_indices'],config['species'],SPECIES_VERSION,"star_indices_overhang" + str(config['readLen']))
 FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
@@ -17,8 +17,8 @@ SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 fastqc_outdir = get_output_dir(config["project_top_level"], config["fastqc_output_folder"])
 
 
-include: "rules/fastp.smk"
-include: "rules/fastqc.smk"
+include: "../rules/fastp.smk"
+include: "../rules/fastqc.smk"
 
 rule all:
     input:
