@@ -4,7 +4,9 @@ import subprocess
 include: "helpers.py"
 configfile: "config/config.yaml"
 
-singlestep = "true"
+#AL - I have to do this to stop align workflow breaking - you can edit the config/uncomment the second line to get it to do what you want...
+singlestep = config["tpm_singlestep"]
+#singlestep = "true"
 
 if singlestep == "true":
     project_folder =  "/SAN/vyplab/alb_projects/data/tdp_ko_collection/"
