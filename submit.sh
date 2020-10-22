@@ -11,7 +11,7 @@
 #$ -j y
 #$ -R y
 
-WORKFLOW = "workflows/${1}.smk"
+WORKFLOW="workflows/${1}.smk"
 
 if [ "$2" != "" ]; then
     RUN_NAME=$1
