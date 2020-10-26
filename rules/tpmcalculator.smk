@@ -35,6 +35,7 @@ else:
 #give the correct genome for the species
 REFERENCE_ANNOTATION = get_gtf(config['species'])
 os.system("mkdir -p {0}".format("tpm_output_folder"))
+os.system("cd {0}".format("tpm_output_folder"))
 
 
 rule tpmcounts:
