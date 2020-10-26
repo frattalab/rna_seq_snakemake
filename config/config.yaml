@@ -108,7 +108,7 @@ feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/b
 ## TPM CALCULATOR OPTIONS
 #########################
 
-tpmcalculator_path: /SAN/vyplab/alb_projects/tools/TPMcalculator/bin/TPMcalculator
+tpmcalculator_path: /SAN/vyplab/alb_projects/tools/TPMCalculator/bin/TPMCalculator
 
 #put anything other than "true" if you're not AL
 tpm_singlestep: "true"
