@@ -50,8 +50,7 @@ rule tpmcalculator_path:
     output:
         tpm_output_folder + "{name}" + suffix + "_genes.out"
     params:
-        ref_anno = REFERENCE_ANNOTATION,
-        end_params = if
+        ref_anno = REFERENCE_ANNOTATION
     run:
         shell("echo moving into {tpm_output_folder}")
         if config["end_type"] == "pe":
