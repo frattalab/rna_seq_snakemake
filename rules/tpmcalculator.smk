@@ -53,8 +53,9 @@ rule tpmcalculator_path:
     run:
         shell("echo moving into {tpm_output_folder}")
         shell("cd {tpm_output_folder}")
+        subprocess.run(["ls", "-l"])
         if config["end_type"] == "pe":
-            shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -p -e -a")
             subprocess.run(["ls", "-l"])
+            shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -p -e -a")
         if config["end_type"] == "se":
             shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -e -a")
