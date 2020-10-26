@@ -16,7 +16,7 @@ if singlestep == "true":
     star_output_folder = project_folder + "all_bams_kds_linked/"
     SAMPLE_NAMES, = glob_wildcards(star_output_folder + "{sample}" + suffix + ".bam")
 
-    tpm_output_folder = project_folder + "TPMcalculator"
+    tpm_output_folder = project_folder + "TPMcalculator/"
 
     print(SAMPLE_NAMES)
 else:
