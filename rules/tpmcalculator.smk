@@ -50,13 +50,15 @@ rule tpmcalculator_path:
     output:
         tpm_output_folder + "{name}" + suffix + "_genes.out"
     params:
-        ref_anno = REFERENCE_ANNOTATION
+        ref_anno = REFERENCE_ANNOTATION,
+        end_params = if
     run:
         shell("echo moving into {tpm_output_folder}")
-        shell("cd {tpm_output_folder}")
-        subprocess.run(["ls", "-l"])
         if config["end_type"] == "pe":
-            subprocess.run(["ls", "-l"])
+            shell("cd {tpm_output_folder}")
+            shell("ls .")
             shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -p -e -a")
         if config["end_type"] == "se":
+            shell("cd {tpm_output_folder}")
+            shell("ls .")
             shell("{config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} -e -a")
