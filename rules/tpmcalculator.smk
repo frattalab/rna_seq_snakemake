@@ -9,7 +9,7 @@ singlestep = config["tpm_singlestep"]
 #singlestep = "true"
 
 if singlestep == "true":
-    project_folder =  "/SAN/vyplab/alb_projects/data/tdp_ko_collection/"
+    project_folder =  "/SAN/vyplab/alb_projects/data/sinai_splice_junctions/all_bams_kds_linked/"
     end_type = "pe"
     suffix = ".Aligned.sorted.out"
     star_output_folder = project_folder + "all_bams_sym"

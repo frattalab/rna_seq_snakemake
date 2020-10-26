@@ -15,10 +15,12 @@ end_type: pe
 species: "human"
 
 readLen: 250
-
+####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
+#consult featureCounts documentation for correct string to pass
+feature_counts_strand_info: "-s 0"
 # one of 'fastq_qc', 'align', 'interleave_fastq_qc'
 #See README for description of what each workflow involves
-workflow: interleave_fastq_qc
+workflow: align
 
 
 
@@ -96,9 +98,7 @@ star_path: /SAN/vyplab/alb_projects/tools/STAR/bin/Linux_x86_64_static/STAR
 ##FEATURECOUNTS PARAMETERS - COUNTING HERE######
 #########################
 
-####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
-#consult featureCounts documentation for correct string to pass
-feature_counts_strand_info: "-s 0"
+
 
 feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
 
@@ -111,7 +111,7 @@ feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/b
 tpmcalculator_path: /SAN/vyplab/alb_projects/tools/TPMcalculator/bin/TPMcalculator
 
 #put anything other than "true" if you're not AL
-tpm_singlestep: "false"
+tpm_singlestep: "true"
 
 
 
