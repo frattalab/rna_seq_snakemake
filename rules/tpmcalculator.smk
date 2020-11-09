@@ -29,7 +29,7 @@ else:
     #make sure the output folder for featureCounts exists before running anything
     star_output_folder = config['star_output_folder']
     end_type = config["end_type"]
-    tpm_output_folder = project_folder + "TPMcalculator"
+    tpm_output_folder = project_folder + "TPMcalculator/"
 #this function uses the text file located in the config folder "star_genomes_species.csv" and
 #the config file species parameter to
 #give the correct genome for the species
