@@ -13,8 +13,7 @@ SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
 SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 #so I want this rule to be run ONCE for every fast1, so the wild cards I'm giving are the 'name' of the fastq of the first read
 #name = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
-name = [strpd.rpartition('/')[2].split(".")[0] for strpd in SAMPLES['fast1'].tolist()]
-print(name)
+
 
 UNITS = SAMPLES['unit'].tolist()
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
@@ -23,8 +22,8 @@ rule merge_all_trimmed:
     input:
         expand(fastp_outdir + "{unit}_{name}_R1_trimmed.fastq.gz",zip, unit = UNITS,name = SAMPLE_NAMES),
         expand(fastp_outdir + "{unit}_{name}_R2_trimmed.fastq.gz" if config["end_type"] == "pe" else [],zip, unit = UNITS,name = SAMPLE_NAMES),
-        expand(merged_outdir + "{name}_1.merged.fastq.gz", name = SAMPLE_NAMES),
-        expand(config["merged_fastq_folder"] + "{name}_2.merged.fastq.gz" if config["end_type"] == "pe" else [],name = SAMPLE_NAMES)
+        # expand(merged_outdir + "{name}_1.merged.fastq.gz", name = SAMPLE_NAMES),
+        # expand(config["merged_fastq_folder"] + "{name}_2.merged.fastq.gz" if config["end_type"] == "pe" else [],name = SAMPLE_NAMES)
     wildcard_constraints:
         name="|".join(SAMPLE_NAMES),
         unit="|".join(UNITS)
@@ -75,37 +74,37 @@ else:
                 {config[fastp_path]} -i {input.fastq_file} -o {output.out_fastqc} --json {output.fastpjson} --html {output.fastphtml} {params.fastp_parameters}
                 """
 
-if config['end_type'] == "pe":
-    rule merge_trimmed:
-        input:
-            one = lambda wildcards: get_trimmed(wildcards.name)[0],
-            two = lambda wildcards: get_trimmed(wildcards.name)[1]
-        wildcard_constraints:
-            name="|".join(SAMPLE_NAMES)
-        output:
-            out_one = merged_outdir + "{name}_1.merged.fastq.gz",
-            out_two = merged_outdir + "{name}_2.merged.fastq.gz"
-        params:
-            #taking the input files and putting them into a comma separated list
-            one = lambda wildcards: ' '.join(get_trimmed(wildcards.name)[0]),
-            two = lambda wildcards: ' '.join(get_trimmed(wildcards.name)[1])
-        shell:
-            """
-            cat {params.two} > {output.out_two}
-            cat {params.one} > {output.out_one}
-            """
-else:
-    rule merge_trimmed:
-        input:
-            one = lambda wildcards: get_trimmed(wildcards.name)[0]
-        wildcard_constraints:
-            name="|".join(SAMPLE_NAMES)
-        output:
-            out_one = merged_outdir + "{name}_1.merged.fastq.gz"
-        params:
-            #taking the input files and putting them into a comma separated list
-            one = lambda wildcards: ' '.join(get_trimmed(wildcards.name)[0]),
-        shell:
-            """
-            cat {params.one} > {output.out_one}
-            """
+# if config['end_type'] == "pe":
+#     rule merge_trimmed:
+#         input:
+#             one = lambda wildcards: get_trimmed(wildcards.name)[0],
+#             two = lambda wildcards: get_trimmed(wildcards.name)[1]
+#         wildcard_constraints:
+#             name="|".join(SAMPLE_NAMES)
+#         output:
+#             out_one = merged_outdir + "{name}_1.merged.fastq.gz",
+#             out_two = merged_outdir + "{name}_2.merged.fastq.gz"
+#         params:
+#             #taking the input files and putting them into a comma separated list
+#             one = lambda wildcards: ' '.join(get_trimmed(wildcards.name)[0]),
+#             two = lambda wildcards: ' '.join(get_trimmed(wildcards.name)[1])
+#         shell:
+#             """
+#             cat {params.two} > {output.out_two}
+#             cat {params.one} > {output.out_one}
+#             """
+# else:
+#     rule merge_trimmed:
+#         input:
+#             one = lambda wildcards: get_trimmed(wildcards.name)[0]
+#         wildcard_constraints:
+#             name="|".join(SAMPLE_NAMES)
+#         output:
+#             out_one = merged_outdir + "{name}_1.merged.fastq.gz"
+#         params:
+#             #taking the input files and putting them into a comma separated list
+#             one = lambda wildcards: ' '.join(get_trimmed(wildcards.name)[0]),
+#         shell:
+#             """
+#             cat {params.one} > {output.out_one}
+#             """
