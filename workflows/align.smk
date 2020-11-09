@@ -24,7 +24,7 @@ include: "../rules/fastqc.smk"
 include: "../rules/generate_star_index.smk"
 include: "../rules/star.smk"
 include: "../rules/feature_counts.smk"
-include: "../rules/tpmcalculator.smk"
+# include: "../rules/tpmcalculator.smk"
 
 rule all:
     input:
