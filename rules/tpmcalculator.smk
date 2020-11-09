@@ -51,10 +51,10 @@ rule tpmcalculator_path:
         tpm_output_folder + "{name}" + suffix + "_genes.out"
     params:
         ref_anno = REFERENCE_ANNOTATION,
-        output_string = "-p -e -a" if config["end_type"] == "pe" else ""
+        output_string = "-p -e -a" if config["end_type"] == "pe" else "-e -a"
     shell:
         """
         cd {tpm_output_folder}
-        ls 
+        pwd
         {config[tpmcalculator_path]} -g {params.ref_anno} -b {input.aligned_bam} {params.output_string}
         """

@@ -136,3 +136,26 @@ def get_output_dir(project_top_level, rule_output_path):
 
     else:
         return os.path.join(project_top_level, rule_output_path, '')
+
+def return_bases_and_contrasts(comparison_yaml):
+    """
+    returns all the bases and contrasts from the comparisons.yaml
+    """
+
+    with open(comparison_yaml, 'r') as stream:
+        try:
+            compare_dict = yaml.safe_load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+
+    base_keys = []
+    contrast_keys = []
+
+    for key in compare_dict:
+        temp = compare_dict[key]
+        for ind, k2 in enumerate(temp):
+            if ind == 1:
+                base_keys.append(k2)
+            if ind == 2:
+                contrast_keys.append(k2)
+    return(base_keys,contrast_keys)
