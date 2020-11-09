@@ -27,7 +27,8 @@ else:
 
     SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
     #make sure the output folder for featureCounts exists before running anything
-    star_output_folder = config['star_output_folder']
+    star_output_folder = get_output_dir(config['project_top_level'], config['star_output_folder'])
+
     end_type = config["end_type"]
     tpm_output_folder = project_folder + "TPMcalculator/"
 #this function uses the text file located in the config folder "star_genomes_species.csv" and
