@@ -18,19 +18,20 @@ fastqc_outdir = get_output_dir(config["project_top_level"], config["fastqc_outpu
 interleaved_outdir = get_output_dir(config['project_top_level'], config['interleave_master_output_folder'])
 star_outdir = get_output_dir(config["project_top_level"], config['star_output_folder'])
 feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
+tpm_outdir = get_output_dir(config['project_top_level'], config['tpmcalculator_output_folder'])
 
 include: "../rules/fastp.smk"
 include: "../rules/fastqc.smk"
 include: "../rules/generate_star_index.smk"
 include: "../rules/star.smk"
 include: "../rules/feature_counts.smk"
-# include: "../rules/tpmcalculator.smk"
+include: "../rules/tpmcalculator.smk"
 
 rule all:
     input:
         GENOME_DIR + "/SA",
         expand(feature_counts_outdir + "{name}_featureCounts_results.txt", name = SAMPLE_NAMES),
-        expand(star_output_folder + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES),
+        expand(tpm_outdir + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES),
         expand(star_outdir + "{name}.Aligned.sorted.out.bam", name = SAMPLE_NAMES),
         expand(star_outdir + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES),
         # expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
