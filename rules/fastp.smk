@@ -23,7 +23,7 @@ rule merge_all_trimmed:
         expand(fastp_outdir + "{unit}_{name}_R1_trimmed.fastq.gz",zip, unit = UNITS,name = SAMPLE_NAMES),
         expand(fastp_outdir + "{unit}_{name}_R2_trimmed.fastq.gz" if config["end_type"] == "pe" else [],zip, unit = UNITS,name = SAMPLE_NAMES),
         expand(merged_outdir + "{name}_1.merged.fastq.gz", name = SAMPLE_NAMES),
-        expand(config["merged_fastq_folder"] + "{name}_2.merged.fastq.gz" if config["end_type"] == "pe" else [],name = SAMPLE_NAMES)
+        expand(merged_outdir + "{name}_2.merged.fastq.gz" if config["end_type"] == "pe" else [],name = SAMPLE_NAMES)
     wildcard_constraints:
         name="|".join(SAMPLE_NAMES),
         unit="|".join(UNITS)
