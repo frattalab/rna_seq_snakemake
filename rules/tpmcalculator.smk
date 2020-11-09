@@ -30,7 +30,7 @@ else:
     star_output_folder = get_output_dir(config['project_top_level'], config['star_output_folder'])
 
     end_type = config["end_type"]
-    tpm_outdir = get_output_dir(config['project_top_level'], config['tpmcalculator_output_folder'])
+    tpm_output_folder = get_output_dir(config['project_top_level'], config['tpmcalculator_output_folder'])
 
 #this function uses the text file located in the config folder "star_genomes_species.csv" and
 #the config file species parameter to
