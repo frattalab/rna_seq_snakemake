@@ -14,7 +14,7 @@ SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 #so I want this rule to be run ONCE for every fast1, so the wild cards I'm giving are the 'name' of the fastq of the first read
 #name = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in SAMPLES['fast1'].tolist()]
 name = [strpd.rpartition('/')[2].split(".")[0] for strpd in SAMPLES['fast1'].tolist()]
-
+print(name)
 
 UNITS = SAMPLES['unit'].tolist()
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
