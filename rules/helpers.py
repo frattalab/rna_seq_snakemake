@@ -50,17 +50,18 @@ def get_trimmed(name):
     SAMPLES = pd.read_csv(config["sampleCSVpath"])
     SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
-    config["fastp_trimmed_output_folder"] + "{unit}_{name}_R1_trimmed.fastq.gz"
+    merged_outdir = get_output_dir(config['project_top_level'], config['merged_fastq_folder'])
+
 
     unit_fastqs = SAMPLES.loc[(SAMPLES.sample_name == name),'unit'].tolist()
     unit_fastqs2 = [u + "_" + name for u in unit_fastqs]
 
-    trimmed_1 = [os.path.join(config["fastp_trimmed_output_folder"],u + "_R1_trimmed.fastq.gz") for u in unit_fastqs2]
+    trimmed_1 = [os.path.join(merged_outdir,u + "_R1_trimmed.fastq.gz") for u in unit_fastqs2]
 
 
     #if we have paired end data there will also be a trimmed 2, same thing, using the fast2 column instead
     if config['end_type'] == "pe":
-        trimmed_2 = [os.path.join(config["fastp_trimmed_output_folder"],u + "_R2_trimmed.fastq.gz") for u in unit_fastqs2]
+        trimmed_2 = [os.path.join(merged_outdir,u + "_R2_trimmed.fastq.gz") for u in unit_fastqs2]
 
         #trimmed files is a list of the two
         trimmed_files = [trimmed_1, trimmed_2]
