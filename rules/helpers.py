@@ -62,7 +62,7 @@ def get_trimmed(name):
 
     #if we have paired end data there will also be a trimmed 2, same thing, using the fast2 column instead
     if config['end_type'] == "pe":
-        trimmed_2 = [os.path.join(merged_outdir,u + "_R2_trimmed.fastq.gz") for u in unit_fastqs2]
+        trimmed_2 = [os.path.join(fastp_outdir,u + "_R2_trimmed.fastq.gz") for u in unit_fastqs2]
 
         #trimmed files is a list of the two
         trimmed_files = [trimmed_1, trimmed_2]
