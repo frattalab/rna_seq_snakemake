@@ -32,9 +32,6 @@ name1 = SAMPLES['fast1'][0]
 if config['end_type'] == 'pe':
     name1 = SAMPLES['fast2'][0]
 
-check_strandedness  --gtf /SAN/vyplab/vyplab_reference_genomes/annotation/human/ensembl/Homo_sapiens.GRCh38.100.gtf --transcripts /SAN/vyplab/vyplab_reference_genomes/sequence/human/ensembl/Homo_sapiens.GRCh38.cdna.all.fa.gz --reads_1 /SAN/vyplab/alb_projects/data/liu_facs_neurons/raw_data/SRR8571951_1.fastq.gz --reads_2 /SAN/vyplab/alb_projects/data/liu_facs_neurons/raw_data/SRR8571951_2.fastq.gz -n 10000
-
-
 rule strandedOutput:
 
 rule check_strandedness:
@@ -46,12 +43,11 @@ rule check_strandedness:
         strandness = strand
     shell:
         """
-        mkdir -p {output_dir}
         set +u;
-        source activate tetranscripts
-        TEcount -b {input.sample_bam} \
-        --sortByPos --GTF  {gtf}\
-        --TE {te_gtf}\
-        --project {output_dir}{wildcards.sample} \
-        {params.strandness}
+        source activate kallisto
+        check_strandedness  --gtf /SAN/vyplab/vyplab_reference_genomes/annotation/human/ensembl/Homo_sapiens.GRCh38.100.gtf \
+        --transcripts /SAN/vyplab/vyplab_reference_genomes/sequence/human/ensembl/Homo_sapiens.GRCh38.cdna.all.fa.gz \
+        --reads_1 /SAN/vyplab/alb_projects/data/liu_facs_neurons/raw_data/SRR8571951_1.fastq.gz \
+        --reads_2 /SAN/vyplab/alb_projects/data/liu_facs_neurons/raw_data/SRR8571951_2.fastq.gz \
+        -n 10000
         """

@@ -19,3 +19,5 @@ os.system("mkdir -p {0}".format(feature_counts_outdir))
 REFERENCE_ANNOTATION = get_gtf(config['species'])
 
 BASES, CONTRASTS = return_bases_and_contrasts('config/DESeq2comparisons.yaml')
+
+rule deseqOutput
