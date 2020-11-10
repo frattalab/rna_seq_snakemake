@@ -47,8 +47,8 @@ rule tpmcounts:
 
 rule tpmcalculator_path:
     input:
-        aligned_bam = star_output_folder + "{name}.Aligned.sorted.out.bam",
-        aligned_bai = star_output_folder + "{name}.Aligned.sorted.out.bam.bai"
+        aligned_bam = star_output_folder + "{name}" + suffix + ".bam",
+        aligned_bai = star_output_folder + "{name}" + suffix + ".bam.bai"
     output:
         tpm_output_folder + "{name}" + suffix + "_genes.out"
     params:
