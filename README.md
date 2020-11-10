@@ -1,6 +1,18 @@
 The only thing you should need to edit is the config.yaml file. All directory paths should end with a trailing /
 
-The pipeline now has specific defined workflows. These are currently:
+### How to make a sample sheet
+The necessary columns are
+`sample_name`	`unit`	`fast1`	`fast2`	`group`	`exclude_sample_downstream_analysis`
+
+After that, you can include as many columns with sample metadata as you want. 
+
+
+#### What to put in each columns
+`sample_name` - the name that you want each sample to have, for clarities sake I recommend using snake_case. Please no spaces, and don't start with a number. 
+`unit` - this is for the situation when there are multiple fastq's per sample, just as the following case
+
+
+The pipeline has specific defined workflows. These are currently:
 
 #### fastq_qc
 1. Trim reads with fastp
