@@ -62,6 +62,7 @@ fastp_path: /SAN/vyplab/alb_projects/tools/fastp
 #additional parameters you might want to add on
 fastp_parameters:
   qualified_quality_phred: 10
+  overrepresentation_analysis: ""
   #use this flag if there are UMI's present, if there are, there should be a file with fastq & umi fastq present, otherwise
   #leave this flag as an empty string: ""
   #umi: ""
