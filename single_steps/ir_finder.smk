@@ -40,5 +40,6 @@ rule run_ir_finder:
         output_folder = output_dir + "{sample}"
     shell:
         """
+        rm -r {params.output_folder}
         {IRfinder_path} -m BAM -r {IRfinder_reference} -d {params.output_folder} {input}
         """
