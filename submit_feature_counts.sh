@@ -25,8 +25,8 @@ cp single_steps/feature_counts.smk $WRITEFOLDER/feature_counts.smk
 snakemake -s single_steps/feature_counts.smk \
 --jobscript cluster_qsub.sh \
 --cluster-config config/cluster.yaml \
---cluster-sync "qsub -R y -l h_vmem={cluster.h_vmem},h_rt={cluster.h_rt} -pe {cluster.pe} -o $WRITEFOLDER" \
--j 500 \
+--cluster-sync "qsub -l h_vmem={cluster.h_vmem},h_rt={cluster.h_rt} -o $FOLDER {cluster.submission_string}" \
+-j 40 \
 --nolock \
 --rerun-incomplete \
 --latency-wait 100

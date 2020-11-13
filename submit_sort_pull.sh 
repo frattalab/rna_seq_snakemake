@@ -11,19 +11,18 @@
 #$ -j y
 #$ -R y
 
-
 if [ "$1" != "" ]; then
     RUN_NAME=$1
 else
-    RUN_NAME=$"run_config"
+    RUN_NAME=$""
 fi
 
-FOLDER=submissions/$(date +"%Y%m%d%H%M")
+FOLDER=$(date +"%Y%m%d%H%M")
+WRITEFOLDER=submissions/$FOLDER
+mkdir -p $WRITEFOLDER
+cp single_steps/ir_finder.smk $WRITEFOLDER/ir_finder.smk
 
-mkdir -p $FOLDER
-cp config/config.yaml $FOLDER/$RUN_NAMEconfig.yaml
-
-snakemake -s interleave_fastqs.Snakefile \
+snakemake -s single_steps/ir_finder.smk \
 --jobscript cluster_qsub.sh \
 --cluster-config config/cluster.yaml \
 --cluster-sync "qsub -l h_vmem={cluster.h_vmem},h_rt={cluster.h_rt} -o $FOLDER {cluster.submission_string}" \
