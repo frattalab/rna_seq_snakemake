@@ -7,7 +7,6 @@ configfile: "config/config.yaml"
 #AL - I have to do this to stop align workflow breaking - you can edit the config/uncomment the second line to get it to do what you want...
 singlestep = config["tpm_singlestep"]
 print(singlestep)
-singlestep = "true"
 
 if singlestep == "true":
     project_folder =  "/SAN/vyplab/alb_projects/data/sinai_splice_junctions/"
