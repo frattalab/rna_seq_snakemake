@@ -26,7 +26,7 @@ rule name_sort:
     input:
         aligned_bam = bam_dir + "{sample}" + bam_suffix
     output:
-       temp(out_name = output_dir + "{sample}_namesorted.bam")
+       out_name = temp(output_dir + "{sample}_namesorted.bam")
     shell:
         """
         mkdir -p {output_dir}
