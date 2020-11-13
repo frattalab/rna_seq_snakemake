@@ -26,7 +26,7 @@ rule name_sort:
     input:
         aligned_bam = bam_dir + "{sample}" + bam_suffix
     output:
-       out_name = output_dir + "{sample}_namesorted.bam"
+       out_name = temp(output_dir + "{sample}_namesorted.bam")
     shell:
         """
         mkdir -p {output_dir}
@@ -43,5 +43,5 @@ rule run_ir_finder:
         output_folder = output_dir + "{sample}"
     shell:
         """
-        {IRfinder_path} -m BAM -r {IRfinder_reference} -d {output_folder} {input}
+        {IRfinder_path} -m BAM -r {IRfinder_reference} -d {params.output_folder} {input}
         """
