@@ -28,9 +28,6 @@ SPECIES_VERSION = get_species_version(config['species'])
 #the config file species parameter to
 #give the correct genome for the species
 GENOME_DIR = os.path.join(config['STAR_indices'],config['species'],SPECIES_VERSION,"star_indices_overhang" + str(config['readLen']))
-print("HI SETH::::: WHAT DOES THIS SAY?!")
-print(SAMPLE_NAMES)
-print("CGND-HRA-00013" in SAMPLE_NAMES)
 
 rule all_samtools:
 	input:
