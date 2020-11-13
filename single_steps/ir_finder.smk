@@ -19,25 +19,25 @@ print(SAMPLES)
 
 rule all:
   input:
-    expand(output_dir + "{sample}/IRFinder-IR-nondir.txt", sample = SAMPLES),
-    # expand(fastq_dir + "{sample}_1.merged.fastq.gz", sample = SAMPLES)
+    expand(output_dir + "{sample}_namesorted.bam", sample = SAMPLES),
+    # expand(output_dir + "{sample}/IRFinder-IR-nondir.txt", sample = SAMPLES)
 
 rule name_sort:
     input:
         aligned_bam = bam_dir + "{sample}" + bam_suffix
     output:
-       out_name = temp(output_dir + "{sample}_namesorted.bam")
+       out_name = output_dir + "{sample}_namesorted.bam"
     shell:
         """
         mkdir -p {output_dir}
         samtools sort -n -@ 2 {input.aligned_bam} -o {output.out_name}
         """
-rule run_ir_finder:
-    input:
-        output_dir + "{sample}_namesorted.bam"
-    output:
-        "{sample}/IRFinder-IR-nondir.txt"
-    shell:
-        """
-        {IRfinder_path} -m BAM -r {IRfinder_reference} -d {sample} {input}
-        """
+# rule run_ir_finder:
+#     input:
+#         output_dir + "{sample}_namesorted.bam"
+#     output:
+#         "{sample}/IRFinder-IR-nondir.txt"
+#     shell:
+#         """
+#         {IRfinder_path} -m BAM -r {IRfinder_reference} -d {sample} {input}
+#         """
