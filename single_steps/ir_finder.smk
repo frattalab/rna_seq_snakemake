@@ -38,8 +38,10 @@ rule run_ir_finder:
     wildcard_constraints:
         sample="|".join(SAMPLES)
     output:
-        "{sample}/IRFinder-IR-nondir.txt"
+        output_dir + "{sample}/IRFinder-IR-nondir.txt"
+    params:
+        output_folder = output_dir + "{sample}"
     shell:
         """
-        {IRfinder_path} -m BAM -r {IRfinder_reference} -d {sample} {input}
+        {IRfinder_path} -m BAM -r {IRfinder_reference} -d {output_folder} {input}
         """
