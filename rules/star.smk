@@ -30,6 +30,7 @@ SPECIES_VERSION = get_species_version(config['species'])
 GENOME_DIR = os.path.join(config['STAR_indices'],config['species'],SPECIES_VERSION,"star_indices_overhang" + str(config['readLen']))
 print("HI SETH::::: WHAT DOES THIS SAY?!")
 print(SAMPLE_NAMES)
+print("CGND-HRA-00013" in SAMPLE_NAMES)
 
 rule all_samtools:
 	input:
@@ -37,6 +38,8 @@ rule all_samtools:
 		expand(star_outdir + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES)
 
 rule run_star_pe:
+	wildcard_constraints:
+		sample="|".join(SAMPLE_NAMES)
 	input:
 		generated_index = GENOME_DIR + "/SA",
 		one = merged_outdir + "{name}_1.merged.fastq.gz",
@@ -50,8 +53,6 @@ rule run_star_pe:
 		genomeDir = GENOME_DIR,
 		outTmpDir = os.path.join(star_outdir + "{name}_tmpdir"),
 		outputPrefix = os.path.join(star_outdir + "{name}.")
-	wildcard_constraints:
-		sample="|".join(SAMPLE_NAMES)
 	threads:
 		4
 	shell:
