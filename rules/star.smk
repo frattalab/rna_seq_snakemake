@@ -48,7 +48,9 @@ rule run_star_pe:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
 		outTmpDir = os.path.join(star_outdir + "{name}_tmpdir"),
-		outputPrefix = os.path.join(star_outdir + "{name}."),
+		outputPrefix = os.path.join(star_outdir + "{name}.")
+	wildcard_constraints:
+		sample="|".join(SAMPLE_NAMES)
 	threads:
 		4
 	shell:
@@ -74,7 +76,9 @@ rule run_star_se:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
 		outTmpDir = os.path.join(star_outdir + "{name}_tmpdir"),
-		outputPrefix = os.path.join(star_outdir + "{name}."),
+		outputPrefix = os.path.join(star_outdir + "{name}.")
+	wildcard_constraints:
+		sample="|".join(SAMPLE_NAMES)
 	threads:
 		4
 	shell:
@@ -108,4 +112,3 @@ rule sort_index_bams:
 		"""
 		{config[samtools_path]} index {input}
 		"""
-
