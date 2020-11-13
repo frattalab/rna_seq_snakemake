@@ -8,6 +8,7 @@ configfile: "config/config.yaml"
 singlestep = config["tpm_singlestep"]
 print(singlestep)
 
+
 if singlestep == "true":
     project_folder =  "/SAN/vyplab/alb_projects/data/sinai_splice_junctions/"
     end_type = "pe"
