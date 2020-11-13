@@ -1,11 +1,9 @@
 import os
 # a top level folder where the bams reside
 project_dir = "/SAN/vyplab/alb_projects/data/sinai_splice_junctions/"
-out_spot = "name_sortbams/"
-bam_spot = "NYGC_bams/"
-fastq_dir = "pulled_fastq/"
-bam_suffix = ".cut.bam"
-end_type = "pe"
+out_spot = "IRFinder_kds/"
+bam_spot = "all_bams_kds_linked/"
+bam_suffix = ".Aligned.sorted.out.bam"
 IRfinder_path = "/SAN/vyplab/alb_projects/tools/IRFinder/bin/IRFinder"
 IRfinder_reference = "/SAN/vyplab/alb_projects/tools/IRFinder/REF/human_gencodev34_3"
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------

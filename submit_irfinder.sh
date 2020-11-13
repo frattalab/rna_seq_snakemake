@@ -20,7 +20,7 @@ fi
 FOLDER=$(date +"%Y%m%d%H%M")
 WRITEFOLDER=submission/$FOLDER
 mkdir -p $WRITEFOLDER
-cp single_steps/.smk $WRITEFOLDER/ir_finder.smk
+cp single_steps/ir_finder.smk $WRITEFOLDER/ir_finder.smk
 
 snakemake -s single_steps/ir_finder.smk \
 --jobscript cluster_qsub.sh \
