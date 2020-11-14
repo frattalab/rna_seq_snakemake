@@ -1,8 +1,8 @@
 import os
 # a top level folder where the bams reside
-project_dir = "/SAN/vyplab/alb_projects/data/sinai_splice_junctions/"
-out_spot = "IRFinder_kds/"
-bam_spot = "all_bams_kds_linked/"
+project_dir = "/SAN/vyplab/alb_projects/data/4su_full_ward_tdp_kd_ipsc/"
+out_spot = "IRFinder/"
+bam_spot = "STAR_aligned/"
 bam_suffix = ".Aligned.sorted.out.bam"
 IRfinder_path = "/SAN/vyplab/alb_projects/tools/IRFinder/bin/IRFinder"
 IRfinder_reference = "/SAN/vyplab/alb_projects/tools/IRFinder/REF/human_gencodev34_3"
