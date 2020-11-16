@@ -9,6 +9,8 @@ option_list = list(
                 help="output file name", metavar="character")
     make_option(c("-o", "--out"), type="character", default="out.txt",
           help="output file name; will output 3 files", metavar="character")
+    make_option(c("-o", "--out"), type="character", default="out.txt",
+          help="output file name; will output 3 files", metavar="character")
 );
 
 opt_parser = OptionParser(option_list=option_list);
