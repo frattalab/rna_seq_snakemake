@@ -8,19 +8,19 @@ option_list = list(
     make_option(c("-c", "--contrast_grep"), type="character", default=NULL,
                 help="output file name", metavar="character")
     make_option(c("-o", "--out"), type="character", default="out.txt",
-          help="output file name", metavar="character")
+          help="output file name; will output 3 files", metavar="character")
 );
 
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
 
-run_standard_deseq = function(folder_of_featurecounts,
-                               base_grep = "Ctrl",
-                               contrast_grep = "TDPKD",
-                              grep_pattern = "",
-                              suffix = ".Aligned.sorted.out.bam",
-                              baseName = "control",
-                              contrastName = 'TDPKD'
+run_standard_deseq = function(opt$folder_of_featurecounts,
+                              opt$base_grep = "Ctrl",
+                              opt$contrast_grep = "TDPKD",
+                              opt$grep_pattern = "",
+                              opt$suffix = ".Aligned.sorted.out.bam",
+                              opt$baseName = "control",
+                              opt$contrastName = 'TDPKD'
                               ){
 
 output = janitor::clean_names(read_STAR(path = opt$STAR,reshape = TRUE))

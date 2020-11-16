@@ -20,4 +20,6 @@ REFERENCE_ANNOTATION = get_gtf(config['species'])
 
 BASES, CONTRASTS = return_bases_and_contrasts('config/DESeq2comparisons.yaml')
 
-rule deseqOutput
+rule deseqOutput:
+    input:
+        expand(os.path.join(config['majiq_top_level'],"delta_psi_voila_tsv","{bse}_{contrast}" + ".psi.tsv"),zip, bse = BASES,contrast = CONTRASTS)

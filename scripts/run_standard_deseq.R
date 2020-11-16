@@ -1,3 +1,19 @@
+library(tidyverse)
+getCurrentFileLocation <-  function()
+{
+    this_file <- commandArgs() %>%
+    tibble::enframe(name = NULL) %>%
+    tidyr::separate(col=value, into=c("key", "value"), sep="=", fill='right') %>%
+    dplyr::filter(key == "--file") %>%
+    dplyr::pull(value)
+    if (length(this_file)==0)
+    {
+      this_file <- rstudioapi::getSourceEditorContext()$path
+    }
+    return(dirname(this_file))
+}
+file_location = getCurrentFileLocation()
+
 run_standard_deseq = function(folder_of_featurecounts,
                               base_grep = "Ctrl",
                               contrast_grep = "TDPKD",
@@ -8,10 +24,10 @@ run_standard_deseq = function(folder_of_featurecounts,
                               ){
     library(DESeq2)
     library(data.table)
-    library(tidyverse)
     # First we are going to load in the functions that I've written as helper scripts
-    create_feature_path = "~/Documents/GitHub/helpful_scripts/create_feature_count_table.R"
-    make_deseq_path = "~/Documents/GitHub/helpful_scripts/make_deseq_dfs.R"
+    create_feature_path = paste0(file_location, "/create_feature_count_table.R")
+    make_deseq_path = paste0(file_location,"/make_deseq_dfs.R")
+    print(create_feature_path)
     #you'll want to adjust the file paths accordingly
     #source will bring the functions in these Rscripts into the current environment
     source(create_feature_path)
