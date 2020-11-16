@@ -1,18 +1,14 @@
 library(tidyverse)
-getCurrentFileLocation <-  function()
-{
-    this_file <- commandArgs() %>%
-    tibble::enframe(name = NULL) %>%
-    tidyr::separate(col=value, into=c("key", "value"), sep="=", fill='right') %>%
-    dplyr::filter(key == "--file") %>%
-    dplyr::pull(value)
-    if (length(this_file)==0)
-    {
-      this_file <- rstudioapi::getSourceEditorContext()$path
-    }
-    return(dirname(this_file))
+library(tidyverse)
+get_this_file <- function(){
+    commandArgs() %>%
+       tibble::enframe(name=NULL) %>%
+       tidyr::separate(col=value, into=c("key", "value"), sep="=", fill='right') %>%
+       dplyr::filter(key == "--file") %>%
+       dplyr::pull(value)
 }
-file_location = getCurrentFileLocation()
+this_file <- get_this_file()
+print(this_file)
 
 run_standard_deseq = function(folder_of_featurecounts,
                               base_grep = "Ctrl",
@@ -24,6 +20,7 @@ run_standard_deseq = function(folder_of_featurecounts,
                               ){
     library(DESeq2)
     library(data.table)
+    file_location = getCurrentFileLocation()
     # First we are going to load in the functions that I've written as helper scripts
     create_feature_path = paste0(file_location, "/create_feature_count_table.R")
     make_deseq_path = paste0(file_location,"/make_deseq_dfs.R")
