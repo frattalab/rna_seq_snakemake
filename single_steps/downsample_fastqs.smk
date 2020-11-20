@@ -28,7 +28,7 @@ os.system("mkdir -p {0}".format(output_dir))
 rule all:
     input:
         expand(output_dir + "{unit}_{name}_R1_subsampled.fastq.gz",zip, unit = UNITS, name = SAMPLE_NAMES),
-        expand(output_dir + "{unit}_{name}_R2_subsampled.fastq.gz" if end_type == "pe" else [], zip, unit = UNITS, name = SAMPLE_NAMES))
+        expand(output_dir + "{unit}_{name}_R2_subsampled.fastq.gz" if end_type == "pe" else [], zip, unit = UNITS, name = SAMPLE_NAMES)
 
 
 if end_type == "pe":
@@ -42,7 +42,7 @@ if end_type == "pe":
             out_fq2 = output_dir + "{unit}_{name}_R2_subsampled.fastq.gz"
 
         params:
-            script = bbmap_path + "reformat.sh"
+            script = bbmap_path + "reformat.sh",
             n_pairs = n_reads
 
         threads:
@@ -64,7 +64,7 @@ else:
             out_fq1 = output_dir + "{unit}_{name}_R1_subsampled.fastq.gz",
 
         params:
-            script = bbmap_path + "reformat.sh"
+            script = bbmap_path + "reformat.sh",
             n = n_reads
 
         threads:
