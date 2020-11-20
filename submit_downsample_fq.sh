@@ -25,7 +25,7 @@ cp single_steps/downsample_fastqs.smk $WRITEFOLDER/downsample_fastqs.smk
 snakemake -s single_steps/downsample_fastqs.smk \
 --jobscript cluster_qsub.sh \
 --cluster-config config/cluster.yaml \
---cluster-sync "qsub -l h_vmem={cluster.h_vmem},h_rt={cluster.h_rt} -o $FOLDER {cluster.submission_string}" \
+--cluster-sync "qsub -l h_vmem={cluster.h_vmem},h_rt={cluster.h_rt} -o $WRITEFOLDER {cluster.submission_string}" \
 -j 40 \
 --nolock \
 --rerun-incomplete \

@@ -60,3 +60,7 @@ interleave_fastqs:
     h_vmem:   8G
     tmem:   8G
     h_rt: 72:00:00
+subsample_fastqs:
+    h_vmem:   8G
+    tmem:   8G
+    h_rt: 72:00:00
