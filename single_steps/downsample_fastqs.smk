@@ -17,13 +17,24 @@ end_type = "pe" #"pe" or something not "pe" if single-ended data
 ## Below shouldn't change
 
 bbmap_path = "/SAN/vyplab/alb_projects/tools/BBMap_38_86/bbmap/"
-SAMPLES = pd.read_csv(config["sampleCSVpath"], sep=",")
+SAMPLES = pd.read_csv(sample_tbl_path, sep=",")
 UNITS = SAMPLES['unit'].tolist()
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
 
+#print(SAMPLES)
+#print("\n----THIS IS SAMPLE_NAMES----\n")
+#print(SAMPLE_NAMES)
+#print(SAMPLES.columns.values)
+#print(SAMPLES.loc[(SAMPLES['sample_name'] == 'Cont-A_S1') & (SAMPLES['unit'] == 'Cont-A_S1')]["fast1"].values[0])
+
 
 os.system("mkdir -p {0}".format(output_dir))
+
+wildcard_constraints:
+            unit="|".join(UNITS),
+            name="|".join(SAMPLE_NAMES)
+
 
 rule all:
     input:
@@ -34,8 +45,8 @@ rule all:
 if end_type == "pe":
     rule subsample_fastqs:
         input:
-            fq1 = lambda wildcards: return_fastq(wildcards.name,wildcards.unit,first_pair = True),
-            fq2 = lambda wildcards: return_fastq(wildcards.name,wildcards.unit,first_pair = False)
+            fq1 = lambda wildcards: SAMPLES.loc[(SAMPLES['sample_name'] == wildcards.name) & (SAMPLES['unit'] == wildcards.unit)]["fast1"].values[0],
+            fq2 = lambda wildcards: SAMPLES.loc[(SAMPLES['sample_name'] == wildcards.name) & (SAMPLES['unit'] == wildcards.unit)]["fast2"].values[0]
 
         output:
             out_fq1 = output_dir + "{unit}_{name}_R1_subsampled.fastq.gz",
@@ -52,13 +63,13 @@ if end_type == "pe":
             """
             bash {params.script} in={input.fq1} in2={input.fq2} \
             out={output.out_fq1} out2={output.out_fq2} \
-            srt={params.n_pairs}")
+            srt={params.n_pairs}
             """
 
 else:
     rule subsample_fastqs:
         input:
-            fq1 = lambda wildcards: return_fastq(wildcards.name,wildcards.unit,first_pair = True)
+            fq1 = lambda wildcards: SAMPLES.loc[(SAMPLES['sample_name'] == wildcards.name) & (SAMPLES['unit'] == wildcards.unit)]["fast1"].values[0]
 
         output:
             out_fq1 = output_dir + "{unit}_{name}_R1_subsampled.fastq.gz",
