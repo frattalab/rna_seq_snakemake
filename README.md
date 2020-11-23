@@ -1,9 +1,9 @@
 
 See links to instruction sections below:
 
-- [Designing sample sheet](#how-to-make-a-sample-sheet)
-- [Running pipeline](#how-to-run-the-pipeline)
-- [Testing and update pipeline](#testing-and-updating-the-pipeline)
+- [Designing a sample sheet](#how-to-make-a-sample-sheet)
+- [Running the pipeline](#how-to-run-the-pipeline)
+- [Testing and updating the pipeline](#testing-and-updating-the-pipeline)
 - [Checklist before pull requests](#what-to-do-before-pull-requests-or-feature-additions)
 
 The only thing you should need to edit is the config.yaml file. All directory paths should end with a trailing /
