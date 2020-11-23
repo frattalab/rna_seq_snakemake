@@ -43,8 +43,8 @@ sort_index_bams:
     h_rt: 72:00:00
 sort_bams:
     submission_string: "-pe smp 4 -R y"
-    h_vmem:   2G
-    tmem:   2G
+    h_vmem:   6G
+    tmem:   6G
     h_rt: 72:00:00
 run_te:
     h_vmem:    16G
