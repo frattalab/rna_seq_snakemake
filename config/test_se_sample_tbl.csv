@@ -1,0 +1,4 @@
+sample_name,unit,fast1,fast2,exclude_sample_downstream_analysis,group
+Cont-A_S1,Cont-A_S1,/SAN/vyplab/vyplab_reference_genomes/pipeline_test_data/ward_tiny_fastqs/Cont-A_S1_Cont-A_S1_R1_subsampled.fastq.gz,,,control
+Cont-B_S2,Cont-B_S2,/SAN/vyplab/vyplab_reference_genomes/pipeline_test_data/ward_tiny_fastqs/Cont-B_S2_Cont-B_S2_R1_subsampled.fastq.gz,,,control
+TDP43-E_S5,TDP43-E_S5,/SAN/vyplab/vyplab_reference_genomes/pipeline_test_data/ward_tiny_fastqs/TDP43-E_S5_TDP43-E_S5_R1_subsampled.fastq.gz,,,tdpKD
