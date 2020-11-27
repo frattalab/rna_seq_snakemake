@@ -1,11 +1,11 @@
 import os
 # a top level folder where the bams reside
-project_dir = "/SAN/vyplab/alb_projects/data/4su_full_ward_tdp_kd_ipsc/"
+project_dir = "/SAN/vyplab/alb_projects/data/4su_tdp_f210i/"
 out_spot = "IRFinder/"
-bam_spot = "STAR_aligned/"
+bam_spot = "STAR_aligned_redone/"
 bam_suffix = ".Aligned.sorted.out.bam"
 IRfinder_path = "/SAN/vyplab/alb_projects/tools/IRFinder/bin/IRFinder"
-IRfinder_reference = "/SAN/vyplab/alb_projects/tools/IRFinder/REF/human_gencodev34_3"
+IRfinder_reference = "/SAN/vyplab/alb_projects/tools/IRFinder/REF/mouse_gencode_v25/irfinder/"
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
 
 output_dir = os.path.join(project_dir,out_spot)

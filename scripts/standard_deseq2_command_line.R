@@ -16,20 +16,21 @@ option_list = list(
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
 
-run_standard_deseq = function(opt$folder_of_featurecounts,
-                              opt$base_grep = "Ctrl",
-                              opt$contrast_grep = "TDPKD",
-                              opt$grep_pattern = "",
-                              opt$suffix = ".Aligned.sorted.out.bam",
-                              opt$baseName = "control",
-                              opt$contrastName = 'TDPKD'
-                              ){
+standard_output = run_standard_deseq(opt$folder_of_featurecounts,
+                              base_grep = opt$base_grep,
+                              contrast_grep = opt$contrast_grep,
+                              grep_pattern = opt$grep_pattern,
+                              suffix = opt$suffix,
+                              baseName = opt$baseName,
+                              contrastName = opt$contrastName
+                              )
 
-output = janitor::clean_names(read_STAR(path = opt$STAR,reshape = TRUE))
+normed_counts_standard =  as.data.frame(counts(standard_output$deseq_obj, normalized = T)) %>% rownames_to_column("sample_name")
+unnormed_counts_standard =  as.data.frame(counts(standard_output$deseq_obj)) %>% rownames_to_column("sample_name")
 
-data.table::fwrite(output, opt$out)
+standard_output$results_table %>% fwrite(paste0(opt$out, "results.csv"))
 
-buratti_dzap = run_standard_deseq(folder_of_featurecounts = "/Users/annaleigh/Documents/GitHub/sinai_splice/data/buratti_dzap/",
-                             base_grep = "LUC",
-                             contrast_grep = 'TDP',
-                             suffix = "unique_rg_fixed.bam")
+meta_data = as.data.frame(colData(standard_output$deseq_obj)) %>% rownames_to_column("sample_name")
+meta_data %>% fwrite(paste0(opt$out, "meta_data.csv"))
+unnormed_counts_standard %>% fwrite(paste0(opt$out, "unnormed_counts.csv.gz"))
+normed_counts_standard %>% fwrite(paste0(opt$out, "normed_counts.csv.gz"))
