@@ -11,7 +11,7 @@ gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v34
 
 feature_counts_strand_info = "-s 0"
 end_type = "pe"
-bam_suffix = ".Aligned.sorted.out.bam"
+bam_suffix = "_unique_rg_fixed.bam"
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
 feature_counts_path = "/SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts"
 
