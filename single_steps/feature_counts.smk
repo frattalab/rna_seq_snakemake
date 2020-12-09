@@ -1,6 +1,6 @@
 import os
 # a top level folder where the bams reside
-project_dir = "/SAN/vyplab/alb_projects/data/linked_buratti_hnrnpk/linked_bams/"
+project_dir = "/SAN/vyplab/alb_projects/data/linked_buratti_hnrnpk/"
 out_spot = "feature_counts/"
 bam_spot = "linked_bams/"
 
