@@ -1,7 +1,7 @@
 import os
 # a top level folder where the bams reside
 project_dir = "/SAN/vyplab/alb_projects/data/linked_buratti_hnrnpk/"
-out_spot = "feature_counts/"
+out_spot = "feature_counts_one/"
 bam_spot = "linked_bams/"
 
 # mouse and human gtf, comment dependening on your species
@@ -9,7 +9,7 @@ bam_spot = "linked_bams/"
 # gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v31.annotation.gtf"
 gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v34.annotation.gtf"
 
-feature_counts_strand_info = "-s 0"
+feature_counts_strand_info = "-s 1"
 end_type = "pe"
 bam_suffix = "_unique_rg_fixed.bam"
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
