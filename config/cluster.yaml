@@ -68,3 +68,8 @@ fastp_trimming:
     h_vmem:   8G
     tmem:   8G
     h_rt: 72:00:00
+megadepth_coverage:
+    submission_string: "-pe smp 2 -R y"
+    h_vmem:   8G
+    tmem:   8G
+    h_rt: 72:00:00
