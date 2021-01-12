@@ -20,7 +20,7 @@ bed_path = "/SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/inte
 operation = "mean"
 
 #Make sure trailing slash
-output_dir = "/SAN/vyplab/data/nanopore/IPSC_TDP43_KD_direct_rna/intergenic_mean_coverage/"
+output_dir = "/SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/intergenic_mean_coverage/"
 
 megadepth_path = "/SAN/vyplab/alb_projects/tools/megadepth"
 
