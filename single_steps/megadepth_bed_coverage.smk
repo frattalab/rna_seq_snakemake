@@ -25,9 +25,9 @@ output_dir = "/SAN/vyplab/data/nanopore/IPSC_TDP43_KD_direct_rna/intergenic_mean
 megadepth_path = "/SAN/vyplab/alb_projects/tools/megadepth"
 
 
-SAMPLES = [f.rstrip(bam_suffix) for f in os.listdir(bam_dir) if f.endswith(bam_suffix)]
+SAMPLES = [f.replace(bam_suffix, "") for f in os.listdir(bam_dir) if f.endswith(bam_suffix)]
 
-print("SAMPLES")
+print(SAMPLES)
 
 
 rule all:
