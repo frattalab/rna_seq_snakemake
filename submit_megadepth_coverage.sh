@@ -18,7 +18,7 @@ else
 fi
 
 FOLDER=$(date +"%Y%m%d%H%M")
-WRITEFOLDER=submission/$FOLDER
+WRITEFOLDER=submissions/$FOLDER
 mkdir -p $WRITEFOLDER
 cp single_steps/megadepth_bed_coverage.smk $WRITEFOLDER/megadepth_bed_coverage.smk
 
