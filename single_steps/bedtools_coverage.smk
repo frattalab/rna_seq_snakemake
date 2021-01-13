@@ -45,8 +45,8 @@ depth = "-d"
 # If just want per-base coverages, assign to an empty list with []
 operations = ["mean","median"]
 
-#1-based - which column should operation be performed on? (with depth = -d, this is the 6th column)
-operation_column = 6
+#1-based - which column should operation be performed on? (with depth = -d & a 6 col BED, this is the 8th column)
+operation_column = 8
 
 # No need to change these unless necessary
 
