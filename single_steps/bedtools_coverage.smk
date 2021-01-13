@@ -107,14 +107,13 @@ rule bedtools_coverage:
 
 rule bedtools_groupby:
     input:
-        output_dir + "{sample}.coverage.per_base.tsv"
+        output_dir + "{sample}.coverage.per_base.tsv",
 
     output:
         output_dir + "{sample}.coverage.{operation}.tsv"
 
     params:
         path = bedtools_path,
-        op = wildcards.operation,
         op_col = operation_column
 
     shell:
@@ -122,5 +121,5 @@ rule bedtools_groupby:
         {params.path} groupby -i {input} \
         -g 1,2,3 \
         -c {params.op_col} \
-        -o {params.op} > {output}
+        -o {wildcards.operation} > {output}
         """
