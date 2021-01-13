@@ -44,13 +44,15 @@ depth = "-d"
 # distinct, concat, freqasc, freqdesc, first, last
 # If just want per-base coverages, assign to an empty list with []
 operations = ["mean","median"]
+
 #1-based - which column should operation be performed on? (with depth = -d, this is the 6th column)
 operation_column = 6
 
-# No need to change these two
+# No need to change these unless necessary
+
 sorted = "-sorted"
 bedtools_path = "/SAN/vyplab/alb_projects/tools/bedtools"
-
+samtools_path = "/share/apps/genomics/samtools-1.9/bin/samtools"
 ########-----------------
 
 SAMPLES = [f.replace(bam_suffix, "") for f in os.listdir(bam_dir) if f.endswith(bam_suffix)]
@@ -68,23 +70,33 @@ rule all:
         expand(output_dir + "{sample}.coverage.per_base.tsv", sample = SAMPLES),
         expand(output_dir + "{sample}.coverage.{operation}.tsv" if len(operations) > 0 else [], sample = SAMPLES, operation = operations)
 
-# Sort on chromosome and then by start position - allows use of -sorted option which is less memory intensive on large files
-rule sort_bed:
+
+# Get order of chromosome reference names from header of BAM file
+# Enables sorting BED for each sample, so can use -sorted option
+# Error otherwise thrown (similar to https://github.com/arq5x/bedtools/issues/109)
+# -sorted option is less memory intensive on large files
+# https://www.biostars.org/p/70795/ - finswimmer answer (minus a unmatched quote)
+
+rule bam_chrom_order:
     input:
-        bed_path
+        os.path.join(bam_dir, "{sample}" + bam_suffix)
 
     output:
-        temp(output_dir + "sorted.bed")
+        temp(output_dir + "{sample}.genome.txt")
+
+    params:
+        samtools_path
 
     shell:
         """
-        sort -k1,1 -k2,2n {input} > {output}
+        {params} view -H {input} | grep @SQ | sed 's/@SQ\tSN:\|LN://g' > {output}
         """
 
 rule bedtools_coverage:
     input:
         bam = os.path.join(bam_dir, "{sample}" + bam_suffix),
-        bed = output_dir + "sorted.bed"
+        bed = bed_path,
+        chr_order = output_dir + "{sample}.genome.txt"
 
     output:
         output_dir + "{sample}.coverage.per_base.tsv"
@@ -97,8 +109,9 @@ rule bedtools_coverage:
 
     shell:
         """
+        bedtools sort -i {input.bed} -g {input.chr_order} | \
         {params.path} coverage \
-        -a {input.bed} \
+        -a stdin \
         -b {input.bam} \
         {params.strand} \
         {params.per_base} \
