@@ -109,7 +109,7 @@ rule bedtools_coverage:
 
     shell:
         """
-        bedtools sort -i {input.bed} -g {input.chr_order} | \
+        {params.path} sort -i {input.bed} -g {input.chr_order} | \
         {params.path} coverage \
         -a stdin \
         -b {input.bam} \
