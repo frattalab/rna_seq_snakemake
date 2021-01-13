@@ -100,7 +100,7 @@ rule bedtools_coverage:
         {params.path} coverage \
         -a {input.bed} \
         -b {input.bam} \
-        {params.stranded} \
+        {params.strand} \
         {params.per_base} \
         {params.sorted} > {output}
         """
