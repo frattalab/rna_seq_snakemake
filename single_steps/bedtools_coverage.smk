@@ -105,7 +105,8 @@ rule bedtools_coverage:
         path = bedtools_path,
         strand = strandedness,
         per_base = depth,
-        sorted = sorted
+        sorted = sorted,
+        genome = " ".join(["-g" + os.path.join(output_dir + "{sample}.genome.txt")]) if sorted == "-sorted" else ""
 
     shell:
         """
@@ -115,6 +116,7 @@ rule bedtools_coverage:
         -b {input.bam} \
         {params.strand} \
         {params.per_base} \
+        {params.genome} \
         {params.sorted} > {output}
         """
 
