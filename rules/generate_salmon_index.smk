@@ -91,8 +91,8 @@ rule salmon_index:
         decoys = os.path.join(DECOYS_DIR, "decoys.txt")
 
     output:
-        TXOME_DIR + "seq.bin",
-        TXOME_DIR + "pos.bin"
+        os.path.join(TXOME_DIR, "seq.bin"),
+        os.path.join(TXOME_DIR, "pos.bin")
 
     params:
         salmon = config["salmon_path"],
