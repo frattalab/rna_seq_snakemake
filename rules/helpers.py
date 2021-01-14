@@ -185,7 +185,7 @@ def return_bases_and_contrasts(comparison_yaml):
     return(base_keys,contrast_keys)
 
 
-def salmon_target_index(txome_dir, species, species_version, decoy_type, kmer_size):
+def salmon_target_index(txome_dir, species, species_version, decoy_type, annot_version, kmer_size):
     '''
     Which transcriptome index should Salmon use/generate?
 
@@ -213,4 +213,4 @@ def salmon_target_index(txome_dir, species, species_version, decoy_type, kmer_si
         raise ValueError("{0} is invalid value for decoy_type. Must be one of 'full' or 'partial'".format(decoy_type))
 
     else:
-        return os.path.join(txome_dir, species, species_version, ".".join([decoy_type, "kmer_" + str(kmer_size)]))
+        return os.path.join(txome_dir, species, species_version, ".".join([decoy_type, annot_version, "kmer_" + str(kmer_size)]))
