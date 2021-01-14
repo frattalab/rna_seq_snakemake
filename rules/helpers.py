@@ -102,7 +102,7 @@ def get_species_version(species):
 
 def get_annotation_version(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
-    return(temp.annotation_version[temp.species == species].tolist()[0])
+    return (temp.annotation_version[temp.species == species].tolist()[0])
 
 
 def get_genome_fasta(species):
@@ -126,12 +126,15 @@ def get_kallisto_strand(fcStrand):
     elif fcStrand == "-s 2":
         return("--rf-stranded")
 
+
 def get_salmon_strand(fcStrand):
     '''
     Return string for salmon libtype denoting strandedness/orientation of library.
     Parses featureCounts strand and returns corresponding salmon libtype string
     (include option to return the let Salmon infer for you string)
     '''
+    return "placeholder"
+
 
 def get_collectRnaSeq_strand(fcStrand):
     if fcStrand == "-s 0":
