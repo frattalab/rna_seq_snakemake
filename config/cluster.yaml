@@ -73,3 +73,8 @@ megadepth_coverage:
     h_vmem:   8G
     tmem:   8G
     h_rt: 72:00:00
+salmon_index:
+    submission_string: "-pe smp 2 -R y"
+    h_vmem:   8G
+    tmem:   8G
+    h_rt: 72:00:00
