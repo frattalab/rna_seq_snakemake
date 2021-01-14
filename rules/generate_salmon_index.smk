@@ -27,6 +27,20 @@ if not os.path.exists(DECOYS_DIR):
     os.system("mkdir -p {}".format(DECOYS_DIR))
 
 
+###### RULE ORDER DIRECTIVE
+## To make deciding the input to index easier, I gave index the same input file path
+## Since both partial and full output.produce the same file, I need to enforce rule order depending on DECOY_TYPE to prevent an AmbiguousRuleException
+
+# if paired end, use the paired end rule to run, if single end use the single end rule to run
+if DECOY_TYPE == "full":
+    ruleorder: generate_full_decoys > generate_partial_decoys
+elif DECOY_TYPE == "partial":
+    ruleorder: generate_partial_decoys > generate_full_decoys
+else:
+    raise ValueError("{} is invalid value for salmon_index_type. Must be one of 'full' or 'partial'".format(DECOY_TYPE))
+
+
+###### WORKFLOW DEFINITION
 
 rule all_salmon_index:
     input:
