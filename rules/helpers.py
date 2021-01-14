@@ -213,4 +213,4 @@ def salmon_target_index(txome_dir, species, species_version, decoy_type, annot_v
         raise ValueError("{0} is invalid value for decoy_type. Must be one of 'full' or 'partial'".format(decoy_type))
 
     else:
-        return os.path.join(txome_dir, species, species_version, ".".join([decoy_type, annot_version, "kmer_" + str(kmer_size)]))
+        return os.path.join(txome_dir, species, species_version, decoy_type, ".".join([annot_version, "kmer_" + str(kmer_size)]))
