@@ -4,18 +4,27 @@ import subprocess
 
 configfile: "config/config.yaml"
 include: "../rules/helpers.py"
-SPECIES_VERSION = get_species_version(config['species'])
-GENOME_DIR = os.path.join(config['STAR_indices'],config['species'],SPECIES_VERSION,"star_indices_overhang" + str(config['readLen']))
-FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
 
+
+
+#GENOME_DIR = os.path.join(config['STAR_indices'],config['species'],SPECIES_VERSION,"star_indices_overhang" + str(config['readLen']))
+INDEX_DIR = config["salmon_indices"]
+SPECIES = config["species"]
+SPECIES_VERSION = get_species_version(SPECIES)
+ANNOTATION_VERSION = get_annotation_version(SPECIES)
+DECOY_TYPE = config["salmon_index_type"]
+KMER_SIZE = config["salmon_index_kmer_size"]
+
+TXOME_DIR = salmon_target_index(INDEX_DIR, SPECIES, SPECIES_VERSION, DECOY_TYPE, ANNOTATION_VERSION, KMER_SIZE)
 
 #zip them into a directory to make getting the location easier
+FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
 SAMPLES = pd.read_csv(config["sampleCSVpath"], sep = ",")
 SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
-TXOME_DIR = salmon_target_index(INDEX_DIR, SPECIES, SPECIES_VERSION, DECOY_TYPE, ANNOTATION_VERSION, KMER_SIZE)
+
 
 #Construct all output directory strings needed for workflow definition
 fastqc_outdir = get_output_dir(config["project_top_level"], config["fastqc_output_folder"])
