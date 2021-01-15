@@ -33,11 +33,11 @@ salmon_outdir = get_output_dir(config["project_top_level"], config["salmon_outpu
 include: "../rules/fastp.smk"
 include: "../rules/fastqc.smk"
 include: "../rules/generate_salmon_index.smk"
-include: "../rules/salmon.smk"
+include: "../rules/salmon_quant.smk"
 
 rule all:
     input:
-        expand(output_dir + "{sample}/" + "quant.sf", sample = SAMPLES),
+        expand(salmon_outdir + "{sample}/" + "quant.sf", sample = SAMPLES),
         #os.path.join(TXOME_DIR, "seq.bin"),
         #os.path.join(TXOME_DIR, "pos.bin")
         #expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
