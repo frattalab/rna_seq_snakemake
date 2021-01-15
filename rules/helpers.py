@@ -131,10 +131,16 @@ def get_salmon_strand(fcStrand):
     '''
     Return string for salmon libtype denoting strandedness/orientation of library.
     Parses featureCounts strand and returns corresponding salmon libtype string
-    (include option to return the let Salmon infer for you string)
+    (should include option to return the let Salmon infer for you string)
     '''
-    return "placeholder"
+    if fcStrand == "-s 0":
+        return "IU"
 
+    elif fcStrand == "-s 1":
+        return "ISF"
+
+    elif fcStrand == "-s 2":
+        return "ISR"
 
 def get_collectRnaSeq_strand(fcStrand):
     if fcStrand == "-s 0":

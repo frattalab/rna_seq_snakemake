@@ -45,7 +45,7 @@ fastp_trimmed_output_folder: fastp_trimmed/
 star_output_folder: STAR_aligned/
 merged_fastq_folder: merged_fastqs/
 feature_counts_output_folder: feature_counts/
-salmon_output_folder: salmon/
+salmon_output_folder: salmon_quant/
 tpmcalculator_output_folder: TPMcalculator/ #this is redundant due to only outputting to working dir unless make simple rule to copy output here
 interleave_master_output_folder: interleaved_fastq/
 
@@ -97,8 +97,13 @@ star_path: /SAN/vyplab/alb_projects/tools/STAR/bin/Linux_x86_64_static/STAR
 ## SALMON PARAMETERS
 #########################
 
-# Master directory for salmon indexes. #DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
-salmon_indices: /SAN/vyplab/vyplab_reference_genomes/salmon/
+
+extra_salmon_parameters:
+  gcBias:
+  seqBias:
+  #posBias:
+  numBootstraps: 50
+
 
 # Which type of decoy-aware transcriptome index to use for salmon quant
 # If reads align better to decoys than annotated transcripts, discarded for purposes of quantification
@@ -110,10 +115,13 @@ salmon_index_type: "full"
 # Size of k-mers used to generate index. 31 recommended for read lengths 75+ bp
 salmon_index_kmer_size: 31
 
+
+
+# Master directory for salmon indexes. #DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
+salmon_indices: /SAN/vyplab/vyplab_reference_genomes/salmon/
+
 #Location of salmon exe
 salmon_path: /SAN/vyplab/alb_projects/tools/salmon-1.4.0/salmon-latest_linux_x86_64/bin/salmon
-
-
 
 
 #This is script provided/recommended in Salmon manual to generate a 'partial' decoy transcriptome for Salmon selective alignment
