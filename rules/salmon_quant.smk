@@ -64,8 +64,8 @@ rule all:
 
 rule salmon_quant:
     input:
-        fast1 = fastq_dir  + "{sample}_1.merged.fastq.gz",
-        fast2 = fastq_dir  + "{sample}_2.merged.fastq.gz",
+        fast1 = FASTQ_DIR  + "{sample}_1.merged.fastq.gz",
+        fast2 = FASTQ_DIR  + "{sample}_2.merged.fastq.gz",
         index = os.path.join(TXOME_DIR, "seq.bin")
 
     output:
