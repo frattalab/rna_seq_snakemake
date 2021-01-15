@@ -91,5 +91,5 @@ rule salmon_quant:
         --geneMap {params.gtf} \
         --threads {threads} \
         {params.extra_params} \
-        -o {param.output_dir} \
+        -o {params.output_dir} \
         """
