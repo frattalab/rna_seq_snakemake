@@ -33,9 +33,13 @@ if not os.path.exists(DECOYS_DIR):
 
 # if paired end, use the paired end rule to run, if single end use the single end rule to run
 if DECOY_TYPE == "full":
+
     ruleorder: generate_full_decoys > generate_partial_decoys
+
 elif DECOY_TYPE == "partial":
+
     ruleorder: generate_partial_decoys > generate_full_decoys
+
 else:
     raise ValueError("{} is invalid value for salmon_index_type. Must be one of 'full' or 'partial'".format(DECOY_TYPE))
 
