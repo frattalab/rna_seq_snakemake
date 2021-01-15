@@ -59,7 +59,7 @@ SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
 rule all:
     input:
-        expand(output_dir + "{sample}/" + "quant.sf", sample = SAMPLES)
+        expand(OUTPUT_DIR + "{sample}/" + "quant.sf", sample = SAMPLES)
 
 
 rule salmon_quant:
