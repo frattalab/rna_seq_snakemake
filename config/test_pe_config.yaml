@@ -17,7 +17,7 @@ species: "human"
 readLen: 150
 ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
 #consult featureCounts documentation for correct string to pass
-feature_counts_strand_info: "-s 0"
+feature_counts_strand_info: "-s 2"
 # one of 'fastq_qc', 'align', 'interleave_fastq_qc'
 #See README for description of what each workflow involves
 workflow: align
@@ -115,7 +115,9 @@ salmon_index_type: "full"
 # Size of k-mers used to generate index. 31 recommended for read lengths 75+ bp
 salmon_index_kmer_size: 31
 
-
+# "gencode" or anything else if transcriptome is not from gencode.
+# Controls whether --gencode is passed to salmon index command
+transcriptome_source: gencode
 
 # Master directory for salmon indexes. #DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
 salmon_indices: /SAN/vyplab/vyplab_reference_genomes/salmon/

@@ -116,9 +116,10 @@ rule salmon_index:
         salmon = config["salmon_path"],
         k = KMER_SIZE,
         outdir = TXOME_DIR,
+        gencode = "--gencode" if config["transcriptome_source"] == "gencode" else ""
 
     threads:
-        2
+        4
 
     shell:
         """
@@ -127,5 +128,6 @@ rule salmon_index:
         -i {params.outdir} \
         --decoys {input.decoys} \
         -k {params.k} \
+        {params.gencode} \
         -p {threads}
         """
