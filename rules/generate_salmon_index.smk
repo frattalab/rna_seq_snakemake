@@ -71,7 +71,7 @@ rule generate_partial_decoys:
         mashmap = config["mashmap_path"]
 
     threads:
-        2
+        4
 
     shell:
         """
