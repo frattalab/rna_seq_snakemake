@@ -70,9 +70,13 @@ rule generate_partial_decoys:
         bedtools = config["bedtools_path"],
         mashmap = config["mashmap_path"]
 
+    threads:
+        2
+
     shell:
         """
         bash {params.script} \
+        -j {threads} \
         -a {input.gtf} \
         -g {input.genome_fa} \
         -t {input.txome_fa} \
