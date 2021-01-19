@@ -48,7 +48,7 @@ depth = options_dict["depth"]
 operations = options_dict["operations"]
 
 #1-based - which column should operation be performed on? (with depth = -d & a 6 col BED, this is the 8th column)
-operation_column = options_dict["operations_column"]
+operation_column = options_dict["operation_column"]
 
 # No need to change these unless necessary
 
