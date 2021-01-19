@@ -152,8 +152,8 @@ rule bedtools_groupby:
 rule copy_config:
     input:
         conf = config_path,
-        expand(output_dir + "{sample}.coverage.per_base.tsv", sample = SAMPLES),
-        expand(output_dir + "{sample}.coverage.{operation}.tsv" if len(operations) > 0 else [], sample = SAMPLES, operation = operations)
+        per_base = expand(output_dir + "{sample}.coverage.per_base.tsv", sample = SAMPLES),
+        summary = expand(output_dir + "{sample}.coverage.{operation}.tsv" if len(operations) > 0 else [], sample = SAMPLES, operation = operations)
 
     output:
         os.path.join(output_dir, config_path)
