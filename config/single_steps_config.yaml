@@ -11,7 +11,7 @@ bedtools_coverage:
     # e.g. Cont-B_S2.pass2Aligned.sortedByCoord.out.bam becomes Cont-B_S2
     bam_suffix: ".pass2Aligned.sortedByCoord.out.bam"
 
-    bed_path: /SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/intergenic_mean_coverage/simple_gene_downstream_bins_batch_1.bed
+    bed_path: /SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/all_downstream_strand_specific_intergenic_coverage/all_samples.downstream.all_bins.bed
 
     #Make sure trailing slash
     output_dir: /SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/all_downstream_strand_specific_intergenic_coverage/
