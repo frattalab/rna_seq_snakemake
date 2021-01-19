@@ -1,4 +1,4 @@
-#configfile: "config.yaml"
+configfile: "config/single_steps_config.yaml"
 import os
 
 
@@ -13,17 +13,20 @@ As I've currently set up:
 #########---------------
 ## Input parameters
 #########---------------
-bam_dir = "/SAN/vyplab/alb_projects/data/ward_bams/bam_files/"
+options_dict = config["bedtools_coverage"]
+config_path = "config/single_steps_config.yaml" # this is for copying later
+
+bam_dir = options_dict["bam_dir"]
 
 # Pick out bams from bam_dir with this bam_suffix
 # Also used to strip from file to get sample name
 # e.g. Cont-B_S2.pass2Aligned.sortedByCoord.out.bam becomes Cont-B_S2
-bam_suffix = ".pass2Aligned.sortedByCoord.out.bam"
+bam_suffix = options_dict["bam_suffix"]
 
-bed_path = "/SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/intergenic_mean_coverage/simple_gene_downstream_bins_batch_1.bed"
+bed_path = options_dict["bed_path"]
 
 #Make sure trailing slash
-output_dir = "/SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/bedtools_strand_specific_intergenic_coverage/"
+output_dir = options_dict["output_dir"]
 
 #########---------------
 ## BEDTOOLS PARAMETERS
@@ -33,26 +36,25 @@ output_dir = "/SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/be
 
 # -s - only report hits overlapping on the same strand
 # -S - only report hits overlapping on opposite strands
-strandedness = "-s"
+strandedness = options_dict["strandedness"]
 
 # Report the depth at each position in each interval
-depth = "-d"
-
+depth = options_dict["depth"]
 # what operations to summarise coverage in each intervals from bed_path? All below are valid strings
 # sum, count, count_distinct, min, max, last
 # median, mode, antimode, stdev, sstdev, collapse
 # distinct, concat, freqasc, freqdesc, first, last
 # If just want per-base coverages, assign to an empty list with []
-operations = ["mean","median"]
+operations = options_dict["operations"]
 
 #1-based - which column should operation be performed on? (with depth = -d & a 6 col BED, this is the 8th column)
-operation_column = 8
+operation_column = options_dict["operations_column"]
 
 # No need to change these unless necessary
 
-sorted = "-sorted"
-bedtools_path = "/SAN/vyplab/alb_projects/tools/bedtools"
-samtools_path = "/share/apps/genomics/samtools-1.9/bin/samtools"
+sorted = options_dict["sorted"]
+bedtools_path = options_dict["bedtools_path"]
+samtools_path = options_dict["samtools_path"]
 ########-----------------
 
 SAMPLES = [f.replace(bam_suffix, "") for f in os.listdir(bam_dir) if f.endswith(bam_suffix)]
@@ -64,12 +66,13 @@ if not os._exists(output_dir):
 
 
 ########-----------------
+localrules: all, copy_config
 
 rule all:
     input:
         expand(output_dir + "{sample}.coverage.per_base.tsv", sample = SAMPLES),
         expand(output_dir + "{sample}.coverage.{operation}.tsv" if len(operations) > 0 else [], sample = SAMPLES, operation = operations)
-
+        os.path.join(output_dir, config_path)
 
 # Get order of chromosome reference names from header of BAM file
 # Enables sorting BED for each sample, so can use -sorted option
@@ -86,6 +89,8 @@ rule bam_chrom_order:
 
     params:
         samtools_path
+
+    group: "group1"
 
     shell:
         """
@@ -107,6 +112,8 @@ rule bedtools_coverage:
         per_base = depth,
         sorted = sorted,
         genome = " ".join(["-g", os.path.join(output_dir + "{sample}.genome.txt")]) if sorted == "-sorted" else ""
+
+    group: "group1"
 
     shell:
         """
@@ -131,10 +138,27 @@ rule bedtools_groupby:
         path = bedtools_path,
         op_col = operation_column
 
+    group: "group1"
+
     shell:
         """
         {params.path} groupby -i {input} \
         -g 1,2,3 \
         -c {params.op_col} \
         -o {wildcards.operation} > {output}
+        """
+
+
+rule copy_config:
+    input:
+        conf = config_path,
+        expand(output_dir + "{sample}.coverage.per_base.tsv", sample = SAMPLES),
+        expand(output_dir + "{sample}.coverage.{operation}.tsv" if len(operations) > 0 else [], sample = SAMPLES, operation = operations)
+
+    output:
+        os.path.join(output_dir, config_path)
+
+    shell:
+        """
+        cp {input.conf} {output}
         """
