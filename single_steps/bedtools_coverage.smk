@@ -71,7 +71,7 @@ localrules: all, copy_config
 rule all:
     input:
         expand(output_dir + "{sample}.coverage.per_base.tsv", sample = SAMPLES),
-        expand(output_dir + "{sample}.coverage.{operation}.tsv" if len(operations) > 0 else [], sample = SAMPLES, operation = operations)
+        expand(output_dir + "{sample}.coverage.{operation}.tsv" if len(operations) > 0 else [], sample = SAMPLES, operation = operations),
         os.path.join(output_dir, config_path)
 
 # Get order of chromosome reference names from header of BAM file
