@@ -54,7 +54,7 @@ rule feature_counts:
         feature_type = "exon", # expns extracted for counting from ref_anno
         attr_type = "gene_id", # Generate meta-features for counting via this group/id
         extra_attr = ",".join(["gene_name"]), # extra metadata to extract & report in count output
-        count_level = "-f" if options_dict["count_at"] == "feature" else "" # count at exon or gene level?
+        count_level = "-f" if options_dict["count_at"] == "feature" else "", # count at exon or gene level?
         paired_end = "-p" if end_type == "pe" else "" #count fragments if paired end
 
     shell:
@@ -72,14 +72,14 @@ rule feature_counts:
         """
 
 rule copy_config:
-        input:
-            fc_output = expand(output_dir + "{sample}_featureCounts_results.txt", sample = SAMPLES),
-            conf = config_path
+    input:
+        fc_output = expand(output_dir + "{sample}_featureCounts_results.txt", sample = SAMPLES),
+        conf = config_path
 
-        output:
-            os.path.join(output_dir, "config.yaml")
+    output:
+        os.path.join(output_dir, "config.yaml")
 
-        shell:
-            """
-            cp {input.conf} {output}
-            """
+    shell:
+        """
+        cp {input.conf} {output}
+        """
