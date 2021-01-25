@@ -1,6 +1,6 @@
 feature_counts:
     # Path to directory where results should be output (include slash at end)
-    out_spot: feature_counts/
+    out_spot: /SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/intronic_feature_counts/ispc_one_per_gene/feature_counts/
 
     # Dir when bams to quant are stored (include slash at end)
     bam_spot: /SAN/vyplab/alb_projects/data/ward_bams/bam_files/
@@ -11,7 +11,7 @@ feature_counts:
     bam_suffix: ".pass2Aligned.sortedByCoord.out.bam"
 
     # Path to GTF file of genes/regions want to quantify
-    gtf:  /SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v34.annotation.gtf
+    gtf:  /SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/intronic_feature_counts/ispc_one_per_gene/intron_bins.one_per_gene.high_confidence.gtf
 
     # What is strandedness of data (super nice guide below)
     # https://littlebitofdata.com/en/2017/08/strandness_in_rnaseq/
@@ -21,7 +21,7 @@ feature_counts:
     end_type: "pe"
 
     # Count reads at 'feature' level (each exon) or for whole gene (put sth other than "feature")
-    count_at: "feature"
+    count_at: "gene"
 
     # No need to change this
     feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
