@@ -71,7 +71,7 @@ rule feature_counts:
         {input.aligned_bam}
         """
 
-    rule copy_config:
+rule copy_config:
         input:
             fc_output = expand(output_dir + "{sample}_featureCounts_results.txt", sample = SAMPLES),
             conf = config_path
