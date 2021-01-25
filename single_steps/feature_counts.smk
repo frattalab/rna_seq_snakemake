@@ -1,41 +1,85 @@
+configfile: "config/single_steps_config.yaml"
 import os
-# a top level folder where the bams reside
-project_dir = "/SAN/vyplab/alb_projects/data/linked_buratti_hnrnpk/"
-out_spot = "feature_counts/"
-bam_spot = "linked_bams/"
+
+
+options_dict = config["feature_counts"]
+config_path = "config/single_steps_config.yaml" # this is for copying later
+
+
+# project_dir = "/SAN/vyplab/alb_projects/data/linked_buratti_hnrnpk/"
+out_spot = options_dict["out_spot"]
+bam_spot = options_dict["bam_spot"]
 
 # mouse and human gtf, comment dependening on your species
 # gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/mouse/gencode/gencode.vM22.annotation.gtf"
 # gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v31.annotation.gtf"
-gtf =  "/SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v34.annotation.gtf"
+gtf = options_dict["gtf"]
 
-feature_counts_strand_info = "-s 0"
-end_type = "pe"
-bam_suffix = "_unique_rg_fixed.bam"
+feature_counts_strand_info = options_dict["feature_counts_strand_info"]
+end_type = options_dict["end_type"]
+bam_suffix = options_dict["bam_suffix"]
+
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
-feature_counts_path = "/SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts"
+feature_counts_path = options_dict["feature_counts_path"]
 
-output_dir = os.path.join(project_dir,out_spot)
-bam_dir = os.path.join(project_dir,bam_spot)
+output_dir = os.path.join(out_spot, "")
+bam_dir = os.path.join(bam_spot, "")
 
-SAMPLES, = glob_wildcards(bam_dir + "{sample}" + bam_suffix)
+SAMPLES = [f.replace(bam_suffix, "") for f in os.listdir(bam_dir) if f.endswith(bam_suffix)]
+
 print(SAMPLES)
+
+if not os.path.exists(output_dir):
+    os.system("mkdir -p {0}".format(output_dir))
+
+
+localrules: all, copy_config
 
 rule all:
   input:
-    expand(output_dir + "{sample}_featureCounts_results.txt", sample = SAMPLES)
+    expand(output_dir + "{sample}_featureCounts_results.txt", sample = SAMPLES),
+    os.path.join(output_dir, "config.yaml")
 
 rule feature_counts:
     input:
-        aligned_bam = bam_dir + "{sample}" + bam_suffix
+        aligned_bam = os.path.join(bam_dir,"{sample}" + bam_suffix)
+
     output:
-        out_name = output_dir + "{sample}_featureCounts_results.txt"
+        out_name = os.path.join(output_dir, "{sample}_featureCounts_results.txt")
+
     params:
         ref_anno = gtf,
-        stranded = feature_counts_strand_info
-    run:
-        shell("mkdir -p {output_dir}")
-        if end_type == "pe":
-            shell("{feature_counts_path} --extraAttributes gene_name -p -t exon -g gene_id -a {params.ref_anno} -o {output.out_name} {params.stranded} {input.aligned_bam}")
-        if end_type == "se":
-            shell("{feature_counts_path} --extraAttributes gene_name -a {params.ref_anno} -o {output.out_name} {params.stranded} {input.aligned_bam}")
+        stranded = feature_counts_strand_info,
+        feature_counts = feature_counts_path,
+        feature_type = "exon", # expns extracted for counting from ref_anno
+        attr_type = "gene_id", # Generate meta-features for counting via this group/id
+        extra_attr = ",".join(["gene_name"]), # extra metadata to extract & report in count output
+        count_level = "-f" if options_dict["count_at"] == "feature" else "" # count at exon or gene level?
+        paired_end = "-p" if end_type == "pe" else "" #count fragments if paired end
+
+    shell:
+        """
+        {params.feature_counts} \
+        -a {params.ref_anno} \
+        -t {params.feature_type} \
+        -g {params.attr_type} \
+        --extraAttributes {params.extra_attr} \
+        {params.count_level} \
+        {params.paired_end} \
+        {params.stranded} \
+        -o {output.out_name} \
+        {input.aligned_bam}
+        """
+
+    rule copy_config:
+        input:
+            fc_output = expand(output_dir + "{sample}_featureCounts_results.txt", sample = SAMPLES),
+            conf = config_path
+
+        output:
+            os.path.join(output_dir, "config.yaml")
+
+        shell:
+            """
+            cp {input.conf} {output}
+            """
