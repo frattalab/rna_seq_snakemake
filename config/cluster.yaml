@@ -75,8 +75,8 @@ megadepth_coverage:
     h_rt: 72:00:00
 generate_partial_decoys:
     submission_string: "-pe smp 4 -R y"
-    h_vmem:   12G
-    tmem:   12G
+    h_vmem: 32G
+    tmem: 32G
     h_rt: 72:00:00
 salmon_index:
     submission_string: "-pe smp 4 -R y"
