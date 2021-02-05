@@ -31,7 +31,6 @@ if not os.path.exists(DECOYS_DIR):
 ## To make deciding the input to index easier, I gave index the same input file path
 ## Since both partial and full output.produce the same file, I need to enforce rule order depending on DECOY_TYPE to prevent an AmbiguousRuleException
 
-# if paired end, use the paired end rule to run, if single end use the single end rule to run
 if DECOY_TYPE == "full":
 
     ruleorder: generate_full_decoys > generate_partial_decoys
