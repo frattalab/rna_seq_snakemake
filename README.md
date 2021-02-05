@@ -72,6 +72,12 @@ The pipeline has specific defined workflows. These are currently:
 4. Generate gene (raw) read count tables with FeatureCounts
 5. Generate gene TPM values with TPMcalculator
 
+#### salmon
+1. Trim reads with fastp
+2. Generate QC reports with FASTQC
+3. Quantify transcripts with Salmon
+
+**NB: salmon workflow currently only supports PAIRED-END READS**
 
 #### Minimal dependencies
 
