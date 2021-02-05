@@ -18,7 +18,7 @@ readLen: 150
 ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
 #consult featureCounts documentation for correct string to pass
 feature_counts_strand_info: "-s 2"
-# one of 'fastq_qc', 'align', 'interleave_fastq_qc'
+# one of 'fastq_qc', 'align', 'interleave_fastq_qc', 'salmon'
 #See README for description of what each workflow involves
 workflow: align
 
