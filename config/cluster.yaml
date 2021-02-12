@@ -88,3 +88,7 @@ salmon_quant:
     h_vmem:   8G
     tmem:   8G
     h_rt: 72:00:00
+scallop_per_samp:
+    h_vmem:   8G
+    tmem:   8G
+    h_rt: 72:00:00

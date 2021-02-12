@@ -40,7 +40,7 @@ rule scallop_per_samp:
     shell:
         """
         mkdir -p {params.scallop_out_folder}
-        {params.scallop_path} -i {input.bam_file} -o {output} {params.scallop_extra_config}
+        {params.scallop_path} -v 0 -i {input.bam_file} -o {output} {params.scallop_extra_config}
         """
 
 rule compare_reference:
