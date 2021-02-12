@@ -50,7 +50,7 @@ tpmcalculator_output_folder: TPMcalculator/
 interleave_master_output_folder: interleaved_fastq/
 
 
-bam_suffix: ".pass2Aligned.sortedByCoord.out.bam "
+bam_suffix: ".pass2Aligned.sortedByCoord.out.bam"
 #########################
 ##FASTP PARAMETERS - TRIMMING HERE######
 #########################
