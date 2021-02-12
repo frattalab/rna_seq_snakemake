@@ -12,7 +12,7 @@ sampleCSVpath:  /home/annbrown/data/briese_tdp43_mouse_motorneuron/briese_axonal
 end_type: se
 
 #mouse or human
-species: "mouse"
+species: "human"
 
 readLen: 150
 ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
@@ -29,7 +29,7 @@ feature_counts_strand_info: "-s 0"
 #always end paths with a trailing slash, or there will be errors :)
 
 #master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
-project_top_level: /home/annbrown/data/briese_tdp43_mouse_motorneuron/
+project_top_level:  /SAN/vyplab/alb_projects/data/ward_bams/
 
 
 #below you can specify the names of rulesubdirectories
@@ -41,7 +41,7 @@ project_top_level: /home/annbrown/data/briese_tdp43_mouse_motorneuron/
 
 fastqc_output_folder: fastqc/
 fastp_trimmed_output_folder: fastp_trimmed/
-star_output_folder: STAR_aligned/
+star_output_folder: bam_files/
 merged_fastq_folder: merged_fastqs/
 scallop_output: scallop_output/
 feature_counts_output_folder: feature_counts/
@@ -50,7 +50,7 @@ tpmcalculator_output_folder: TPMcalculator/
 interleave_master_output_folder: interleaved_fastq/
 
 
-bam_suffix: ".Aligned.sorted.out.bam"
+bam_suffix: ".pass2Aligned.sortedByCoord.out.bam "
 #########################
 ##FASTP PARAMETERS - TRIMMING HERE######
 #########################
