@@ -22,5 +22,5 @@ scallop_outdir = get_output_dir(config["project_top_level"], config['scallop_out
 
 rule all:
     input:
-        expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS),
-        expand(interleaved_outdir + "{name}_interleaved.fastq.gz", name = SAMPLE_NAMES)
+        expand(scallop_outdir + '{sample}' + ".gtf", sample = SAMPLE_NAMES),
+        expand(scallop_outdir + "gffall.{sample}.gtf.map",sample = SAMPLE_NAMES)
