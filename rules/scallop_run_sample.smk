@@ -9,7 +9,7 @@ localrules: compose_gtf_list
 #reading in the samples and dropping the samples to be excluded in order to get a list of sample names
 samples = pd.read_csv(config['sampleCSVpath'])
 samples2 = samples.loc[samples.exclude_sample_downstream_analysis != 1]
-SAMPLE_NAMES = list(set(samples2['sample_name'] + config['bam_suffix']))
+SAMPLE_NAMES = list(set(samples2['sample_name']))
 
 print(SAMPLE_NAMES)
 
@@ -46,7 +46,7 @@ rule scallop_per_samp:
 
 rule compose_gtf_list:
     input:
-        expand(scallop_outdir,'{sample}.gtf', sample=SAMPLE_NAMES)
+        expand(scallop_outdir + '{sample}.gtf', sample=SAMPLE_NAMES)
     output:
         txt = os.path.join(scallop_outdir,"gtf_list.txt")
     run:
