@@ -23,7 +23,9 @@ print(scallop_outdir)
 rule all_scallop:
     input:
         expand(scallop_outdir + '{sample}' + ".gtf", sample = SAMPLE_NAMES),
-        expand(scallop_outdir + "gffall.{sample}.gtf.map",sample = SAMPLE_NAMES)
+        expand(scallop_outdir + "gffall.{sample}.gtf.tmap",sample = SAMPLE_NAMES),
+        expand(scallop_outdir + "{sample}.unique.gtf",sample = SAMPLE_NAMES),
+        os.path.join(scallop_outdir,"scallop_merged.gtf")
 
 
 rule scallop_per_samp:
@@ -47,7 +49,7 @@ rule compare_reference:
     input:
         os.path.join(scallop_outdir,'{sample}' + ".gtf")
     output:
-        os.path.join(scallop_outdir, "gffall.{sample}.gtf.map")
+        os.path.join(scallop_outdir, "gffall.{sample}.gtf.tmap")
     params:
         ref_gtf = GTF,
         gffcompare = "/SAN/vyplab/alb_projects/tools/gffcompare-0.11.6.Linux_x86_64/gffcompare"
@@ -55,23 +57,35 @@ rule compare_reference:
         """
         {params.gffcompare} -o gffall -r {params.ref_gtf} {input}
         """
-
-# rule compose_gtf_list:
-#     input:
-#         expand(scallop_outdir + '{sample}.gtf', sample=SAMPLE_NAMES)
-#     output:
-#         txt = os.path.join(scallop_outdir,"gtf_list.txt")
-#     run:
-#         with open(output.txt, 'w') as out:
-#             print(*input, sep="\n", file=out)
-# rule merge_scallop_gtfs:
-#     input:
-#         gtf_list = os.path.join(scallop_outdir,"gtf_list.txt")
-#     output:
-#         merged_gtf = os.path.join(scallop_outdir,"scallop_merged.gtf")
-#     params:
-#         gtfmerge = '/SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfmerge/gtfmerge'
-#     shell:
-#         """
-#         {params.gtfmerge} union {input.gtf_list} {output.merged_gtf} -t 2 -n
-#         """
+rule fetch_unique:
+    input:
+        sample_tmap = os.path.join(scallop_outdir, "gffall.{sample}.gtf.tmap"),
+        sample_gtf = os.path.join(scallop_outdir,'{sample}' + ".gtf")
+    output:
+        os.path.join(scallop_outdir, "{sample}.unique.gtf")
+    params:
+        ref_gtf = GTF,
+        gtfcuff = "/SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfcuff/gtfcuff"
+    shell:
+        """
+        {params.gtfcuff} puniq {input.sample_tmap} {input.gtf} {params.ref_gtf} {output}
+        """
+rule compose_gtf_list:
+    input:
+        expand(scallop_outdir, "{sample}.unique.gtf", sample=SAMPLE_NAMES)
+    output:
+        txt = os.path.join(scallop_outdir,"gtf_list.txt")
+    run:
+        with open(output.txt, 'w') as out:
+            print(*input, sep="\n", file=out)
+rule merge_scallop_gtfs:
+    input:
+        gtf_list = os.path.join(scallop_outdir,"gtf_list.txt")
+    output:
+        merged_gtf = os.path.join(scallop_outdir,"scallop_merged.gtf")
+    params:
+        gtfmerge = '/SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfmerge/gtfmerge'
+    shell:
+        """
+        {params.gtfmerge} union {input.gtf_list} {output.merged_gtf} -t 2 -n
+        """
