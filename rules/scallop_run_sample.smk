@@ -22,7 +22,7 @@ scallop_outdir = get_output_dir(config["project_top_level"], config['scallop_out
 
 rule all_scallop:
     input:
-        expand(scallop_outdir,'{sample}' + ".gtf"), sample = SAMPLE_NAMES),
+        expand(scallop_outdir,'{sample}' + ".gtf", sample = SAMPLE_NAMES),
         os.path.join(scallop_outdir,"scallop_merged.gtf"),
         os.path.join(scallop_outdir,"gffall.scallop_merged.gtf.map")
 
