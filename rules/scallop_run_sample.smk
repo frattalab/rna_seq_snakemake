@@ -68,7 +68,7 @@ rule fetch_unique:
         gtfcuff = "/SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfcuff/gtfcuff"
     shell:
         """
-        {params.gtfcuff} puniq {input.sample_tmap} {input.gtf} {params.ref_gtf} {output}
+        {params.gtfcuff} puniq {input.sample_tmap} {input.sample_gtf} {params.ref_gtf} {output}
         """
 rule compose_gtf_list:
     input:
