@@ -18,9 +18,7 @@ readLen: 150
 ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
 #consult featureCounts documentation for correct string to pass
 feature_counts_strand_info: "-s 0"
-# one of 'fastq_qc', 'align', 'interleave_fastq_qc' or 'salmon'
-#See README for description of what each workflow involves
-workflow: align
+
 
 
 
@@ -45,13 +43,14 @@ fastqc_output_folder: fastqc/
 fastp_trimmed_output_folder: fastp_trimmed/
 star_output_folder: STAR_aligned/
 merged_fastq_folder: merged_fastqs/
+scallop_output: scallop_output/
 feature_counts_output_folder: feature_counts/
 salmon_output_folder: salmon_quant/
-tpmcalculator_output_folder: TPMcalculator/ #this is redundant due to only outputting to working dir unless make simple rule to copy output here
+tpmcalculator_output_folder: TPMcalculator/
 interleave_master_output_folder: interleaved_fastq/
 
 
-
+bam_suffix: ".Aligned.sorted.out.bam"
 #########################
 ##FASTP PARAMETERS - TRIMMING HERE######
 #########################
@@ -156,6 +155,16 @@ tpmcalculator_path: /SAN/vyplab/alb_projects/tools/TPMCalculator/bin/TPMCalculat
 #put anything other than "true" if you're not AL
 tpm_singlestep: "false"
 
+#########################
+## Scallop PARAMETERS
+#########################
+scallop_path: /SAN/vyplab/alb_projects/tools/scallop-0.10.4/src/scallop
+scallop_extra_parameters:
+  library_type: empty ####TO DO WRITE IN AN INTERPRETER FROM FEATURECOUNTS flag ala salmon!
+  min_transcript_length_increase: 25
+  min_single_exon_coverage: 15
+  min_transcript_length_base: 50
+  min_transcript_length_increase: 10
 
 
 #########################
