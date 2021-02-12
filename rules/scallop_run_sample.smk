@@ -46,7 +46,7 @@ rule scallop_per_samp:
 
 rule compose_gtf_list:
     input:
-        expand(scallop_outdir,'{sample}.gtf'), sample=SAMPLE_NAMES)
+        expand(scallop_outdir,'{sample}.gtf', sample=SAMPLE_NAMES)
     output:
         txt = os.path.join(scallop_outdir,"gtf_list.txt")
     run:
