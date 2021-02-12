@@ -72,7 +72,7 @@ rule fetch_unique:
         """
 rule compose_gtf_list:
     input:
-        expand(scallop_outdir, "{sample}.unique.gtf", sample=SAMPLE_NAMES)
+        expand(scallop_outdir + "{sample}.unique.gtf", sample=SAMPLE_NAMES)
     output:
         txt = os.path.join(scallop_outdir,"gtf_list.txt")
     run:
