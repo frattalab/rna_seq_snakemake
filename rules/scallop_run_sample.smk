@@ -19,10 +19,10 @@ GTF = get_gtf(SPECIES)
 #make sure the output folder for STAR exists before running anything
 star_outdir = get_output_dir(config["project_top_level"], config['star_output_folder'])
 scallop_outdir = get_output_dir(config["project_top_level"], config['scallop_output'])
-
+print(scallop_outdir)
 rule all_scallop:
     input:
-        expand(scallop_outdir,'{sample}' + ".gtf", sample = SAMPLE_NAMES),
+        expand(scallop_outdir + '{sample}' + ".gtf", sample = SAMPLE_NAMES),
         os.path.join(scallop_outdir,"scallop_merged.gtf"),
         os.path.join(scallop_outdir,"gffall.scallop_merged.gtf.map")
 
