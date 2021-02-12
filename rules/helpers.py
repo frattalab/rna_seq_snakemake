@@ -99,13 +99,24 @@ def get_species_version(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return(temp.species_version[temp.species == species].tolist()[0])
 
+
+def get_annotation_version(species):
+    temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
+    return (temp.annotation_version[temp.species == species].tolist()[0])
+
+
 def get_genome_fasta(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return(temp.genome_fa[temp.species == species].tolist()[0])
 
+def get_transcriptome_fasta(species):
+    temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
+    return (temp.transcriptome_fa[temp.species == species].tolist()[0])
+
 def get_gtf(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return(temp.gtf[temp.species == species].tolist()[0])
+
 # takes the featurcounts strand and returns the interpretation for kallisto_output_folder
 def get_kallisto_strand(fcStrand):
     if fcStrand == "-s 0":
@@ -114,6 +125,23 @@ def get_kallisto_strand(fcStrand):
         return("--fr-stranded")
     elif fcStrand == "-s 2":
         return("--rf-stranded")
+
+
+def get_salmon_strand(fcStrand):
+    '''
+    Return string for salmon libtype denoting strandedness/orientation of library.
+    Parses featureCounts strand and returns corresponding salmon libtype string
+    (should include option to return the let Salmon infer for you string)
+    '''
+    if fcStrand == "-s 0":
+        return "IU"
+
+    elif fcStrand == "-s 1":
+        return "ISF"
+
+    elif fcStrand == "-s 2":
+        return "ISR"
+
 def get_collectRnaSeq_strand(fcStrand):
     if fcStrand == "-s 0":
         return("")
@@ -161,3 +189,34 @@ def return_bases_and_contrasts(comparison_yaml):
             if ind == 2:
                 contrast_keys.append(k2)
     return(base_keys,contrast_keys)
+
+
+def salmon_target_index(txome_dir, species, species_version, decoy_type, annot_version, kmer_size):
+    '''
+    Which transcriptome index should Salmon use/generate?
+
+    params
+        txome_dir str
+        path to master directory where salmon indexes are stored.
+
+        decoy_type str ["full", "partial"]
+        Which decoys sequences should be used alongside target transcriptome?
+        full - whole genome treated as decoy
+        partial - sequences in genome with high similarity to transcriptome sequences (>= 80 % sequence homology)
+
+        species str
+        What species is sequencing library generated from. most likely "human" or "mouse"
+
+        kmer_size int
+        Size of k-mers used to generate index. 31 recommended for 75+bp datasets.
+
+    returns str
+        path to directory (W/O TRAILING SLASH) of target decoy-aware transcriptome. concatenation of txome_dir, species, decoy_type and kmer_size
+    '''
+
+    if decoy_type not in ["full", "partial"]:
+
+        raise ValueError("{0} is invalid value for decoy_type. Must be one of 'full' or 'partial'".format(decoy_type))
+
+    else:
+        return os.path.join(txome_dir, species, species_version, decoy_type, ".".join([annot_version, "kmer_" + str(kmer_size)]))
