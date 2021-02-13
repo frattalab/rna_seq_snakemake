@@ -9,7 +9,7 @@
 sampleCSVpath:  /SAN/vyplab/alb_projects/data/ward_bams/ward_bams.csv
 
 #If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
-end_type: se
+end_type: pe
 
 #mouse or human
 species: "human"
@@ -49,7 +49,10 @@ salmon_output_folder: salmon_quant/
 tpmcalculator_output_folder: TPMcalculator/
 interleave_master_output_folder: interleaved_fastq/
 
-
+###### By defaulteverything aligned with this
+###### pipeline will get the suffix "Aligned.sorted.out.bam"
+###### but if you want to run scallop  with bams aligned somewhere else
+###### you'll have to tweak this
 bam_suffix: ".pass2Aligned.sortedByCoord.out.bam"
 #########################
 ##FASTP PARAMETERS - TRIMMING HERE######
@@ -165,6 +168,14 @@ scallop_extra_parameters:
   min_single_exon_coverage: 15
   min_transcript_length_base: 50
   min_transcript_length_increase: 10
+
+#########################
+##SCALLOP HELPER TOOLS PATHS######
+#########################
+gffcompare: /SAN/vyplab/alb_projects/tools/gffcompare-0.11.6.Linux_x86_64/gffcompare
+gtfcuff: /SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfcuff/gtfcuff
+gtfmerge: /SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfmerge/gtfmerge
+gffread: /SAN/vyplab/alb_projects/tools/gffread-0.11.8.Linux_x86_64/gffread
 
 
 #########################

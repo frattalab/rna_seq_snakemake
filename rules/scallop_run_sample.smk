@@ -52,7 +52,7 @@ rule compare_reference:
         os.path.join(scallop_outdir, "gffall.{sample}.gtf.tmap")
     params:
         ref_gtf = GTF,
-        gffcompare = "/SAN/vyplab/alb_projects/tools/gffcompare-0.11.6.Linux_x86_64/gffcompare"
+        gffcompare = config['gffcompare']
     shell:
         """
         {params.gffcompare} -o gffall -r {params.ref_gtf} {input}
@@ -65,7 +65,7 @@ rule fetch_unique:
         os.path.join(scallop_outdir, "{sample}.unique.gtf")
     params:
         ref_gtf = GTF,
-        gtfcuff = "/SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfcuff/gtfcuff"
+        gtfcuff = config['gtfcuff']
     shell:
         """
         {params.gtfcuff} puniq {input.sample_tmap} {input.sample_gtf} {params.ref_gtf} {output}
@@ -84,7 +84,7 @@ rule merge_scallop_gtfs:
     output:
         merged_gtf = os.path.join(scallop_outdir,"scallop_merged.gtf")
     params:
-        gtfmerge = '/SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfmerge/gtfmerge'
+        gtfmerge = config['gtfmerge']
     shell:
         """
         {params.gtfmerge} union {input.gtf_list} {output.merged_gtf} -t 2 -n
