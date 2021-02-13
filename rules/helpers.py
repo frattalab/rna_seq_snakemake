@@ -127,6 +127,20 @@ def get_kallisto_strand(fcStrand):
         return("--rf-stranded")
 
 
+def get_scallop_strand(fcStrand):
+    '''
+    Return string for scallop libtype denoting strandedness/orientation of library.
+    Parses featureCounts strand and returns corresponding Scallop libtype string
+    '''
+    if fcStrand == "-s 0":
+        return "unstranded"
+
+    elif fcStrand == "-s 1":
+        return "second"
+
+    elif fcStrand == "-s 2":
+        return "first"
+
 def get_salmon_strand(fcStrand):
     '''
     Return string for salmon libtype denoting strandedness/orientation of library.

@@ -37,12 +37,19 @@ rule scallop_per_samp:
         os.path.join(scallop_outdir,'{sample}' + ".gtf")
     params:
         scallop_path = config['scallop_path'],
+        verbose = 0,
         scallop_out_folder = scallop_outdir,
-        scallop_extra_config = return_parsed_extra_params(config['scallop_extra_parameters'])
+        scallop_extra_config = return_parsed_extra_params(config['scallop_extra_parameters']),
+        libtype = get_scallop_strand(config["feature_counts_strand_info"]),
     shell:
         """
         mkdir -p {params.scallop_out_folder}
-        {params.scallop_path} -v 0 -i {input.bam_file} -o {output} {params.scallop_extra_config}
+        {params.scallop_path} \
+        -i {input.bam_file} \
+        -o {output} \
+        --library_type {params.libtype} \
+        --verbose {params.verbose} \
+        {params.scallop_extra_config}
         """
 
 rule compare_reference:

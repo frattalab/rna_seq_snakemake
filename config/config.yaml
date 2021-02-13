@@ -17,7 +17,7 @@ species: "human"
 readLen: 150
 ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
 #consult featureCounts documentation for correct string to pass
-feature_counts_strand_info: "-s 0"
+feature_counts_strand_info: "-s 2"
 
 
 
@@ -163,7 +163,6 @@ tpm_singlestep: "false"
 #########################
 scallop_path: /SAN/vyplab/alb_projects/tools/scallop-0.10.4/src/scallop
 scallop_extra_parameters:
-  library_type: empty ####TO DO WRITE IN AN INTERPRETER FROM FEATURECOUNTS flag ala salmon!
   min_transcript_length_increase: 25
   min_single_exon_coverage: 15
   min_transcript_length_base: 50
