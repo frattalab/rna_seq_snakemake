@@ -6,7 +6,7 @@ configfile: "config/config.yaml"
 include: "../rules/helpers.py"
 
 include: "../rules/scallop_run_sample.smk"
-include: "../rules/scalop_extract_quantify.smk"
+include: "../rules/scallop_extract_quantify.smk"
 #reading in the samples and dropping the samples to be excluded in order to get a list of sample names
 samples = pd.read_csv(config['sampleCSVpath'])
 samples2 = samples.loc[samples.exclude_sample_downstream_analysis != 1]
