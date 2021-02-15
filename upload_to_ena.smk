@@ -1,10 +1,11 @@
 import os
 # a top level folder where the bams reside
-directory_with_bams_and_manifests = "/home/annbrown/data/buratti_new_shsy5y/STAR_aligned/"
+directory_with_bams_and_manifests = "/SAN/vyplab/alb_projects/data/buratti_new_shsy5y/STAR_aligned/"
+
 bam_suffix = ".Aligned.sorted.out.bam"
 
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
-
+singularity_path = txt.replace("/SAN/vyplab/alb_projects/data", "/home/alb_data")
 SAMPLES, = glob_wildcards(directory_with_bams_and_manifests + "{sample}" + bam_suffix)
 print(SAMPLES)
 
@@ -15,7 +16,7 @@ rule all:
 
 rule upload_try:
     input:
-        manifest = directory_with_bams_and_manifests + "{sample}" + ".manifest"
+        manifest = singularity_path + "{sample}" + ".manifest"
     output:
        directory_with_bams_and_manifests + "{sample}_uploaded"
     shell:
