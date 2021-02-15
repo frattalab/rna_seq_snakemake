@@ -50,9 +50,7 @@ rule build_extended_cdna:
 
 rule salmon_index_extended:
     input:
-        extended_fa = os.path.join(scallop_outdir,"scallop_union.fa"),
-        decoys = os.path.join(DECOYS_DIR, "decoys.txt")
-
+        extended_fa = os.path.join(scallop_outdir,"scallop_union.fa")
     output:
         os.path.join(scallop_outdir, "extended_transcriptome/seq.bin"),
         os.path.join(scallop_outdir, "extended_transcriptome/pos.bin")
@@ -71,7 +69,6 @@ rule salmon_index_extended:
         {params.salmon} index \
         -t {input.extended_fa} \
         -i {params.outdir} \
-        --decoys {input.decoys} \
         -k {params.k} \
         {params.gencode} \
         -p {threads}
