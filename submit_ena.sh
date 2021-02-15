@@ -1,7 +1,7 @@
 #!/bin/bash
 #Submit to the cluster, give it a unique name
 #$ -S /bin/bash
-#$ -h_rt 72:00:00
+#$ -l h_rt=72:0:0
 #$ -cwd
 #$ -V
 #$ -l h_vmem=2G,h_rt=20:00:00,tmem=2G
