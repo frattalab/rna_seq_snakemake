@@ -5,7 +5,7 @@ bam_suffix = ".Aligned.sorted.out.bam"
 
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
 
-SAMPLES, = glob_wildcards(bam_dir + "{sample}" + bam_suffix)
+SAMPLES, = glob_wildcards(directory_with_bams_and_manifests + "{sample}" + bam_suffix)
 print(SAMPLES)
 
 rule all:
