@@ -40,7 +40,7 @@ rule get_cnda:
 
 rule build_extended_cdna:
     input:
-        os.path.join(scallop_outdir,"scallop_merged.gtf")
+        os.path.join(scallop_outdir,"scallop_unique.fa")
     output:
         os.path.join(scallop_outdir,"scallop_union.fa")
     params:
