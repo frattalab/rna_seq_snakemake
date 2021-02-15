@@ -11,7 +11,7 @@ print(SAMPLES)
 rule all:
   input:
     #expand(output_dir + "{sample}_namesorted.bam", sample = SAMPLES),
-    expand(directory_with_bams_and_manifests + + "{sample}_uploaded", sample = SAMPLES)
+    expand(directory_with_bams_and_manifests  + "{sample}_uploaded", sample = SAMPLES)
 
 rule upload_try:
     input:
