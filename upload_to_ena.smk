@@ -16,11 +16,13 @@ rule all:
 
 rule upload_try:
     input:
-        manifest = singularity_path + "{sample}" + ".manifest"
+        manifest = directory_with_bams_and_manifests + "{sample}" + ".manifest"
     output:
        directory_with_bams_and_manifests + "{sample}_uploaded"
+    params:
+        singularity_path_manifest = singularity_path + "{sample}" + ".manifest"
     shell:
         """
-        singularity run --bind /SAN/vyplab/alb_projects/data/:/home/alb_data /SAN/vyplab/alb_projects/tools/webin-cli_latest.sif -context reads -manifest {input.manifest} -userName 'Webin-58069' -password '1HIkW7lgrw' -submit
+        singularity run --bind /SAN/vyplab/alb_projects/data/:/home/alb_data /SAN/vyplab/alb_projects/tools/webin-cli_latest.sif -context reads -manifest {params.singularity_path_manifest} -userName 'Webin-58069' -password '1HIkW7lgrw' -submit
         touch {output}
         """
