@@ -7,7 +7,10 @@ include: "helpers.py"
 
 SPECIES = config["species"]
 GENOME_FA = get_genome_fasta(SPECIES)
-
+SPECIES_VERSION = get_species_version(SPECIES)
+INDEX_DIR = config["salmon_indices"]
+DECOYS_DIR = os.path.join(INDEX_DIR, SPECIES, SPECIES_VERSION, "decoys", DECOY_TYPE, ANNOTATION_VERSION, "")
+print(DECOYS_DIR)
 #make sure the output folder for STAR exists before running anything
 scallop_outdir = get_output_dir(config["project_top_level"], config['scallop_output'])
 print(scallop_outdir)
@@ -15,9 +18,7 @@ txome_fa = get_transcriptome_fasta(SPECIES)
 
 # 1 decoys (& merged txome + decoys FA ) file generated for each genome assembly + transcriptome annotation version
 # Used as input to salmon index
-INDEX_DIR = config["salmon_indices"]
-DECOYS_DIR = os.path.join(INDEX_DIR, SPECIES, SPECIES_VERSION, "decoys", DECOY_TYPE, ANNOTATION_VERSION, "")
-print(DECOYS_DIR)
+
 
 rule extraction_quantification:
     input:
