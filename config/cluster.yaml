@@ -75,8 +75,8 @@ megadepth_coverage:
     tmem:   8G
     h_rt: 72:00:00
 name_sort:
-    h_vmem:   8G
-    tmem:   8G
+    h_vmem:   12G
+    tmem:   12G
     h_rt: 72:00:00
 generate_partial_decoys:
     submission_string: "-pe smp 4 -R y"
@@ -99,6 +99,6 @@ scallop_per_samp:
     h_rt: 72:00:00
 salmon_index_extended:
     submission_string: "-pe smp 4 -R y"
-    h_vmem:   10G
-    tmem:   10G
+    h_vmem:   8G
+    tmem:   8G
     h_rt: 72:00:00
