@@ -18,9 +18,9 @@ else
 fi
 
 FOLDER=$(date +"%Y%m%d%H%M")
-WRITEFOLDER=submissions/$FOLDER
+WRITEFOLDER=../submissions/$FOLDER
 mkdir -p $WRITEFOLDER
-cp single_steps/sort_pull.smk $WRITEFOLDER/sort_pull.smk
+cp ..single_steps/sort_pull.smk $WRITEFOLDER/sort_pull.smk
 
 snakemake -s ../single_steps/sort_pull.smk \
 --jobscript ../cluster_qsub.sh \
