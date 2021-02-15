@@ -1,8 +1,8 @@
 import os
 # a top level folder where the bams reside
-directory_with_bams_and_manifests = "/SAN/vyplab/alb_projects/data/buratti_new_shsy5y/STAR_aligned/"
+directory_with_bams_and_manifests = "/SAN/vyplab/alb_projects/data/ward_bams/bam_files"
 
-bam_suffix = ".Aligned.sorted.out.bam"
+bam_suffix = ".pass2Aligned.sortedByCoord.out.bam"
 
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
 singularity_path = directory_with_bams_and_manifests.replace("/SAN/vyplab/alb_projects/data", "/home/alb_data")
