@@ -35,8 +35,8 @@ if end_type == "pe":
       input:
           name_sort_bam = output_dir + "{sample}_namesorted.bam"
       output:
-          one = fastq_dir + "{sample}_1.merged.fastq",
-          two = fastq_dir + "{sample}_2.merged.fastq"
+          one = temp(fastq_dir + "{sample}_1.merged.fastq"),
+          two = temp(fastq_dir + "{sample}_2.merged.fastq")
       shell:
           """
           bedtools bamtofastq -i {input} \
@@ -60,7 +60,7 @@ else:
       input:
           name_sort_bam = output_dir + "{sample}_namesorted.bam"
       output:
-          one = fastq_dir + "{sample}_1.merged.fastq"
+          one = temp(fastq_dir + "{sample}_1.merged.fastq")
       shell:
           """
           bedtools bamtofastq -i {input} \
