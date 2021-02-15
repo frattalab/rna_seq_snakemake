@@ -27,6 +27,7 @@ rule name_sort:
        temp(output_dir + "{sample}_namesorted.bam")
     shell:
         """
+        mkdir -p {output_dir}
         samtools sort -n -@ 2 {input.aligned_bam} -o {output}
         """
 if end_type == "pe":
