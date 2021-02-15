@@ -8,11 +8,13 @@ bam_suffix = ".Aligned.sorted.out.bam"
 singularity_path = directory_with_bams_and_manifests.replace("/SAN/vyplab/alb_projects/data", "/home/alb_data")
 SAMPLES, = glob_wildcards(directory_with_bams_and_manifests + "{sample}" + bam_suffix)
 print(SAMPLES)
+print(directory_with_bams_and_manifests)
+print(singularity_path)
 
 rule all:
   input:
     #expand(output_dir + "{sample}_namesorted.bam", sample = SAMPLES),
-    expand(directory_with_bams_and_manifests  + "{sample}_uploaded", sample = SAMPLES)
+    expand(directory_with_bams_and_manifests + "{sample}_uploaded", sample = SAMPLES)
 
 rule upload_try:
     input:
