@@ -99,6 +99,6 @@ scallop_per_samp:
     h_rt: 72:00:00
 salmon_index_extended:
     submission_string: "-pe smp 4 -R y"
-    h_vmem:   8G
-    tmem:   8G
-    h_rt: 72:00:00
+    h_vmem:   16G
+    tmem:   16G
+    h_rt: 12:00:00
