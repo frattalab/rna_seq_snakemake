@@ -44,8 +44,8 @@ if end_type == "pe":
           """
   rule gunzip_fastq:
       input:
-          one = fastq_dir + "{sample}_1.merged.fastq"),
-          two = fastq_dir + "{sample}_2.merged.fastq")
+          one = fastq_dir + "{sample}_1.merged.fastq",
+          two = fastq_dir + "{sample}_2.merged.fastq"
       output:
           one_out = fastq_dir + "{sample}_1.merged.fastq.gz",
           two_out = fastq_dir + "{sample}_2.merged.fastq.gz"
