@@ -1,11 +1,11 @@
 import os
 # a top level folder where the bams reside
-project_dir = "/SAN/vyplab/alb_projects/data/linked_bams_agaribotag/"
+project_dir = "/home/annbrown/data/ursa_mouse"
 out_spot = "name_sortbams/"
 bam_spot = "bams/"
 fastq_dir = "pulled_fastq/"
-bam_suffix = "_unique_rg_fixed.bam"
-end_type = "se"
+bam_suffix = ".bam"
+end_type = "pe"
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
 
 output_dir = os.path.join(project_dir,out_spot)
