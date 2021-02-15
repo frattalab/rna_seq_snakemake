@@ -20,7 +20,6 @@ rule upload_try:
        directory_with_bams_and_manifests + "{sample}_uploaded"
     shell:
         """
-        mkdir -p {output_dir}
         singularity run --bind /SAN/vyplab/alb_projects/data/:/home/alb_data /SAN/vyplab/alb_projects/tools/webin-cli_latest.sif -context reads -manifest {input.manifest} -userName 'Webin-58069' -password '1HIkW7lgrw' -submit
         touch {output}
         """
