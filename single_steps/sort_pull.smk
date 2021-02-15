@@ -32,7 +32,7 @@ rule name_sort:
 if end_type == "pe":
   rule bam_to_fastq:
       input:
-          name_sort_bam = output_dir + "{sample}_namesorted.bam")
+          name_sort_bam = output_dir + "{sample}_namesorted.bam"
       output:
           one = temp(fastq_dir + "{sample}_1.merged.fastq"),
           two = temp(fastq_dir + "{sample}_2.merged.fastq")
