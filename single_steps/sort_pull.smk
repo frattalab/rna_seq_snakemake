@@ -17,7 +17,6 @@ print(SAMPLES)
 
 rule all:
   input:
-    #expand(output_dir + "{sample}_namesorted.bam", sample = SAMPLES),
     expand(fastq_dir + "{sample}_1.merged.fastq.gz", sample = SAMPLES)
 
 rule name_sort:
@@ -33,7 +32,7 @@ rule name_sort:
 if end_type == "pe":
   rule bam_to_fastq:
       input:
-          name_sort_bam = output_dir + "{sample}_namesorted.bam"
+          name_sort_bam = temp(output_dir + "{sample}_namesorted.bam")
       output:
           one = temp(fastq_dir + "{sample}_1.merged.fastq"),
           two = temp(fastq_dir + "{sample}_2.merged.fastq")
@@ -45,8 +44,8 @@ if end_type == "pe":
           """
   rule gunzip_fastq:
       input:
-          one = fastq_dir + "{sample}_1.merged.fastq",
-          two = fastq_dir + "{sample}_2.merged.fastq"
+          one = temp(fastq_dir + "{sample}_1.merged.fastq"),
+          two = temp(fastq_dir + "{sample}_2.merged.fastq")
       output:
           one_out = fastq_dir + "{sample}_1.merged.fastq.gz",
           two_out = fastq_dir + "{sample}_2.merged.fastq.gz"
@@ -58,7 +57,7 @@ if end_type == "pe":
 else:
   rule bam_to_fastq:
       input:
-          name_sort_bam = output_dir + "{sample}_namesorted.bam"
+          name_sort_bam = temp(output_dir + "{sample}_namesorted.bam")
       output:
           one = temp(fastq_dir + "{sample}_1.merged.fastq")
       shell:
