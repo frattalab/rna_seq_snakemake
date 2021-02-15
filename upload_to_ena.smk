@@ -5,7 +5,7 @@ directory_with_bams_and_manifests = "/SAN/vyplab/alb_projects/data/buratti_new_s
 bam_suffix = ".Aligned.sorted.out.bam"
 
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
-singularity_path = txt.replace("/SAN/vyplab/alb_projects/data", "/home/alb_data")
+singularity_path = directory_with_bams_and_manifests.replace("/SAN/vyplab/alb_projects/data", "/home/alb_data")
 SAMPLES, = glob_wildcards(directory_with_bams_and_manifests + "{sample}" + bam_suffix)
 print(SAMPLES)
 
