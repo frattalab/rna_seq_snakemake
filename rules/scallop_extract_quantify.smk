@@ -48,9 +48,27 @@ rule build_extended_cdna:
     shell:
         "cat {input} {txome_fa} > {output}"
 
+rule generate_full_decoy:
+    input:
+        genome_fa = get_genome_fasta(SPECIES),
+        txome_fa = os.path.join(scallop_outdir,"scallop_unique.fa"),
+    output:
+        gentrome_fa = os.path.join(scallop_outdir, "gentrome.fa"),
+        decoys = os.path.join(scallop_outdir, "decoys.txt")
+    params:
+        outdir = DECOYS_DIR
+    shell:
+        """
+        grep "^>" {input.genome_fa} | cut -d " " -f 1 > {output.decoys}
+        sed -i.bak -e 's/>//g' {output.decoys}
+
+        cat {input.txome_fa} {input.genome_fa} > {output.gentrome_fa}
+        """
 rule salmon_index_extended:
     input:
-        extended_fa = os.path.join(scallop_outdir,"scallop_union.fa")
+        gentrome_fa = os.path.join(scallop_outdir, "gentrome.fa"),
+        decoys = os.path.join(scallop_outdir, "decoys.txt")
+
     output:
         os.path.join(scallop_outdir, "extended_transcriptome/seq.bin"),
         os.path.join(scallop_outdir, "extended_transcriptome/pos.bin")
@@ -58,7 +76,7 @@ rule salmon_index_extended:
     params:
         salmon = config["salmon_path"],
         k = KMER_SIZE,
-        outdir = os.path.join(scallop_outdir, "extended_transcriptome"),
+        outdir = os.path.join(scallop_outdir, "extended_transcriptome),
         gencode = "--gencode" if config["transcriptome_source"] == "gencode" else ""
 
     threads:
@@ -69,6 +87,7 @@ rule salmon_index_extended:
         {params.salmon} index \
         -t {input.extended_fa} \
         -i {params.outdir} \
+        --decoys {input.decoys} \
         -k {params.k} \
         {params.gencode} \
         -p {threads}
