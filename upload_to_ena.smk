@@ -15,7 +15,7 @@ rule all:
 
 rule upload_try:
     input:
-        manifest = directory_with_bams_and_manifests + "{sample}" + "manifest"
+        manifest = directory_with_bams_and_manifests + "{sample}" + ".manifest"
     output:
        directory_with_bams_and_manifests + "{sample}_uploaded"
     shell:
