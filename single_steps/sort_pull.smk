@@ -2,7 +2,7 @@ import os
 # a top level folder where the bams reside
 project_dir = "/home/annbrown/data/ursa_mouse"
 out_spot = "name_sortbams/"
-bam_spot = "bams/"
+bam_spot = "ori_bams/"
 fastq_dir = "pulled_fastq/"
 bam_suffix = ".bam"
 end_type = "pe"
