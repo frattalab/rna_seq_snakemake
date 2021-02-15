@@ -25,3 +25,13 @@ rule get_cnda:
         gffread = config['gffread']
     shell:
         "{params.gffread} {input} -g {GENOME_FA} -w {output}"
+        
+rule build_extended_cdna:
+    input:
+        os.path.join(scallop_outdir,"scallop_merged.gtf")
+    output:
+        os.path.join(scallop_outdir,"scallop_unique.fa")
+    params:
+        gffread = config['gffread']
+    shell:
+        "{params.gffread} {input} -g {GENOME_FA} -w {output}"
