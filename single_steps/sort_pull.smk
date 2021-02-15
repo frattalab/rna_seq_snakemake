@@ -19,16 +19,16 @@ rule all:
   input:
     expand(fastq_dir + "{sample}_1.merged.fastq.gz", sample = SAMPLES)
 
-rule name_sort:
-    input:
-        aligned_bam = bam_dir + "{sample}" + bam_suffix
-    output:
-       temp(output_dir + "{sample}_namesorted.bam")
-    shell:
-        """
-        mkdir -p {output_dir}
-        samtools sort -n -@ 2 {input.aligned_bam} -o {output}
-        """
+# rule name_sort:
+#     input:
+#         aligned_bam = bam_dir + "{sample}" + bam_suffix
+#     output:
+#        temp(output_dir + "{sample}_namesorted.bam")
+#     shell:
+#         """
+#         mkdir -p {output_dir}
+#         samtools sort -n -@ 2 {input.aligned_bam} -o {output}
+#         """
 if end_type == "pe":
   rule bam_to_fastq:
       input:
