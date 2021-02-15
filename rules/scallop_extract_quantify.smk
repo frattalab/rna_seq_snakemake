@@ -46,7 +46,7 @@ rule build_extended_cdna:
     params:
         gffread = config['gffread']
     shell:
-        "cat unique.fa {txome_fa} > {output}"
+        "cat {input} {txome_fa} > {output}"
 
 rule salmon_index_extended:
     input:
@@ -69,7 +69,7 @@ rule salmon_index_extended:
     shell:
         """
         {params.salmon} index \
-        -t {input.gentrome_fa} \
+        -t {input.extended_fa} \
         -i {params.outdir} \
         --decoys {input.decoys} \
         -k {params.k} \
