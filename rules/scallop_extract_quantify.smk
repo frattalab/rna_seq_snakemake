@@ -9,6 +9,8 @@ SPECIES = config["species"]
 GENOME_FA = get_genome_fasta(SPECIES)
 SPECIES_VERSION = get_species_version(SPECIES)
 INDEX_DIR = config["salmon_indices"]
+ANNOTATION_VERSION = get_annotation_version(SPECIES)
+KMER_SIZE = config["salmon_index_kmer_size"]
 DECOYS_DIR = os.path.join(INDEX_DIR, SPECIES, SPECIES_VERSION, "decoys", "full", ANNOTATION_VERSION, "")
 print(DECOYS_DIR)
 #make sure the output folder for STAR exists before running anything
