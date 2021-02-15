@@ -24,10 +24,10 @@ rule name_sort:
     input:
         aligned_bam = bam_dir + "{sample}" + bam_suffix
     output:
-       temp(out_name = output_dir + "{sample}_namesorted.bam")
+       temp(output_dir + "{sample}_namesorted.bam")
     shell:
         """
-        samtools sort -n -@ 2 {input.aligned_bam} -o {output.out_name}
+        samtools sort -n -@ 2 {input.aligned_bam} -o {output}
         """
 if end_type == "pe":
   rule bam_to_fastq:
