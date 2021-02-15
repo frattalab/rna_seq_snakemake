@@ -76,7 +76,7 @@ rule salmon_index_extended:
     params:
         salmon = config["salmon_path"],
         k = KMER_SIZE,
-        outdir = os.path.join(scallop_outdir, "extended_transcriptome),
+        outdir = os.path.join(scallop_outdir, "extended_transcriptome"),
         gencode = "--gencode" if config["transcriptome_source"] == "gencode" else ""
 
     threads:
