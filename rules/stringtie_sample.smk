@@ -34,7 +34,7 @@ rule all_scallop:
 
 rule StringTie_Assemble:
   input:
-    bam_file = lambda wildcards: star_outdir + '{sample}' + config['bam_suffix']
+    bam_file = lambda wildcards: star_outdir + '{sample}' + config['bam_suffix'],
     ref_gtf = GTF
   output:
     stringtie_outdir + "{sample}.assemble.gtf"
