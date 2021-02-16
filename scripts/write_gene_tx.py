@@ -3,9 +3,9 @@ from gtfparse import read_gtf
 
 def main():
     parser = argparse.ArgumentParser()
-    parser.add_argument("-g", "--gtf", help="a GTF",
+    parser.add_argument("-g", "--gtf", help="a GTF",required=True,
                         type=str)
-    parser.add_argument("-o", "--output", help="an output for the GTF",
+    parser.add_argument("-o", "--output", help="an output for the GTF",required=True,
                         type=str)
     args = parser.parse_args()
 
