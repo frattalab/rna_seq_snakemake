@@ -120,30 +120,30 @@ rule salmon_index_extended:
         -p {threads}
         """
 
-rule salmon_quant:
-    input:
-        fast1 = FASTQ_DIR  + "{sample}_1.merged.fastq.gz",
-        fast2 = FASTQ_DIR  + "{sample}_2.merged.fastq.gz",
-        index = os.path.join(scallop_outdir, "extended_transcriptome/seq.bin")
-    output:
-        os.path.join(OUTPUT_DIR, "{sample}", "quant.sf")
-    params:
-        salmon = config["salmon_path"],
-        index_dir = os.path.join(scallop_outdir, "extended_transcriptome/")",
-        output_dir = os.path.join(OUTPUT_DIR, "{sample}"),
-        libtype = get_salmon_strand(config["feature_counts_strand_info"]),
-        gtf = get_gtf(SPECIES),
-        extra_params = return_parsed_extra_params(config["extra_salmon_parameters"])
-    threads: 4
-    shell:
-        """
-        {params.salmon} quant \
-        --index {params.index_dir} \
-        --libType {params.libtype} \
-        --mates1 {input.fast1} \
-        --mates2 {input.fast2} \
-        --geneMap {params.gtf} \
-        --threads {threads} \
-        {params.extra_params} \
-        -o {params.output_dir} \
-        """
+# rule salmon_quant:
+#     input:
+#         fast1 = FASTQ_DIR  + "{sample}_1.merged.fastq.gz",
+#         fast2 = FASTQ_DIR  + "{sample}_2.merged.fastq.gz",
+#         index = os.path.join(scallop_outdir, "extended_transcriptome/seq.bin")
+#     output:
+#         os.path.join(OUTPUT_DIR, "{sample}", "quant.sf")
+#     params:
+#         salmon = config["salmon_path"],
+#         index_dir = os.path.join(scallop_outdir, "extended_transcriptome/"),
+#         output_dir = os.path.join(OUTPUT_DIR, "{sample}"),
+#         libtype = get_salmon_strand(config["feature_counts_strand_info"]),
+#         gtf = get_gtf(SPECIES),
+#         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"])
+#     threads: 4
+#     shell:
+#         """
+#         {params.salmon} quant \
+#         --index {params.index_dir} \
+#         --libType {params.libtype} \
+#         --mates1 {input.fast1} \
+#         --mates2 {input.fast2} \
+#         --geneMap {params.gtf} \
+#         --threads {threads} \
+#         {params.extra_params} \
+#         -o {params.output_dir} \
+#         """
