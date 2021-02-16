@@ -82,7 +82,7 @@ rule create_tab_delimited_gene_txt_scallop:
 
 rule cat_tabs:
     input:
-        scallop_gene_tx = os.path.join(scallop_outdir,"scallop.gene_tx.tsv")
+        scallop_gene_tx = os.path.join(scallop_outdir,"scallop.gene_tx.tsv"),
         ref_gene_tx = TAB_GTF
     output:
         os.path.join(scallop_outdir,"scallop_ref.gene_tx.tsv")
