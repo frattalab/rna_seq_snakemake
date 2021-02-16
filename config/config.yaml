@@ -44,6 +44,7 @@ fastp_trimmed_output_folder: fastp_trimmed/
 star_output_folder: bam_files/
 merged_fastq_folder: pulled_fastq/
 scallop_output: scallop_output/
+stringtie_output: stringtie_output/
 feature_counts_output_folder: feature_counts/
 salmon_output_folder: salmon_quant/
 tpmcalculator_output_folder: TPMcalculator/
@@ -167,6 +168,7 @@ scallop_extra_parameters:
   min_single_exon_coverage: 15
   min_transcript_length_base: 50
   min_transcript_length_increase: 10
+  min_transcript_coverage: 0.01
 
 #########################
 ##SCALLOP HELPER TOOLS PATHS######
