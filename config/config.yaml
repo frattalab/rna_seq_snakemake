@@ -42,7 +42,7 @@ project_top_level:  /SAN/vyplab/alb_projects/data/ward_bams/
 fastqc_output_folder: fastqc/
 fastp_trimmed_output_folder: fastp_trimmed/
 star_output_folder: bam_files/
-merged_fastq_folder: merged_fastqs/
+merged_fastq_folder: pulled_fastq/
 scallop_output: scallop_output/
 feature_counts_output_folder: feature_counts/
 salmon_output_folder: salmon_quant/

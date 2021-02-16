@@ -13,6 +13,8 @@ ANNOTATION_VERSION = get_annotation_version(SPECIES)
 KMER_SIZE = config["salmon_index_kmer_size"]
 DECOYS_DIR = os.path.join(INDEX_DIR, SPECIES, SPECIES_VERSION, "decoys", "full", ANNOTATION_VERSION, "")
 print(DECOYS_DIR)
+FASTQ_DIR = get_output_dir(config['project_top_level'], config['merged_fastq_folder'])
+
 #make sure the output folder for STAR exists before running anything
 scallop_outdir = get_output_dir(config["project_top_level"], config['scallop_output'])
 print(scallop_outdir)
@@ -87,4 +89,32 @@ rule salmon_index_extended:
         -k {params.k} \
         {params.gencode} \
         -p {threads}
+        """
+
+rule salmon_quant:
+    input:
+        fast1 = FASTQ_DIR  + "{sample}_1.merged.fastq.gz",
+        fast2 = FASTQ_DIR  + "{sample}_2.merged.fastq.gz",
+        index = os.path.join(TXOME_DIR, "seq.bin")
+    output:
+        os.path.join(OUTPUT_DIR, "{sample}", "quant.sf")
+    params:
+        salmon = config["salmon_path"],
+        index_dir = TXOME_DIR,
+        output_dir = os.path.join(OUTPUT_DIR, "{sample}"),
+        libtype = get_salmon_strand(config["feature_counts_strand_info"]),
+        gtf = get_gtf(SPECIES),
+        extra_params = return_parsed_extra_params(config["extra_salmon_parameters"])
+    threads: 4
+    shell:
+        """
+        {params.salmon} quant \
+        --index {params.index_dir} \
+        --libType {params.libtype} \
+        --mates1 {input.fast1} \
+        --mates2 {input.fast2} \
+        --geneMap {params.gtf} \
+        --threads {threads} \
+        {params.extra_params} \
+        -o {params.output_dir} \
         """
