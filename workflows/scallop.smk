@@ -26,6 +26,7 @@ rule all:
         expand(scallop_outdir + '{sample}' + ".gtf", sample = SAMPLE_NAMES),
         expand(scallop_outdir + "gffall.{sample}.gtf.tmap",sample = SAMPLE_NAMES),
         expand(scallop_outdir + "{sample}.unique.gtf",sample = SAMPLE_NAMES),
+        expand(scallop_outdir + "{sample}/" + "quant.sf", sample = SAMPLE_NAMES)
         os.path.join(scallop_outdir,"scallop_merged.gtf"),
         os.path.join(scallop_outdir,"scallop_unique.fa"),
         os.path.join(scallop_outdir, "extended_transcriptome/seq.bin"),
