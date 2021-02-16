@@ -5,7 +5,10 @@ import yaml
 configfile: "config/config.yaml"
 include: "helpers.py"
 localrules: compose_gtf_list
-
+##############################
+##### Final output is a merged gtf of all samples containing transcripts that
+##### were found in the samples but NOT the input GTF
+##############################
 #reading in the samples and dropping the samples to be excluded in order to get a list of sample names
 samples = pd.read_csv(config['sampleCSVpath'])
 samples2 = samples.loc[samples.exclude_sample_downstream_analysis != 1]
@@ -64,6 +67,7 @@ rule compare_reference:
         """
         {params.gffcompare} -o gffall -r {params.ref_gtf} {input}
         """
+
 rule fetch_unique:
     input:
         sample_tmap = os.path.join(scallop_outdir, "gffall.{sample}.gtf.tmap"),
@@ -77,6 +81,7 @@ rule fetch_unique:
         """
         {params.gtfcuff} puniq {input.sample_tmap} {input.sample_gtf} {params.ref_gtf} {output}
         """
+
 rule compose_gtf_list:
     input:
         expand(scallop_outdir + "{sample}.unique.gtf", sample=SAMPLE_NAMES)
@@ -85,6 +90,7 @@ rule compose_gtf_list:
     run:
         with open(output.txt, 'w') as out:
             print(*input, sep="\n", file=out)
+
 rule merge_scallop_gtfs:
     input:
         gtf_list = os.path.join(scallop_outdir,"gtf_list.txt")

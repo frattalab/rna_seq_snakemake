@@ -50,6 +50,34 @@ rule build_extended_cdna:
     shell:
         "cat {input} {txome_fa} > {output}"
 
+rule create_tab_delimited_gene_txt_reference:
+    input:
+        os.path.join(scallop_outdir,"scallop_merged.gtf")
+    output:
+        os.path.join(scallop_outdir,"scallop_union.fa")
+    params:
+        gffread = config['gffread']
+    shell:
+        """
+        set +u;
+        source activate salmon
+        python3 {params.quick_script} --gtf {input.scallop}
+        """
+
+rule create_tab_delimited_gene_txt_scallop:
+    input:
+        os.path.join(scallop_outdir,"scallop_merged.gtf")
+    output:
+        os.path.join(scallop_outdir,"scallop_union.fa")
+    params:
+        gffread = config['gffread']
+    shell:
+        """
+        set +u;
+        source activate salmon
+        python3 {params.quick_script} --gtf {input.scallop}
+        """
+
 rule generate_full_decoy:
     input:
         genome_fa = get_genome_fasta(SPECIES),
@@ -95,12 +123,12 @@ rule salmon_quant:
     input:
         fast1 = FASTQ_DIR  + "{sample}_1.merged.fastq.gz",
         fast2 = FASTQ_DIR  + "{sample}_2.merged.fastq.gz",
-        index = os.path.join(TXOME_DIR, "seq.bin")
+        index = os.path.join(scallop_outdir, "extended_transcriptome/seq.bin")
     output:
         os.path.join(OUTPUT_DIR, "{sample}", "quant.sf")
     params:
         salmon = config["salmon_path"],
-        index_dir = TXOME_DIR,
+        index_dir = os.path.join(scallop_outdir, "extended_transcriptome/")",
         output_dir = os.path.join(OUTPUT_DIR, "{sample}"),
         libtype = get_salmon_strand(config["feature_counts_strand_info"]),
         gtf = get_gtf(SPECIES),
