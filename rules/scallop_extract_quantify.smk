@@ -78,8 +78,7 @@ rule create_tab_delimited_tx_gene_reference:
 
 rule create_tab_delimited_tx_gene_scallop:
     input:
-        os.path.join(scallop_outdir,"scallop_merged.gtf"),
-        TAB_GTF
+        scallop_gtf = os.path.join(scallop_outdir,"scallop_merged.gtf")
     output:
         os.path.join(scallop_outdir,"scallop.tx_gene.tsv")
     params:
@@ -88,7 +87,7 @@ rule create_tab_delimited_tx_gene_scallop:
         """
         set +u;
         source activate salmon
-        python3 {params.quick_script} --gtf {input} --output {output}
+        python3 {params.quick_script} --gtf {input.scallop_gtf} --output {output}
         """
 
 rule cat_tabs:
