@@ -57,7 +57,7 @@ rule create_tab_delimited_gene_txt_reference:
     output:
         TAB_GTF
     params:
-        gffread = config['gffread']
+        quick_script = "../scripts/write_gene_tx.py"
     shell:
         """
         set +u;
@@ -71,7 +71,7 @@ rule create_tab_delimited_gene_txt_scallop:
     output:
         os.path.join(scallop_outdir,"scallop.gene_tx.tsv")
     params:
-        quick_script =
+        quick_script = "../scripts/write_gene_tx.py"
     shell:
         """
         set +u;
