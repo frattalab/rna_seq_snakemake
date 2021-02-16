@@ -78,7 +78,8 @@ rule create_tab_delimited_tx_gene_reference:
 
 rule create_tab_delimited_tx_gene_scallop:
     input:
-        os.path.join(scallop_outdir,"scallop_merged.gtf")
+        os.path.join(scallop_outdir,"scallop_merged.gtf"),
+        TAB_GTF
     output:
         os.path.join(scallop_outdir,"scallop.tx_gene.tsv")
     params:
