@@ -18,6 +18,7 @@ FASTQ_DIR = get_output_dir(config['project_top_level'], config['merged_fastq_fol
 
 GTF = get_gtf(SPECIES)
 TAB_GTF = GTF.replace(".gtf",".tx_gene.tsv")
+print(TAB_GTF)
 #make sure the output folder for STAR exists before running anything
 scallop_outdir = get_output_dir(config["project_top_level"], config['scallop_output'])
 print(scallop_outdir)
@@ -74,7 +75,7 @@ rule create_tab_delimited_tx_genet_reference:
         python3 {params.quick_script} --gtf {input} --output {output}
         """
 
-rule create_tab_delimited_tx_genet_scallop:
+rule create_tab_delimited_tx_gene_scallop:
     input:
         os.path.join(scallop_outdir,"scallop_merged.gtf")
     output:
