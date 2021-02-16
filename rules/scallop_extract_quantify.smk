@@ -162,7 +162,7 @@ rule salmon_quant:
         --libType {params.libtype} \
         --mates1 {input.fast1} \
         --mates2 {input.fast2} \
-        --geneMap {params.gtf} \
+        --geneMap {params.scallop_ref} \
         --threads {threads} \
         {params.extra_params} \
         -o {params.output_dir} \
