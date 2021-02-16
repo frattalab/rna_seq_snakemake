@@ -29,7 +29,8 @@ rule extraction_quantification:
     input:
         os.path.join(scallop_outdir,"scallop_unique.fa"),
         os.path.join(scallop_outdir, "extended_transcriptome/seq.bin"),
-        os.path.join(scallop_outdir, "extended_transcriptome/pos.bin")
+        os.path.join(scallop_outdir, "extended_transcriptome/pos.bin"),
+        os.path.join(scallop_outdir,"scallop_ref.gene_tx.tsv")
 
 rule get_cnda:
     input:
@@ -77,6 +78,17 @@ rule create_tab_delimited_gene_txt_scallop:
         set +u;
         source activate salmon
         python3 {params.quick_script} --gtf {input} --output {output}
+        """
+
+rule cat_tabs:
+    input:
+        scallop_gene_tx = os.path.join(scallop_outdir,"scallop.gene_tx.tsv")
+        ref_gene_tx = TAB_GTF
+    output:
+        os.path.join(scallop_outdir,"scallop_ref.gene_tx.tsv")
+    shell:
+        """
+        cat {input.scallop_gene_tx} {input.ref_gene_tx} > {output}
         """
 
 rule generate_full_decoy:

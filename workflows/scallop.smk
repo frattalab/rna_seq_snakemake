@@ -29,4 +29,5 @@ rule all:
         os.path.join(scallop_outdir,"scallop_merged.gtf"),
         os.path.join(scallop_outdir,"scallop_unique.fa"),
         os.path.join(scallop_outdir, "extended_transcriptome/seq.bin"),
-        os.path.join(scallop_outdir, "extended_transcriptome/pos.bin")
+        os.path.join(scallop_outdir, "extended_transcriptome/pos.bin"),
+        os.path.join(scallop_outdir,"scallop_ref.gene_tx.tsv")
