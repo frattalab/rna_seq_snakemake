@@ -38,7 +38,8 @@ rule extraction_quantification:
         os.path.join(scallop_outdir, "extended_transcriptome/seq.bin"),
         os.path.join(scallop_outdir, "extended_transcriptome/pos.bin"),
         os.path.join(scallop_outdir,"scallop_ref.tx_gene.tsv"),
-        expand(scallop_outdir + "{sample}/" + "quant.sf", sample = SAMPLE_NAMES)
+        expand(scallop_outdir + "{sample}/" + "quant.sf", sample = SAMPLE_NAMES),
+        TAB_GTF
 
 
 rule get_cnda:
@@ -61,7 +62,7 @@ rule build_extended_cdna:
     shell:
         "cat {input} {txome_fa} > {output}"
 
-rule create_tab_delimited_tx_genet_reference:
+rule create_tab_delimited_tx_gene_reference:
     input:
         GTF
     output:
