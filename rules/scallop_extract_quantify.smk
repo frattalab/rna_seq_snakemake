@@ -14,7 +14,8 @@ KMER_SIZE = config["salmon_index_kmer_size"]
 DECOYS_DIR = os.path.join(INDEX_DIR, SPECIES, SPECIES_VERSION, "decoys", "full", ANNOTATION_VERSION, "")
 print(DECOYS_DIR)
 FASTQ_DIR = get_output_dir(config['project_top_level'], config['merged_fastq_folder'])
-
+GTF = get_gtf(SPECIES)
+TAB_GTF = GTF.replace(".gtf",".gene_tx.tsv")
 #make sure the output folder for STAR exists before running anything
 scallop_outdir = get_output_dir(config["project_top_level"], config['scallop_output'])
 print(scallop_outdir)
@@ -52,30 +53,30 @@ rule build_extended_cdna:
 
 rule create_tab_delimited_gene_txt_reference:
     input:
-        os.path.join(scallop_outdir,"scallop_merged.gtf")
+        GTF
     output:
-        os.path.join(scallop_outdir,"scallop_union.fa")
+        TAB_GTF
     params:
         gffread = config['gffread']
     shell:
         """
         set +u;
         source activate salmon
-        python3 {params.quick_script} --gtf {input.scallop}
+        python3 {params.quick_script} --gtf {input} --output {output}
         """
 
 rule create_tab_delimited_gene_txt_scallop:
     input:
         os.path.join(scallop_outdir,"scallop_merged.gtf")
     output:
-        os.path.join(scallop_outdir,"scallop_union.fa")
+        os.path.join(scallop_outdir,"scallop.gene_tx.tsv")
     params:
-        gffread = config['gffread']
+        quick_script =
     shell:
         """
         set +u;
         source activate salmon
-        python3 {params.quick_script} --gtf {input.scallop}
+        python3 {params.quick_script} --gtf {input} --output {output}
         """
 
 rule generate_full_decoy:
