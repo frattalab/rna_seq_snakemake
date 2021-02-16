@@ -144,7 +144,8 @@ rule salmon_quant:
     input:
         fast1 = FASTQ_DIR  + "{sample}_1.merged.fastq.gz",
         fast2 = FASTQ_DIR  + "{sample}_2.merged.fastq.gz",
-        index = os.path.join(scallop_outdir, "extended_transcriptome/seq.bin")
+        index = os.path.join(scallop_outdir, "extended_transcriptome/seq.bin"),
+        scallop_ref = os.path.join(scallop_outdir,"scallop.tx_gene.tsv")
     output:
         os.path.join(scallop_outdir, "{sample}", "quant.sf")
     params:
@@ -152,7 +153,6 @@ rule salmon_quant:
         index_dir = os.path.join(scallop_outdir, "extended_transcriptome/"),
         output_dir = os.path.join(scallop_outdir, "{sample}"),
         libtype = get_salmon_strand(config["feature_counts_strand_info"]),
-        scallop_ref = os.path.join(scallop_outdir,"scallop.tx_gene.tsv"),
         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"])
     threads: 4
     shell:
@@ -162,7 +162,7 @@ rule salmon_quant:
         --libType {params.libtype} \
         --mates1 {input.fast1} \
         --mates2 {input.fast2} \
-        --geneMap {params.scallop_ref} \
+        --geneMap {input.scallop_ref} \
         --threads {threads} \
         {params.extra_params} \
         -o {params.output_dir} \
