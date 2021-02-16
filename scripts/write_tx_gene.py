@@ -14,7 +14,7 @@ def main():
     out_file = args.output
 
     df = read_gtf(in_file)
-    df = df[['gene_id','transcript_id']].drop_duplicates()
+    df = df[['transcript_id','gene_id']].drop_duplicates()
     df = df[df['transcript_id'] != ""]
     df.to_csv(out_file, sep='\t', index=False,header = False)
 

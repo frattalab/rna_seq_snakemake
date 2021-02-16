@@ -17,7 +17,7 @@ print(DECOYS_DIR)
 FASTQ_DIR = get_output_dir(config['project_top_level'], config['merged_fastq_folder'])
 
 GTF = get_gtf(SPECIES)
-TAB_GTF = GTF.replace(".gtf",".gene_tx.tsv")
+TAB_GTF = GTF.replace(".gtf",".tx_gene.tsv")
 #make sure the output folder for STAR exists before running anything
 scallop_outdir = get_output_dir(config["project_top_level"], config['scallop_output'])
 print(scallop_outdir)
@@ -36,7 +36,7 @@ rule extraction_quantification:
         os.path.join(scallop_outdir,"scallop_unique.fa"),
         os.path.join(scallop_outdir, "extended_transcriptome/seq.bin"),
         os.path.join(scallop_outdir, "extended_transcriptome/pos.bin"),
-        os.path.join(scallop_outdir,"scallop_ref.gene_tx.tsv"),
+        os.path.join(scallop_outdir,"scallop_ref.tx_gene.tsv"),
         expand(scallop_outdir + "{sample}/" + "quant.sf", sample = SAMPLE_NAMES)
 
 
@@ -60,13 +60,13 @@ rule build_extended_cdna:
     shell:
         "cat {input} {txome_fa} > {output}"
 
-rule create_tab_delimited_gene_txt_reference:
+rule create_tab_delimited_tx_genet_reference:
     input:
         GTF
     output:
         TAB_GTF
     params:
-        quick_script = "scripts/write_gene_tx.py"
+        quick_script = "scripts/write_tx_gene.py"
     shell:
         """
         set +u;
@@ -74,13 +74,13 @@ rule create_tab_delimited_gene_txt_reference:
         python3 {params.quick_script} --gtf {input} --output {output}
         """
 
-rule create_tab_delimited_gene_txt_scallop:
+rule create_tab_delimited_tx_genet_scallop:
     input:
         os.path.join(scallop_outdir,"scallop_merged.gtf")
     output:
-        os.path.join(scallop_outdir,"scallop.gene_tx.tsv")
+        os.path.join(scallop_outdir,"scallop.tx_gene.tsv")
     params:
-        quick_script = "scripts/write_gene_tx.py"
+        quick_script = "scripts/write_tx_gene.py"
     shell:
         """
         set +u;
@@ -90,13 +90,13 @@ rule create_tab_delimited_gene_txt_scallop:
 
 rule cat_tabs:
     input:
-        scallop_gene_tx = os.path.join(scallop_outdir,"scallop.gene_tx.tsv"),
-        ref_gene_tx = TAB_GTF
+        scallop_tx_gene = os.path.join(scallop_outdir,"scallop.tx_gene.tsv"),
+        ref_tx_gene = TAB_GTF
     output:
-        os.path.join(scallop_outdir,"scallop_ref.gene_tx.tsv")
+        os.path.join(scallop_outdir,"scallop_ref.tx_gene.tsv")
     shell:
         """
-        cat {input.scallop_gene_tx} {input.ref_gene_tx} > {output}
+        cat {input.scallop_tx_gene} {input.ref_tx_gene} > {output}
         """
 
 rule generate_full_decoy:
@@ -152,7 +152,7 @@ rule salmon_quant:
         index_dir = os.path.join(scallop_outdir, "extended_transcriptome/"),
         output_dir = os.path.join(scallop_outdir, "{sample}"),
         libtype = get_salmon_strand(config["feature_counts_strand_info"]),
-        scallop_ref = os.path.join(scallop_outdir,"scallop_ref.gene_tx.tsv"),
+        scallop_ref = os.path.join(scallop_outdir,"scallop.tx_gene.tsv"),
         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"])
     threads: 4
     shell:
