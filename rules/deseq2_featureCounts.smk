@@ -13,26 +13,15 @@ BASES, CONTRASTS = return_bases_and_contrasts('config/DESeq2comparisons.yaml')
 print(BASES)
 print(CONTRASTS)
 
+FEATURECOUNTS_DIR = get_output_dir(config['project_top_level'], config['feature_counts_output_folder'])
+
 DESEQ2_DIR = get_output_dir(config['project_top_level'], config['deseq2'])
 DESEQ2_DIR = DESEQ2_DIR + "featureCounts/"
 
 
-option_list = list(
-    make_option(c("-f", "--folder_of_featurecounts"), type="character", default=NULL,
-                help="a folder containing featurecounts output", metavar="character"),
-    make_option(c("-b", "--base_grep"), type="character", default=NULL,
-        help="a folder containing featurecounts output", metavar="character"),
-    make_option(c("-c", "--contrast_grep"), type="character", default=NULL,
-                help="output file name", metavar="character")
-    make_option(c("-o", "--out"), type="character", default="out.txt",
-          help="output file name; will output 3 files", metavar="character")
-    make_option(c("-o", "--out"), type="character", default="out.txt",
-          help="output file name; will output 3 files", metavar="character")
-);
-
 rule deseqOutput:
     input:
-        expand(os.path.join(DESEQ2_DIR,"{bse}_{contrast}" + ".psi.tsv"),zip, bse = BASES,contrast = CONTRASTS)
+        expand(os.path.join(DESEQ2_DIR,"{bse}_{contrast}" + "normed_counts.csv.gz"),zip, bse = BASES,contrast = CONTRASTS)
 
 rule run_standard_deseq:
     input:
@@ -40,11 +29,18 @@ rule run_standard_deseq:
         contrast_group = lambda wildcards: sample_names_from_contrast(wildcards.contrast)
     output:
     params:
+        bam_suffix = config['bam_suffix'],
+        baseName = "{bse}",
+        contrastName = "{contrast}",
+        out = "{bse}_{contrast}"
     shell:
     """
     Rscript standard_deseq2_command_line.R \
-    --folder_of_featurecounts {input.csv} \
-    --base_grep THIS NEEDS TO BE GENERATED AS A PASTED TOGETHER of the sample names \
-    -- contrast_grep
-    --out {output}
+    --folder_of_featurecounts {para.csv} \
+    --base_grep {input.contrast_group} \
+    --contrast_grep {input.contrast_group} \
+    --suffix {params.bam_suffix}
+    --out {params.out} \
+    --baseName {params.baseName}\
+    --contrastName {params.contrastName}
     """
