@@ -6,13 +6,13 @@
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
 # Double check README for instructions for constructing a valid sample csv table
-sampleCSVpath:  /SAN/vyplab/alb_projects/data/bilal_mouse/mouse_samples1.csv
+sampleCSVpath:  /SAN/vyplab/alb_projects/data/muscle/wide_fastq.csv
 
 #If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
 end_type: pe
 
 #mouse or human
-species: "mouse"
+species: "human"
 
 readLen: 150
 ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
@@ -29,7 +29,7 @@ feature_counts_strand_info: "-s 2"
 #always end paths with a trailing slash, or there will be errors :)
 
 #master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
-project_top_level:  /SAN/vyplab/alb_projects/data/bilal_mouse/
+project_top_level:  /SAN/vyplab/alb_projects/data/muscle/analysis/
 
 
 #below you can specify the names of rulesubdirectories
@@ -40,13 +40,13 @@ project_top_level:  /SAN/vyplab/alb_projects/data/bilal_mouse/
 #suggest name like <rule>_output_folder & <rule>_subdir_folder - can split key/string by '_'[0] to map keys (NO - this is way too complicated...)
 
 fastqc_output_folder: fastqc/
-fastp_trimmed_output_folder: fastp_trimmed/
+fastp_trimmed_output_folder: fastp_trimmed_again/
 star_output_folder: STAR_aligned/
 merged_fastq_folder: merged_fastqs/
 scallop_output: scallop_output/
 stringtie_output: stringtie_output/
-feature_counts_output_folder: feature_counts_recount/
-salmon_output_folder: salmon_quant_customAR/
+feature_counts_output_folder: feature_counts/
+salmon_output_folder: salmon_quant/
 tpmcalculator_output_folder: TPMcalculator/
 interleave_master_output_folder: interleaved_fastq/
 
