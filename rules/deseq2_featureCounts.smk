@@ -28,14 +28,14 @@ rule run_standard_deseq:
         base_group = lambda wildcards: sample_names_from_contrast(wildcards.bse),
         contrast_group = lambda wildcards: sample_names_from_contrast(wildcards.contrast)
     output:
-        expand(os.path.join(DESEQ2_DIR,"{bse}_{contrast}" + "normed_counts.csv.gz"),zip, bse = BASES,contrast = CONTRASTS)
+        os.path.join(DESEQ2_DIR,"{bse}_{contrast}" + "normed_counts.csv.gz")
     params:
         bam_suffix = config['bam_suffix'],
         baseName = "{bse}",
         contrastName = "{contrast}",
         out = "{bse}_{contrast}",
-        base_grep = lambda wildcards:sample_names_from_contrast(wildcards.bse),
-        contrast_grep = lambda wildcards:sample_names_from_contrast(wildcards.contrast)
+        base_grep = lambda wildcards: sample_names_from_contrast(wildcards.bse),
+        contrast_grep = lambda wildcards: sample_names_from_contrast(wildcards.contrast)
     shell:
         """
         Rscript standard_deseq2_command_line.R \
