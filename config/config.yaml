@@ -49,6 +49,7 @@ feature_counts_output_folder: feature_counts/
 salmon_output_folder: salmon_quant/
 tpmcalculator_output_folder: TPMcalculator/
 interleave_master_output_folder: interleaved_fastq/
+DESeq2_output: deseq2/
 
 ###### By defaulteverything aligned with this
 ###### pipeline will get the suffix "Aligned.sorted.out.bam"

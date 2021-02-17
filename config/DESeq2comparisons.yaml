@@ -3,10 +3,30 @@
 #problems. I suggest camelCase names, but doesn't really matter as long as you can interpret them. Throughout the file they have to be unique.
 #each of these two items has as many idenitifiers as you like, but they must be
 #valid identifiers from the column_name column in the sample_csv. The first identifier is always the baseline group
-compareControls:
+compareControlsSBMA:
   column_name:
     - group
-  tdp43Positive:
-    - positive
-  tdp43Negative:
-    - negative
+  control:
+    - control
+  SBMAvControl:
+    - SBMA
+compareControlsALS:
+  column_name:
+    - group
+  controls:
+    - control
+  ALSvControl:
+    - C9
+    - Fus
+    - SOD
+    - TDP
+compareALSSBMA:
+  column_name:
+    - group
+  ALSmuscle:
+    - C9
+    - Fus
+    - SOD
+    - TDP
+  SBMAmuscle:
+    - SBMA

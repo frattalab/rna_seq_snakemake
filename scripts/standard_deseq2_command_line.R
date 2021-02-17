@@ -1,16 +1,20 @@
 
 library("optparse")
+library(data.table)
+
 option_list = list(
     make_option(c("-f", "--folder_of_featurecounts"), type="character", default=NULL,
                 help="a folder containing featurecounts output", metavar="character"),
     make_option(c("-b", "--base_grep"), type="character", default=NULL,
         help="a folder containing featurecounts output", metavar="character"),
     make_option(c("-c", "--contrast_grep"), type="character", default=NULL,
-                help="output file name", metavar="character")
-    make_option(c("-o", "--out"), type="character", default="out.txt",
-          help="output file name; will output 3 files", metavar="character")
-    make_option(c("-o", "--out"), type="character", default="out.txt",
-          help="output file name; will output 3 files", metavar="character")
+                help="output file name", metavar="character"),
+    make_option(c("-s", "--suffix"), type="character", default=NULL,
+                help="BAM suffix", metavar="character")
+    make_option(c("-bn", "--baseName"), type="character", default="out.txt",
+          help="name of the baseline treatment output file name", metavar="character")
+    make_option(c("-cn", "--contrastName"), type="character", default="out.txt",
+          help="oname of the contrast", metavar="character")
 );
 
 opt_parser = OptionParser(option_list=option_list);
@@ -19,7 +23,6 @@ opt = parse_args(opt_parser);
 standard_output = run_standard_deseq(opt$folder_of_featurecounts,
                               base_grep = opt$base_grep,
                               contrast_grep = opt$contrast_grep,
-                              grep_pattern = opt$grep_pattern,
                               suffix = opt$suffix,
                               baseName = opt$baseName,
                               contrastName = opt$contrastName
