@@ -104,7 +104,9 @@ rule cat_tabs:
 rule generate_full_decoy:
     input:
         genome_fa = get_genome_fasta(SPECIES),
-        txome_fa = os.path.join(scallop_outdir,"scallop_unique.fa"),
+        scallop_txome_fa = os.path.join(scallop_outdir,"scallop_unique.fa"),
+        ref_txome_fa = get_transcriptome_fasta(SPECIES),
+
     output:
         gentrome_fa = os.path.join(scallop_outdir, "gentrome.fa"),
         decoys = os.path.join(scallop_outdir, "decoys.txt")
@@ -115,7 +117,7 @@ rule generate_full_decoy:
         grep "^>" {input.genome_fa} | cut -d " " -f 1 > {output.decoys}
         sed -i.bak -e 's/>//g' {output.decoys}
 
-        cat {input.txome_fa} {input.genome_fa} > {output.gentrome_fa}
+        cat {input.scallop_txome_fa} {input.ref_txome_fa} {input.genome_fa} > {output.gentrome_fa}
         """
 rule salmon_index_extended:
     input:

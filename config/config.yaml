@@ -55,6 +55,9 @@ interleave_master_output_folder: interleaved_fastq/
 ###### but if you want to run scallop  with bams aligned somewhere else
 ###### you'll have to tweak this
 bam_suffix: ".Aligned.sorted.out.bam"
+
+###### Do you want to use a custom salmon index? If yes, give a file path to one build with the single_step generate_salmon_dex, otherwise leave false
+custom_salmon_index: False
 #########################
 ##FASTP PARAMETERS - TRIMMING HERE######
 #########################
