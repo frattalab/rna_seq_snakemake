@@ -1,7 +1,7 @@
 import os
 configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml"
-include: "helpers.py"
+include: "../rules/helpers.py"
 
 
 CUSTOM_FA = "/SAN/vyplab/alb_projects/data/bilal_mouse/plusHumanAR.gencode.vM22.annotation.gtf.transcripts.fasta"
