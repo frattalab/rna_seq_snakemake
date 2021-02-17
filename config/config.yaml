@@ -57,7 +57,7 @@ interleave_master_output_folder: interleaved_fastq/
 bam_suffix: ".Aligned.sorted.out.bam"
 
 ###### Do you want to use a custom salmon index? If yes, give a file path to one build with the single_step generate_salmon_dex, otherwise leave false
-custom_salmon_index: /SAN/vyplab/alb_projects/data/bilal_mouse/salmonindex_with_humanAR/
+custom_salmon_index: False
 #########################
 ##FASTP PARAMETERS - TRIMMING HERE######
 #########################
