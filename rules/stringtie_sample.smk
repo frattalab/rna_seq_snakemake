@@ -34,15 +34,15 @@ rule all_stringtie:
         os.path.join(stringtie_outdir,"scallop_merged.gtf")
 
 rule StringTie_Assemble:
-  input:
-    bam = lambda wildcards: star_outdir + '{sample}' + config['bam_suffix'],
-    ref_gtf = GTF
-  output:
-    stringtie_outdir + "{sample}.assemble.gtf"
-  conda:
-    "../envs/stringtie.yaml"
-  shell:
-    "stringtie {input.bam} -G {input.ref_gtf} -o {output}"
+    input:
+        bam = lambda wildcards: star_outdir + '{sample}' + config['bam_suffix'],
+        ref_gtf = GTF
+    output:
+        stringtie_outdir + "{sample}.assemble.gtf"
+    conda:
+        "../envs/stringtie.yaml"
+    shell:
+        "stringtie {input.bam} -G {input.ref_gtf} -o {output}"
 
 
 rule compare_reference:
@@ -81,14 +81,14 @@ rule compose_gtf_list:
         with open(output.txt, 'w') as out:
             print(*input, sep="\n", file=out)
 
-# rule merge_stringtie_gtfs:
-#     input:
-#         gtf_list = os.path.join(stringtie_outdir,"gtf_list.txt")
-#     output:
-#         merged_gtf = os.path.join(stringtie_outdir,"scallop_merged.gtf")
-#     params:
-#         gtfmerge = config['gtfmerge']
-#     shell:
-#         """
-#         {params.gtfmerge} union {input.gtf_list} {output.merged_gtf} -t 2 -n
-#         """
+rule merge_stringtie_gtfs:
+    input:
+        gtf_list = os.path.join(stringtie_outdir,"gtf_list.txt")
+    output:
+        merged_gtf = os.path.join(stringtie_outdir,"scallop_merged.gtf")
+    params:
+        gtfmerge = config['gtfmerge']
+    shell:
+        """
+        {params.gtfmerge} union {input.gtf_list} {output.merged_gtf} -t 2 -n
+        """
