@@ -31,6 +31,7 @@ rule run_standard_deseq:
         os.path.join(DESEQ2_DIR,"{bse}_{contrast}" + "normed_counts.csv.gz")
     params:
         bam_suffix = config['bam_suffix'],
+        feature_counts_path = FEATURECOUNTS_DIR,
         baseName = "{bse}",
         contrastName = "{contrast}",
         out = "{bse}_{contrast}",
@@ -39,11 +40,11 @@ rule run_standard_deseq:
     shell:
         """
         Rscript standard_deseq2_command_line.R \
-        --folder_of_featurecounts {para.csv} \
-        --base_grep {input.contrast_group} \
-        --contrast_grep {input.contrast_group} \
+        --folder_of_featurecounts {params.csv} \
+        --base_grep {params.base_grep} \
+        --contrast_grep {input.contrast_grep} \
         --suffix {params.bam_suffix}
         --out {params.out} \
-        --baseName {params.baseName}\
+        --baseName {params.baseName} \
         --contrastName {params.contrastName}
         """
