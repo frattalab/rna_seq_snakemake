@@ -234,3 +234,51 @@ def salmon_target_index(txome_dir, species, species_version, decoy_type, annot_v
 
     else:
         return os.path.join(txome_dir, species, species_version, decoy_type, ".".join([annot_version, "kmer_" + str(kmer_size)]))
+
+def sample_names_from_contrast(grp):
+    """
+    given a contrast name or list of groups return a list of the files in that group
+    """
+    #reading in the samples
+    samples = pd.read_csv(config['sampleCSVpath'])
+    #there should be a column which allows you to exclude samples
+    samples2 = samples.loc[samples.exclude_sample_downstream_analysis != 1]
+    #read in the comparisons and make a dictionary of comparisons, comparisons needs to be in the config file
+    compare_dict = load_comparisons()
+    #go through the values of the dictionary and break when we find the right groups in that contrast
+    grps, comparison_column = return_sample_names_group(grp)
+    #take the sample names corresponding to those groups
+    if comparison_column == "":
+        print(grp)
+        return([""])
+    grp_samples = "|".list(set(list(samples2[samples2[comparison_column].isin(grps)].sample_name)))
+    return(grp_samples)
+def load_comparisons():
+    comparisons = "config/DESeq2comparisons.yaml"
+    with open(comparisons, 'r') as stream:
+        try:
+            compare_dict = yaml.safe_load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+    return(compare_dict)
+def check_key(dict, key):
+     """
+     simple funciton to check if a key is in a dictionary, if it's not returns false and if it is returns the value
+     """
+     if key in dict:
+         return(dict[key])
+     else:
+         return(False)
+def return_sample_names_group(grp):
+    """
+    given a group, return the names and the column_name associated with that
+    """
+    compare_dict = load_comparisons()
+    for key in compare_dict.keys():
+        print(key)
+        grp_names = check_key(compare_dict[key],grp)
+        print(grp_names)
+        if grp_names:
+            column_name = compare_dict[key]['column_name'][0]
+            return(grp_names,column_name)
+    return("","")
