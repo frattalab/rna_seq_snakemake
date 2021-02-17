@@ -4,6 +4,7 @@ import os
 import numpy as np
 import subprocess
 from subprocess import PIPE
+import yaml
 
 def get_fastq_names(DATA):
     samples = pd.read_csv(DATA, sep = ",")
@@ -253,6 +254,7 @@ def sample_names_from_contrast(grp):
         return([""])
     grp_samples = "|".list(set(list(samples2[samples2[comparison_column].isin(grps)].sample_name)))
     return(grp_samples)
+
 def load_comparisons():
     comparisons = "config/DESeq2comparisons.yaml"
     with open(comparisons, 'r') as stream:
