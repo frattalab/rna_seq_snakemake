@@ -270,7 +270,6 @@ def featurecounts_files_from_contrast(grp):
     grps, comparison_column = return_sample_names_group(grp)
     #take the sample names corresponding to those groups
     if comparison_column == "":
-        print(grp)
         return([""])
     grp_samples = list(set(list(samples2[samples2[comparison_column].isin(grps)].sample_name)))
     feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
@@ -280,6 +279,7 @@ def featurecounts_files_from_contrast(grp):
     fc_files = [os.path.join(feature_counts_outdir,x + fc_suffix) \
                    for x in grp_samples]
     fc_files = list(set(fc_files))
+    print(fc_files)
     return(fc_files)
 
 def load_comparisons():
@@ -304,9 +304,7 @@ def return_sample_names_group(grp):
     """
     compare_dict = load_comparisons()
     for key in compare_dict.keys():
-        print(key)
         grp_names = check_key(compare_dict[key],grp)
-        print(grp_names)
         if grp_names:
             column_name = compare_dict[key]['column_name'][0]
             return(grp_names,column_name)
