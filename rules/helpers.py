@@ -280,7 +280,7 @@ def featurecounts_files_from_contrast(grp):
     fc_files = [os.path.join(feature_counts_outdir,x + fc_suffix) \
                    for x in grp_samples]
     fc_files = list(set(fc_files))
-    return(majiq_files)
+    return(fc_files)
 
 def load_comparisons():
     comparisons = "config/DESeq2comparisons.yaml"
