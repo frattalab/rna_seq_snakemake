@@ -25,8 +25,8 @@ rule deseqOutput:
 
 rule run_standard_deseq:
     input:
-        base_group = lambda wildcards: featurecounts_files_from_contrast(wildcards.bse),
-        contrast_group = lambda wildcards: featurecounts_files_from_contrast(wildcards.contrast)
+        base_group = featurecounts_files_from_contrast(wildcards.bse),
+        contrast_group = featurecounts_files_from_contrast(wildcards.contrast)
     output:
         os.path.join(DESEQ2_DIR,"{bse}_{contrast}" + "normed_counts.csv.gz")
     params:
