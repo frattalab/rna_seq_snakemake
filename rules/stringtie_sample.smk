@@ -60,7 +60,7 @@ rule compare_reference:
 rule fetch_unique:
     input:
         sample_tmap = os.path.join(stringtie_outdir, "gffall.{sample}.gtf.tmap"),
-        sample_gtf = os.path.join(stringtie_outdir,'{sample}' + ".gtf")
+        sample_gtf = os.path.join(stringtie_outdir,'{sample}' + "assemble.gtf")
     output:
         os.path.join(stringtie_outdir, "{sample}.unique.gtf")
     params:
