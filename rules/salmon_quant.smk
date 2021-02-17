@@ -87,7 +87,6 @@ rule salmon_quant:
     shell:
         """
         {params.salmon} quant \
-        --gcBias \
         --index {params.index_dir} \
         --libType {params.libtype} \
         --mates1 {input.fast1} \
