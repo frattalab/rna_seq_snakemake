@@ -25,7 +25,7 @@ star_outdir = get_output_dir(config["project_top_level"], config['star_output_fo
 stringtie_outdir = get_output_dir(config["project_top_level"], config['stringtie_output'])
 
 print(stringtie_outdir)
-rule all_scallop:
+rule all_stringtie
     input:
         expand(stringtie_outdir + "{sample}.assemble.gtf", sample = SAMPLE_NAMES),
         expand(stringtie_outdir + "gffall.{sample}.gtf.tmap",sample = SAMPLE_NAMES),
@@ -34,7 +34,7 @@ rule all_scallop:
 
 rule StringTie_Assemble:
   input:
-    bam_file = lambda wildcards: star_outdir + '{sample}' + config['bam_suffix'],
+    bam = lambda wildcards: star_outdir + '{sample}' + config['bam_suffix'],
     ref_gtf = GTF
   output:
     stringtie_outdir + "{sample}.assemble.gtf"
