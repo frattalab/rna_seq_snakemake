@@ -15,7 +15,7 @@ print(CONTRASTS)
 
 FEATURECOUNTS_DIR = get_output_dir(config['project_top_level'], config['feature_counts_output_folder'])
 
-DESEQ2_DIR = get_output_dir(config['project_top_level'], config['deseq2'])
+DESEQ2_DIR = get_output_dir(config['project_top_level'], config['DESeq2_output'])
 DESEQ2_DIR = DESEQ2_DIR + "featureCounts/"
 
 
