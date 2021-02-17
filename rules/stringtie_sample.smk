@@ -81,14 +81,14 @@ rule compose_gtf_list:
         with open(output.txt, 'w') as out:
             print(*input, sep="\n", file=out)
 
-rule merge_stringtie_gtfs:
-    input:
-        gtf_list = os.path.join(stringtie_outdir,"gtf_list.txt")
-    output:
-        merged_gtf = os.path.join(stringtie_outdir,"scallop_merged.gtf")
-    params:
-        gtfmerge = config['gtfmerge']
-    shell:
-        """
-        {params.gtfmerge} union {input.gtf_list} {output.merged_gtf} -t 2 -n
-        """
+# rule merge_stringtie_gtfs:
+#     input:
+#         gtf_list = os.path.join(stringtie_outdir,"gtf_list.txt")
+#     output:
+#         merged_gtf = os.path.join(stringtie_outdir,"scallop_merged.gtf")
+#     params:
+#         gtfmerge = config['gtfmerge']
+#     shell:
+#         """
+#         {params.gtfmerge} union {input.gtf_list} {output.merged_gtf} -t 2 -n
+#         """
