@@ -37,13 +37,13 @@ rule run_standard_deseq:
         base_grep = lambda wildcards:sample_names_from_contrast(wildcards.bse),
         contrast_grep = lambda wildcards:sample_names_from_contrast(wildcards.contrast)
     shell:
-    """
-    Rscript standard_deseq2_command_line.R \
-    --folder_of_featurecounts {para.csv} \
-    --base_grep {input.contrast_group} \
-    --contrast_grep {input.contrast_group} \
-    --suffix {params.bam_suffix}
-    --out {params.out} \
-    --baseName {params.baseName}\
-    --contrastName {params.contrastName}
-    """
+        """
+        Rscript standard_deseq2_command_line.R \
+        --folder_of_featurecounts {para.csv} \
+        --base_grep {input.contrast_group} \
+        --contrast_grep {input.contrast_group} \
+        --suffix {params.bam_suffix}
+        --out {params.out} \
+        --baseName {params.baseName}\
+        --contrastName {params.contrastName}
+        """
