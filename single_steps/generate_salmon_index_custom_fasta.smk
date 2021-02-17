@@ -23,7 +23,7 @@ if not os.path.exists(TXOME_DIR):
 
 # 1 decoys (& merged txome + decoys FA ) file generated for each genome assembly + transcriptome annotation version
 # Used as input to salmon index
-DECOYS_DIR = os.path.join(INDEX_DIR, SPECIES, SPECIES_VERSION, "decoys", DECOY_TYPE, ANNOTATION_VERSION, "")
+DECOYS_DIR = os.path.join(TXOME_DIR, "decoys", DECOY_TYPE, ANNOTATION_VERSION, "")
 print(DECOYS_DIR)
 
 if not os.path.exists(DECOYS_DIR):
