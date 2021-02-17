@@ -24,8 +24,9 @@ GTF = get_gtf(SPECIES)
 star_outdir = get_output_dir(config["project_top_level"], config['star_output_folder'])
 stringtie_outdir = get_output_dir(config["project_top_level"], config['stringtie_output'])
 
-print(stringtie_outdir)
-rule all_stringtie
+print(stringtie_outdir
+
+rule all_stringtie:
     input:
         expand(stringtie_outdir + "{sample}.assemble.gtf", sample = SAMPLE_NAMES),
         expand(stringtie_outdir + "gffall.{sample}.gtf.tmap",sample = SAMPLE_NAMES),
