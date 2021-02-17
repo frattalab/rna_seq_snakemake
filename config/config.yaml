@@ -6,13 +6,13 @@
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
 # Double check README for instructions for constructing a valid sample csv table
-sampleCSVpath:  /SAN/vyplab/alb_projects/data/ward_bams/ward_bams.csv
+sampleCSVpath:  /SAN/vyplab/alb_projects/data/bilal_mouse/mouse_samples1.csv
 
 #If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
 end_type: pe
 
 #mouse or human
-species: "human"
+species: "mouse"
 
 readLen: 150
 ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
@@ -29,7 +29,7 @@ feature_counts_strand_info: "-s 2"
 #always end paths with a trailing slash, or there will be errors :)
 
 #master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
-project_top_level:  /SAN/vyplab/alb_projects/data/ward_bams/
+project_top_level:  /SAN/vyplab/alb_projects/data/bilal_mouse/
 
 
 #below you can specify the names of rulesubdirectories
@@ -41,11 +41,11 @@ project_top_level:  /SAN/vyplab/alb_projects/data/ward_bams/
 
 fastqc_output_folder: fastqc/
 fastp_trimmed_output_folder: fastp_trimmed/
-star_output_folder: bam_files/
+star_output_folder: STAR_aligned/
 merged_fastq_folder: pulled_fastq/
 scallop_output: scallop_output/
 stringtie_output: stringtie_output/
-feature_counts_output_folder: feature_counts/
+feature_counts_output_folder: feature_counts_recount/
 salmon_output_folder: salmon_quant/
 tpmcalculator_output_folder: TPMcalculator/
 interleave_master_output_folder: interleaved_fastq/
@@ -54,7 +54,7 @@ interleave_master_output_folder: interleaved_fastq/
 ###### pipeline will get the suffix "Aligned.sorted.out.bam"
 ###### but if you want to run scallop  with bams aligned somewhere else
 ###### you'll have to tweak this
-bam_suffix: ".pass2Aligned.sortedByCoord.out.bam"
+bam_suffix: ".Aligned.sorted.out.bam"
 #########################
 ##FASTP PARAMETERS - TRIMMING HERE######
 #########################
