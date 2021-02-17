@@ -255,6 +255,33 @@ def sample_names_from_contrast(grp):
     grp_samples = "|".list(set(list(samples2[samples2[comparison_column].isin(grps)].sample_name)))
     return(grp_samples)
 
+
+def featurecounts_files_from_contrast(grp):
+    """
+    given a contrast name or list of groups return a list of the files in that group
+    """
+    #reading in the samples
+    samples = pd.read_csv(config['sampleCSVpath'])
+    #there should be a column which allows you to exclude samples
+    samples2 = samples.loc[samples.exclude_sample_downstream_analysis != 1]
+    #read in the comparisons and make a dictionary of comparisons, comparisons needs to be in the config file
+    compare_dict = load_comparisons()
+    #go through the values of the dictionary and break when we find the right groups in that contrast
+    grps, comparison_column = return_sample_names_group(grp)
+    #take the sample names corresponding to those groups
+    if comparison_column == "":
+        print(grp)
+        return([""])
+    grp_samples = list(set(list(samples2[samples2[comparison_column].isin(grps)].sample_name)))
+    feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
+    fc_suffix = "_featureCounts_results.txt"
+
+    #build a list with the full path from those sample names
+    fc_files = [os.path.join(feature_counts_outdir,x + fc_suffix) \
+                   for x in grp_samples]
+    fc_files = list(set(fc_files))
+    return(majiq_files)
+
 def load_comparisons():
     comparisons = "config/DESeq2comparisons.yaml"
     with open(comparisons, 'r') as stream:
