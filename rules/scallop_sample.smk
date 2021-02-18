@@ -16,24 +16,25 @@ SAMPLE_NAMES = list(set(samples2['sample_name']))
 
 print(SAMPLE_NAMES)
 
-SPECIES = config["species"]
-GTF = get_gtf(SPECIES)
+GTF = config['gtf']
 
 #make sure the output folder for STAR exists before running anything
-star_outdir = get_output_dir(config["project_top_level"], config['star_output_folder'])
+bam_dir = get_output_dir(config["project_top_level"], config['bam_dir'])
 scallop_outdir = get_output_dir(config["project_top_level"], config['scallop_output'])
+
 print(scallop_outdir)
+
 rule all_scallop:
     input:
-        expand(scallop_outdir + '{sample}' + ".gtf", sample = SAMPLE_NAMES),
-        expand(scallop_outdir + "gffall.{sample}.gtf.tmap",sample = SAMPLE_NAMES),
-        expand(scallop_outdir + "{sample}.unique.gtf",sample = SAMPLE_NAMES),
-        os.path.join(scallop_outdir,"scallop_merged.gtf")
+        expand(scallop_outdir + "{sample}.gtf", sample = SAMPLE_NAMES),
+        os.path.join(scallop_outdir, "scallop_merged.unique.gtf"),
+        os.path.join(scallop_outdir, "gffall.scallop_merged.gtf.tmap")
+
 
 
 rule scallop_per_samp:
     input:
-        bam_file = lambda wildcards: star_outdir + '{sample}' + config['bam_suffix']
+        bam_file = lambda wildcards: bam_dir + '{sample}' + config['bam_suffix']
     wildcard_constraints:
         sample="|".join(SAMPLE_NAMES)
     output:
@@ -43,7 +44,7 @@ rule scallop_per_samp:
         verbose = 0,
         scallop_out_folder = scallop_outdir,
         scallop_extra_config = return_parsed_extra_params(config['scallop_extra_parameters']),
-        libtype = get_scallop_strand(config["feature_counts_strand_info"]),
+        libtype = config['scallop_strand']
     shell:
         """
         mkdir -p {params.scallop_out_folder}
@@ -55,36 +56,9 @@ rule scallop_per_samp:
         {params.scallop_extra_config}
         """
 
-rule compare_reference:
-    input:
-        os.path.join(scallop_outdir,'{sample}' + ".gtf")
-    output:
-        os.path.join(scallop_outdir, "gffall.{sample}.gtf.tmap")
-    params:
-        ref_gtf = GTF,
-        gffcompare = config['gffcompare']
-    shell:
-        """
-        {params.gffcompare} -o gffall -r {params.ref_gtf} {input}
-        """
-
-rule fetch_unique:
-    input:
-        sample_tmap = os.path.join(scallop_outdir, "gffall.{sample}.gtf.tmap"),
-        sample_gtf = os.path.join(scallop_outdir,'{sample}' + ".gtf")
-    output:
-        os.path.join(scallop_outdir, "{sample}.unique.gtf")
-    params:
-        ref_gtf = GTF,
-        gtfcuff = config['gtfcuff']
-    shell:
-        """
-        {params.gtfcuff} puniq {input.sample_tmap} {input.sample_gtf} {params.ref_gtf} {output}
-        """
-
 rule compose_gtf_list:
     input:
-        expand(scallop_outdir + "{sample}.unique.gtf", sample=SAMPLE_NAMES)
+        expand(scallop_outdir + "{sample}.gtf", sample=SAMPLE_NAMES)
     output:
         txt = os.path.join(scallop_outdir,"gtf_list.txt")
     run:
@@ -101,4 +75,30 @@ rule merge_scallop_gtfs:
     shell:
         """
         {params.gtfmerge} union {input.gtf_list} {output.merged_gtf} -t 2 -n
+        """
+rule compare_reference:
+    input:
+        os.path.join(scallop_outdir,"scallop_merged.gtf")
+    output:
+        os.path.join(scallop_outdir, "gffall.scallop_merged.gtf.tmap")
+    params:
+        ref_gtf = GTF,
+        gffcompare = config['gffcompare']
+    shell:
+        """
+        {params.gffcompare} -o gffall -r {params.ref_gtf} {input}
+        """
+
+rule fetch_unique:
+    input:
+        sample_tmap = os.path.join(scallop_outdir,"scallop_merged.gtf"),
+        sample_gtf = os.path.join(scallop_outdir, "gffall.scallop_merged.gtf.tmap")
+    output:
+        os.path.join(scallop_outdir, "scallop_merged.unique.gtf")
+    params:
+        ref_gtf = GTF,
+        gtfcuff = config['gtfcuff']
+    shell:
+        """
+        {params.gtfcuff} puniq {input.sample_tmap} {input.sample_gtf} {params.ref_gtf} {output}
         """

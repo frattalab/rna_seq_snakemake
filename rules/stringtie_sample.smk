@@ -18,10 +18,10 @@ SAMPLE_NAMES = list(set(samples2['sample_name']))
 print(SAMPLE_NAMES)
 
 SPECIES = config["species"]
-GTF = get_gtf(SPECIES)
+GTF = config['gtf']
 
 #make sure the output folder for STAR exists before running anything
-star_outdir = get_output_dir(config["project_top_level"], config['star_output_folder'])
+bam_dir = get_output_dir(config["project_top_level"], config['bam_dir'])
 stringtie_outdir = get_output_dir(config["project_top_level"], config['stringtie_output'])
 
 print(stringtie_outdir)
@@ -29,13 +29,12 @@ print(stringtie_outdir)
 rule all_stringtie:
     input:
         expand(stringtie_outdir + "{sample}.assemble.gtf", sample = SAMPLE_NAMES),
-        expand(stringtie_outdir + "gffall.{sample}.gtf.tmap",sample = SAMPLE_NAMES),
-        expand(stringtie_outdir + "{sample}.unique.gtf",sample = SAMPLE_NAMES),
+        os.path.join(stringtie_outdir, "stringtie_merged.unique.gtf"),
         os.path.join(stringtie_outdir,"stringtie_merged.gtf")
 
 rule StringTie_Assemble:
     input:
-        bam = lambda wildcards: star_outdir + '{sample}' + config['bam_suffix'],
+        bam = lambda wildcards: bam_dir + '{sample}' + config['bam_suffix'] + '.bam',
         ref_gtf = GTF
     output:
         stringtie_outdir + "{sample}.assemble.gtf"
@@ -44,37 +43,9 @@ rule StringTie_Assemble:
     shell:
         "stringtie {input.bam} -G {input.ref_gtf} -o {output}"
 
-
-rule compare_reference:
+rule compose_gtf_list_stringtie:
     input:
-        os.path.join(stringtie_outdir + "{sample}.assemble.gtf")
-    output:
-        os.path.join(stringtie_outdir, "gffall.{sample}.gtf.tmap")
-    params:
-        ref_gtf = GTF,
-        gffcompare = config['gffcompare']
-    shell:
-        """
-        {params.gffcompare} -o gffall -r {params.ref_gtf} {input}
-        """
-
-rule fetch_unique:
-    input:
-        sample_tmap = os.path.join(stringtie_outdir, "gffall.{sample}.gtf.tmap"),
-        sample_gtf = os.path.join(stringtie_outdir,'{sample}' + ".assemble.gtf")
-    output:
-        os.path.join(stringtie_outdir, "{sample}.unique.gtf")
-    params:
-        ref_gtf = GTF,
-        gtfcuff = config['gtfcuff']
-    shell:
-        """
-        {params.gtfcuff} puniq {input.sample_tmap} {input.sample_gtf} {params.ref_gtf} {output}
-        """
-
-rule compose_gtf_list:
-    input:
-        expand(stringtie_outdir + "{sample}.unique.gtf", sample=SAMPLE_NAMES)
+        expand(stringtie_outdir + "{sample}.assemble.gtf", sample=SAMPLE_NAMES)
     output:
         txt = os.path.join(stringtie_outdir,"gtf_list.txt")
     run:
@@ -91,4 +62,31 @@ rule merge_stringtie_gtfs:
     shell:
         """
         {params.gtfmerge} union {input.gtf_list} {output.merged_gtf} -t 2 -n
+        """
+
+rule compare_reference_stringtie:
+    input:
+        os.path.join(stringtie_outdir,"stringtie_merged.gtf")
+    output:
+        os.path.join(stringtie_outdir, "gffall.stringtie_merged.gtf.tmap")
+    params:
+        ref_gtf = GTF,
+        gffcompare = config['gffcompare']
+    shell:
+        """
+        {params.gffcompare} -o gffall -r {params.ref_gtf} {input}
+        """
+
+rule fetch_unique_stringtie:
+    input:
+        sample_tmap = os.path.join(stringtie_outdir,"stringtie_merged.gtf"),
+        sample_gtf = os.path.join(stringtie_outdir, "gffall.stringtie_merged.gtf.tmap")
+    output:
+        os.path.join(stringtie_outdir, "stringtie_merged.unique.gtf")
+    params:
+        ref_gtf = GTF,
+        gtfcuff = config['gtfcuff']
+    shell:
+        """
+        {params.gtfcuff} puniq {input.sample_tmap} {input.sample_gtf} {params.ref_gtf} {output}
         """
