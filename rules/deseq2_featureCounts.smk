@@ -47,7 +47,7 @@ rule run_standard_deseq:
         --base_grep '{params.base_grep}' \
         --contrast_grep '{params.contrast_grep}' \
         --suffix {params.bam_suffix}
-        --out {params.out} \
+        --output {params.out} \
         --baseName {params.baseName} \
         --contrastName {params.contrastName}
         """
