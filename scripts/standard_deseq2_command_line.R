@@ -122,6 +122,9 @@ option_list = list(
 opt_parser = OptionParser(option_list=option_list);
 opt = parse_args(opt_parser);
 
+
+print(base_grep = opt$base_grep,)
+print(opt$contrast_grep)
 standard_output = run_standard_deseq(opt$folder_of_featurecounts,
                               base_grep = opt$base_grep,
                               contrast_grep = opt$contrast_grep,

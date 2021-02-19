@@ -1,7 +1,9 @@
 #this function takes the total rna tables produced by featureCounts, and gives a reasonable output data frame and
 #metadata frame
 make_deseq_dfs = function(total_table, grep_pattern = "", leave_out = "", base_grep = "", contrast_grep = ""){
-
+  print("I'm inside make deseq dfs ")
+  print(base_grep)
+  print(contrast_grep)
   if(grep_pattern == ""){
 
     grep_pattern = paste0(colnames(total_table[,2:length(total_table)]),collapse = "|")
