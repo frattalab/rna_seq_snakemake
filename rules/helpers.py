@@ -280,6 +280,7 @@ def featurecounts_files_from_contrast(grp):
                    for x in grp_samples]
     fc_files = list(set(fc_files))
     print(fc_files)
+    fc_file = dummy = ['/SAN/vyplab/alb_projects/data/muscle/analysis/feature_counts/Ctrl2_featureCounts_results.txt', '/SAN/vyplab/alb_projects/data/muscle/analysis/feature_counts/Ctrl1_featureCounts_results.txt']
     return(fc_files)
 
 def load_comparisons():
