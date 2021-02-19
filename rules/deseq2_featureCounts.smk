@@ -43,7 +43,7 @@ rule run_standard_deseq:
     shell:
         """
         Rscript standard_deseq2_command_line.R \
-        --folder_of_featurecounts {params.csv} \
+        --folder_of_featurecounts {params.feature_counts_path} \
         --base_grep {params.base_grep} \
         --contrast_grep {input.contrast_grep} \
         --suffix {params.bam_suffix}
