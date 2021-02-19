@@ -43,7 +43,8 @@ make_deseq_dfs = function(total_table, grep_pattern = "", leave_out = "", base_g
     coldata[grep(contrast_grep,V1), cond := "contrast"]
   }
   coldata[is.na(cond), cond := "contrast"]
-
+  print("This is your metaData")
+  print(coldata)
   coldata = as.data.frame(coldata[,2:ncol(coldata)])
   rownames(coldata) = names(conv_df)
   morphed = list(conv_df,coldata)
