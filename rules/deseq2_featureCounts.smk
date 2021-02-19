@@ -42,7 +42,7 @@ rule run_standard_deseq:
         contrast_grep = lambda wildcards: sample_names_from_contrast(wildcards.contrast)
     shell:
         """
-        Rscript standard_deseq2_command_line.R \
+        Rscript scripts/standard_deseq2_command_line.R \
         --folder_of_featurecounts {params.feature_counts_path} \
         --base_grep '{params.base_grep}' \
         --contrast_grep '{params.contrast_grep}' \
