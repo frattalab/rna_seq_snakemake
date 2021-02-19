@@ -37,7 +37,7 @@ rule run_standard_deseq:
         feature_counts_path = FEATURECOUNTS_DIR,
         baseName = "{bse}",
         contrastName = "{contrast}",
-        out = "{bse}_{contrast}",
+        out = DESEQ2_DIR + "{bse}_{contrast}",
         base_grep = lambda wildcards: sample_names_from_contrast(wildcards.bse),
         contrast_grep = lambda wildcards: sample_names_from_contrast(wildcards.contrast)
     shell:
@@ -46,7 +46,7 @@ rule run_standard_deseq:
         --folder_of_featurecounts {params.feature_counts_path} \
         --base_grep '{params.base_grep}' \
         --contrast_grep '{params.contrast_grep}' \
-        --suffix '{params.bam_suffix}'
+        --suffix '{params.bam_suffix}' \
         --output '{params.out}' \
         --baseName '{params.baseName}' \
         --contrastName '{params.contrastName}'
