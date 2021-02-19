@@ -253,6 +253,7 @@ def sample_names_from_contrast(grp):
         print(grp)
         return([""])
     grp_samples = "|".join(set(list(samples2[samples2[comparison_column].isin(grps)].sample_name)))
+    print(grp_samples)
     return(grp_samples)
 
 
