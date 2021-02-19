@@ -117,12 +117,9 @@ option_list = list(
                 help="output file name", metavar="character"),
     make_option(c("-s", "--suffix"), type="character", default=NULL,
                 help="BAM suffix", metavar="character"),
-    make_option(c("-o", "--output"), type="character", default=NULL,
-                help="BAM suffix", metavar="character"),
-    make_option(c("-bn", "--baseName"), type="character", default="out.txt",
-          help="name of the baseline treatment output file name", metavar="character")
-    make_option(c("-cn", "--contrastName"), type="character", default="out.txt",
-          help="oname of the contrast", metavar="character")
+    make_option(c("-o", "--output"), type="character", default=NULL,help="BAM suffix", metavar="character"),
+    make_option(c("-bn", "--baseName"), type="character", default="Control",help="name of the baseline treatment output file name", metavar="character"),
+    make_option(c("-cn", "--contrastName"), type="character", default="Constrast",help="oname of the contrast", metavar="character")
 );
 
 opt_parser = OptionParser(option_list=option_list);
