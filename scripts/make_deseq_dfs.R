@@ -5,6 +5,7 @@ make_deseq_dfs = function(total_table, grep_pattern = "", leave_out = "", base_g
   if(grep_pattern == ""){
 
     grep_pattern = paste0(base_grep,contrast_grep,collapse = "|")
+    plot(grep_pattern)
   }
   #grep pattern is being used to select small parts of this overall
   total_table = as.data.table(total_table, keep.rownames = TRUE)
