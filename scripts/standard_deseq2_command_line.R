@@ -111,13 +111,10 @@ run_standard_deseq = function(folder_of_featurecounts,
 option_list = list(
     make_option(c("-f", "--folder_of_featurecounts"), type="character", default=NULL,
                 help="a folder containing featurecounts output", metavar="character"),
-    make_option(c("-b", "--base_grep"), type="character", default=NULL,
-        help="a folder containing featurecounts output", metavar="character"),
-    make_option(c("-c", "--contrast_grep"), type="character", default=NULL,
-                help="output file name", metavar="character"),
-    make_option(c("-s", "--suffix"), type="character", default=NULL,
-                help="BAM suffix", metavar="character"),
-    make_option(c("-o", "--output"), type="character", default=NULL,help="BAM suffix", metavar="character"),
+    make_option(c("-b", "--base_grep"), type="character", default=NULL,help="baseline names grep pattern", metavar="character"),
+    make_option(c("-c", "--contrast_grep"), type="character", default=NULL,help="contrast names grep pattern", metavar="character"),
+    make_option(c("-s", "--suffix"), type="character", default=NULL,help="BAM suffix", metavar="character"),
+    make_option(c("-o", "--output"), type="character", default=NULL,help="an output name", metavar="character"),
     make_option(c("-a", "--baseName"), type="character", default="Control",help="name of the baseline treatment output file name", metavar="character"),
     make_option(c("-c", "--contrastName"), type="character", default="Constrast",help="oname of the contrast", metavar="character")
 );
