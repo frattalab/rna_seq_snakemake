@@ -136,6 +136,6 @@ unnormed_counts_standard =  as.data.frame(counts(standard_output$deseq_obj)) %>%
 standard_output$results_table %>% fwrite(paste0(opt$out, "results.csv"))
 
 meta_data = as.data.frame(colData(standard_output$deseq_obj)) %>% rownames_to_column("sample_name")
-meta_data %>% fwrite(paste0(opt$out, "meta_data.csv"))
+meta_data %>% fwrite(paste0(opt$output, "meta_data.csv"))
 # unnormed_counts_standard %>% fwrite(paste0(opt$out, "unnormed_counts.csv.gz"))
-normed_counts_standard %>% fwrite(paste0(opt$out, "normed_counts.csv.gz"))
+normed_counts_standard %>% fwrite(paste0(opt$output, "normed_counts.csv.gz"))
