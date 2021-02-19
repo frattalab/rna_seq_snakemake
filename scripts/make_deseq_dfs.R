@@ -4,7 +4,7 @@ make_deseq_dfs = function(total_table, grep_pattern = "", leave_out = "", base_g
 
   if(grep_pattern == ""){
 
-    grep_pattern = paste0(base_grep,contrast_grep,collapse = "|")
+    grep_pattern = glue::glue("{base_grep}|{contrast_grep}")
     print("hey gurl - this is the grep pattern")
     print(grep_pattern)
   }
