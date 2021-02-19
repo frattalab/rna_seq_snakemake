@@ -45,7 +45,7 @@ rule run_standard_deseq:
         Rscript standard_deseq2_command_line.R \
         --folder_of_featurecounts {params.feature_counts_path} \
         --base_grep {params.base_grep} \
-        --contrast_grep {input.contrast_grep} \
+        --contrast_grep {params.contrast_grep} \
         --suffix {params.bam_suffix}
         --out {params.out} \
         --baseName {params.baseName} \
