@@ -82,7 +82,7 @@ rule salmon_quant:
         gtf = get_gtf(SPECIES),
         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"])
 
-    threads: 4
+    # threads: 4
 
     shell:
         """
@@ -92,7 +92,6 @@ rule salmon_quant:
         --mates1 {input.fast1} \
         --mates2 {input.fast2} \
         --geneMap {params.gtf} \
-        --threads {threads} \
         {params.extra_params} \
         -o {params.output_dir} \
         """

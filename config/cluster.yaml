@@ -90,8 +90,8 @@ salmon_index:
     h_rt: 24:00:00
 salmon_quant:
     submission_string: " "
-    h_vmem:   16G
-    tmem:   16G
+    h_vmem:   32G
+    tmem:   32G
     h_rt: 72:00:00
 scallop_per_samp:
     h_vmem:   8G
