@@ -89,9 +89,9 @@ salmon_index:
     tmem:   10G
     h_rt: 24:00:00
 salmon_quant:
-    submission_string: "-pe smp 4 -R y"
-    h_vmem:   8G
-    tmem:   8G
+    submission_string: "-pe smp 2 -R y"
+    h_vmem:   2G
+    tmem:   2G
     h_rt: 72:00:00
 scallop_per_samp:
     h_vmem:   8G
