@@ -75,8 +75,8 @@ megadepth_coverage:
     tmem:   8G
     h_rt: 72:00:00
 name_sort:
-    h_vmem:   12G
-    tmem:   12G
+    h_vmem:   16G
+    tmem:   16G
     h_rt: 72:00:00
 generate_partial_decoys:
     submission_string: "-pe smp 4 -R y"
