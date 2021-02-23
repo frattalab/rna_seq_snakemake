@@ -102,3 +102,8 @@ salmon_index_extended:
     h_vmem:   16G
     tmem:   16G
     h_rt: 12:00:00
+gunzip_fastq:
+    submission_string: " "
+    h_vmem:   16G
+    tmem:   16G
+    h_rt: 12:00:00
