@@ -73,12 +73,12 @@ bedtools_coverage:
 
 
 gtf_to_bed12:
-    gtf: /SAN/
-    bed12: /SAN/
+    gtf: /SAN/vyplab/vyplab_reference_genomes/annotation/mouse/gencode/gencode.vM22.annotation.gtf
+    bed12: /SAN/vyplab/vyplab_reference_genomes/annotation/mouse/gencode/gencode.vM22.annotation.bed12
 
     # Where to find gtfToGenePred & genePredToBed scripts
     # Make sure has a slash at end
     ucsc_tools_dir: /SAN/vyplab/alb_projects/tools/UCSC_Tools_Jul2020/
 
-    # Where should put temporary/intermediate genePred file
-    temp_gene_pred: /SAN/
+    # Where to put temporary/intermediate genePred file. Doesn't matter as long as space
+    temp_gene_pred: /SAN/vyplab/vyplab_reference_genomes/annotation/mouse/gencode/temp.genePred
