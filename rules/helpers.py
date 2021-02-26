@@ -104,7 +104,6 @@ def get_annotation_version(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return (temp.annotation_version[temp.species == species].tolist()[0])
 
-
 def get_genome_fasta(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return(temp.genome_fa[temp.species == species].tolist()[0])
@@ -116,6 +115,10 @@ def get_transcriptome_fasta(species):
 def get_gtf(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return(temp.gtf[temp.species == species].tolist()[0])
+
+def get_bed12(species):
+    temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
+    return (temp.bed12[temp.species == species].tolist()[0])
 
 # takes the featurcounts strand and returns the interpretation for kallisto_output_folder
 def get_kallisto_strand(fcStrand):
