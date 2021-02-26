@@ -9,24 +9,24 @@ Uses UCSC tools. We have scripts on cluster
 Edit single_steps_config with target gtf and out spot
 '''
 
-
+options = config["gtf_to_bed12"]
 
 rule all:
     input:
-        config["bed12"]
+        options["bed12"]
 
 
 rule gtf_to_bed12:
     input:
-        config["gtf"]
+        options["gtf"]
 
     output:
-        config["bed12"]
+        options["bed12"]
 
     params:
-        gtf2pred = os.path.join(config["ucsc_tools_dir"], "gtfToGenePred"),
-        pred2bed = os.path.join(config["ucsc_tools_dir"], "genePredToBed"),
-        gene_pred = config["temp_gene_pred"]
+        gtf2pred = os.path.join(options["ucsc_tools_dir"], "gtfToGenePred"),
+        pred2bed = os.path.join(options["ucsc_tools_dir"], "genePredToBed"),
+        gene_pred = options["temp_gene_pred"]
 
     shell:
         """
