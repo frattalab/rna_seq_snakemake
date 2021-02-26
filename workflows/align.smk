@@ -20,7 +20,7 @@ star_outdir = get_output_dir(config["project_top_level"], config['star_output_fo
 feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
 tpm_outdir = get_output_dir(config['project_top_level'], config['tpmcalculator_output_folder'])
 
-include: "../rules/fastp.smk"
+# include: "../rules/fastp.smk"
 include: "../rules/fastqc.smk"
 include: "../rules/generate_star_index.smk"
 include: "../rules/star.smk"
