@@ -32,5 +32,5 @@ rule gtf_to_bed12:
         """
         {params.gtf2pred} {input} {params.gene_pred}
         {params.pred2bed} {params.gene_pred} {output}
-        rm {params.pred2bed}
+        rm {params.gene_pred}
         """
