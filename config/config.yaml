@@ -6,18 +6,18 @@
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
 # Double check README for instructions for constructing a valid sample csv table
-sampleCSVpath:  /SAN/vyplab/alb_projects/data/muscle/wide_fastq.csv
+sampleCSVpath:  /SAN/vyplab/alb_projects/data/ursa_mouse/mouse_ursa_neuron_muscle.csv
 
 #If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
 end_type: pe
 
 #mouse or human
-species: "human"
+species: "mouse"
 
 readLen: 150
 ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
 #consult featureCounts documentation for correct string to pass
-feature_counts_strand_info: "-s 2"
+feature_counts_strand_info: "-s 0"
 
 
 
@@ -29,7 +29,7 @@ feature_counts_strand_info: "-s 2"
 #always end paths with a trailing slash, or there will be errors :)
 
 #master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
-project_top_level:  /SAN/vyplab/alb_projects/data/muscle/analysis/
+project_top_level:  /SAN/vyplab/alb_projects/data/ursa_mouse
 
 
 #below you can specify the names of rulesubdirectories
@@ -42,7 +42,7 @@ project_top_level:  /SAN/vyplab/alb_projects/data/muscle/analysis/
 fastqc_output_folder: fastqc/
 fastp_trimmed_output_folder: fastp_trimmed_again/
 star_output_folder: STAR_aligned/
-merged_fastq_folder: merged_fastqs/
+merged_fastq_folder: pulled_fastq/
 scallop_output: scallop_output/
 stringtie_output: stringtie_output/
 feature_counts_output_folder: feature_counts/
