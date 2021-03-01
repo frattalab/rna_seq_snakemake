@@ -32,7 +32,8 @@ GENOME_DIR = os.path.join(config['STAR_indices'],config['species'],SPECIES_VERSI
 rule all_samtools:
 	input:
 		expand(star_outdir + "{name}.Aligned.sorted.out.bam",name = SAMPLE_NAMES),
-		expand(star_outdir + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES)
+		expand(star_outdir + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES),
+		expand(star_outdir + "{name}.flagstat.txt", name = SAMPLE_NAMES)
 
 rule run_star_pe:
 	wildcard_constraints:
@@ -94,20 +95,46 @@ rule run_star_se:
 rule sort_bams:
 	input:
 		star_outdir + "{name}.Aligned.out.bam"
+
 	output:
 		star_outdir + "{name}.Aligned.sorted.out.bam"
-	threads:
-		4
+
+	conda:
+		"../env/align.yaml"
+
 	shell:
 		"""
-		{config[samtools_path]} sort -@ {threads} {input} -o {output}
+		samtools sort {input} -o {output}
 		"""
+
 rule sort_index_bams:
 	input:
 		star_outdir + "{name}.Aligned.sorted.out.bam"
+
 	output:
 		star_outdir + "{name}.Aligned.sorted.out.bam.bai"
+
+	conda:
+		"../env/align.yaml"
+
 	shell:
 		"""
-		{config[samtools_path]} index {input}
+		samtools index {input}
+		"""
+
+
+rule flagstat:
+	input:
+		star_outdir + "{name}.Aligned.sorted.out.bam",
+		star_outdir + "{name}.Aligned.sorted.out.bam.bai"
+
+	output:
+		flagstat_outdir + "{name}.flagstat.txt"
+
+	conda:
+		"../env/align.yaml"
+
+	shell:
+		"""
+		samtools flagstat {input[0]} > {output}
 		"""
