@@ -255,7 +255,7 @@ def multiqc_target_files(workflow, sample_names, units):
 
         # Created in same dir as STAR logs (but after bams generated)
         targets_star = expand(star_outdir + "{name}.flagstat.txt", name = sample_names)
-        targets_salmon = expand(OUTPUT_DIR + "{sample}/" + "quant.sf", sample = sample_names)
+        targets_salmon = expand(salmon_outdir + "{sample}/" + "quant.sf", sample = sample_names)
 
         rseq_target_suffixes = [".geneBodyCoverage.txt", ".infer_experiment.txt", ".inner_distance_freq.txt", ".junctionSaturation_plot.r", ".read_distribution.txt"]
         targets_rseqc = expand(rseqc_outdir + "{name}" + "{suffix}", name = sample_names, suffix = rseq_target_suffixes)
@@ -285,7 +285,7 @@ def multiqc_target_files(workflow, sample_names, units):
             pass
 
     print("this is out_targets for multiqc_target_files - {0}".format(",".join(out_targets)))
-    
+
     return out_targets
 
 
