@@ -26,7 +26,7 @@ else:
 multiqc_output_folder = os.path.join(get_output_dir(config["project_top_level"], config["multiqc_output_folder"]), workflow, "")
 
 rule all:
-    os.path.join(multiqc_output_folder, "multiqc_report.html")
+    multiqc_output_folder + "multiqc_report.html"
 
 
 rule multiqc:
