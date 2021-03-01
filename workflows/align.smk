@@ -4,6 +4,7 @@ import subprocess
 
 configfile: "config/config.yaml"
 include: "../rules/helpers.py"
+
 SPECIES_VERSION = get_species_version(config['species'])
 GENOME_DIR = os.path.join(config['STAR_indices'],config['species'],SPECIES_VERSION,"star_indices_overhang" + str(config['readLen']))
 FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])

@@ -284,6 +284,8 @@ def multiqc_target_files(workflow, sample_names, units):
             # This is dummy for if run independently (i.e. has no dependent rules so no targets)
             pass
 
+    print("this is out_targets for multiqc_target_files - {0}".format(",".join(out_targets)))
+    
     return out_targets
 
 
@@ -299,7 +301,10 @@ def multiqc_target_dirs():
     # List of all output directories specified in config
     all_dir_paths = [get_output_dir(config["project_top_level"], config[x]) for x in outdir_keys]
 
+    print("this is all_dir_paths for multiqc {0}".format(",".join(all_dir_paths)))
     # Return only potential directories that have already exist
     target_dir_paths = [p for p in all_dir_paths if os.path.exists(p)]
+
+    print("this is target_dir_paths for multiqc - {0}".format(",".join(all_dir_paths)))
 
     return target_dir_paths
