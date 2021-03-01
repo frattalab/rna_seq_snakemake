@@ -23,7 +23,9 @@ else:
     # Already defined, no need to change
     pass
 
-multiqc_output_folder = os.path.join(get_output_dir(config["project_top_level"], config["multiqc_output_folder"]), workflow, "")
+
+workflow_str = workflow
+multiqc_output_folder = os.path.join(get_output_dir(config["project_top_level"], config["multiqc_output_folder"]), workflow_str, "")
 
 rule all:
     input:
