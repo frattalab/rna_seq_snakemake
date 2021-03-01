@@ -68,7 +68,7 @@ rule gene_body_coverage:
 
     shell:
         """
-        python geneBody_coverage.py \
+        geneBody_coverage.py \
         -i {params.samples} \
         -r {params.annotation} \
         -l 100 \
@@ -94,7 +94,7 @@ rule infer_experiment:
 
     shell:
         """
-        python infer_experiment.py \
+        infer_experiment.py \
         -i {input.bam} \
         -r {params.annotation} \
         -s {params.sample_size} \
@@ -118,7 +118,7 @@ rule inner_distance_freq:
 
     shell:
         """
-        python inner_distance.py \
+        inner_distance.py \
         -i {input.bam} \
         -r {params.annotation} \
         -o {params.prefix}
@@ -141,7 +141,7 @@ rule junction_saturation:
 
     shell:
         """
-        python junction_saturation.py \
+        junction_saturation.py \
         -i {input.bam} \
         -r {params.annotation} \
         -o {params.prefix}
@@ -163,7 +163,7 @@ rule read_distribution:
 
     shell:
         """
-        python read_distribution.py \
+        read_distribution.py \
         -i {input.bam} \
         -r {params.annotation} > {output}
         """
