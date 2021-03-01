@@ -254,7 +254,7 @@ def multiqc_target_files(workflow, sample_names, units):
         targets_fastp = expand(fastp_outdir + "{unit}_{name}_fastp.json", zip, name = sample_names, unit = units)
 
         # Created in same dir as STAR logs (but after bams generated)
-        targets_star = expand(star_outdir + "{name}.flagstat.txt", name = sample_names))
+        targets_star = expand(star_outdir + "{name}.flagstat.txt", name = sample_names)
         targets_salmon = expand(OUTPUT_DIR + "{sample}/" + "quant.sf", sample = sample_names)
 
         rseq_target_suffixes = [".geneBodyCoverage.txt", ".infer_experiment.txt", ".inner_distance_freq.txt", ".junctionSaturation_plot.r", ".read_distribution.txt"]
