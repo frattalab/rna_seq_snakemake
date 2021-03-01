@@ -223,3 +223,83 @@ def salmon_target_index(txome_dir, species, species_version, decoy_type, annot_v
 
     else:
         return os.path.join(txome_dir, species, species_version, decoy_type, ".".join([annot_version, "kmer_" + str(kmer_size)]))
+
+
+def multiqc_target_files(workflow, sample_names, units):
+    '''
+    Returns list of target files for multiqc depending on the workflow being ran
+    This is mostly manually defined (like our workflows) for now until I find a better solution
+    Use this as an 'input function'
+    '''
+
+    # Last one is a dummy value
+    valid_workflows = ["fastq_qc", "align", "salmon", "multiqc_output"]
+
+    if workflow not in valid_workflows:
+        raise ValueError("{0} is not a supported value for 'workflow' - use one of {1}".format(workflow, ",".join(valid_workflows)))
+
+    else:
+        out_targets = []
+
+        # Define all possible output directories for different qc metrics
+        fastqc_outdir = get_output_dir(config["project_top_level"], config["fastqc_output_folder"])
+        fastp_outdir = get_output_dir(config["project_top_level"], config["fastp_trimmed_output_folder"])
+        star_outdir = get_output_dir(config["project_top_level"], config["star_output_folder"])
+        salmon_outdir = get_output_dir(config["project_top_level"], config["salmon_output_folder"])
+        rseqc_outdir = get_output_dir(config["project_top_level"], config["rseqc_output_folder"])
+        feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
+
+        # Define target files for each step
+        targets_fastqc = expand(fastqc_outdir + "{unit}/{name}_fastqc.html",zip, name=sample_names, unit=units)
+        targets_fastp = expand(fastp_outdir + "{unit}_{name}_fastp.json", zip, name = sample_names, unit = units)
+
+        # Created in same dir as STAR logs (but after bams generated)
+        targets_star = expand(star_outdir + "{name}.flagstat.txt", name = sample_names))
+        targets_salmon = expand(OUTPUT_DIR + "{sample}/" + "quant.sf", sample = sample_names)
+
+        rseq_target_suffixes = [".geneBodyCoverage.txt", ".infer_experiment.txt", ".inner_distance_freq.txt", ".junctionSaturation_plot.r", ".read_distribution.txt"]
+        targets_rseqc = expand(rseqc_outdir + "{name}" + "{suffix}", name = sample_names, suffix = rseq_target_suffixes)
+
+
+
+        if workflow == "fastq_qc":
+            # Only need output from fastqc & fastp
+            out_targets.extend(targets_fastqc)
+            out_targets.extend(targets_fastp)
+
+        elif workflow == "align":
+            # Basically everything but salmon
+            out_targets.extend(targets_fastqc)
+            out_targets.extend(targets_fastp)
+            out_targets.extend(targets_star)
+            out_targets.extend(targets_rseqc)
+
+        elif workflow == "salmon":
+            # Just fastq QC & salmon
+            out_targets.extend(targets_fastqc)
+            out_targets.extend(targets_fastp)
+            out_targets.extend(targets_salmon)
+
+        elif workflow == "multiqc_output":
+            # This is dummy for if run independently (i.e. has no dependent rules so no targets)
+            pass
+
+    return out_targets
+
+
+def multiqc_target_dirs():
+    '''
+    Returns list of paths to directories for multiqc to scan for log files
+    Since it scan recursively through dirs, and only penalty to searching extra dirs is added run-time
+    For simplicity, this returns paths to all potential directories, provided they exist / have been created
+    '''
+
+    outdir_keys = ["fastqc_output_folder", "fastp_trimmed_output_folder", "star_output_folder", "salmon_output_folder", "rseqc_output_folder", "feature_counts_output_folder"]
+
+    # List of all output directories specified in config
+    all_dir_paths = [get_output_dir(config["project_top_level"], config[x]) for x in outdir_keys]
+
+    # Return only potential directories that have already exist
+    target_dir_paths = [p if os.path.exists(p) for p in all_dir_paths]
+
+    return target_dir_paths

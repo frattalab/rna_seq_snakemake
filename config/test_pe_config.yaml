@@ -40,15 +40,20 @@ project_top_level: /SAN/vyplab/vyplab_reference_genomes/pipeline_test_data/out_t
 #In practice leaving as relative defaults is best option...
 
 
-fastqc_output_folder: fastqc/
+fastqc_output_folder: qc/fastqc/
 fastp_trimmed_output_folder: fastp_trimmed/
 star_output_folder: STAR_aligned/
 merged_fastq_folder: merged_fastqs/
 feature_counts_output_folder: feature_counts/
 salmon_output_folder: salmon_quant/
-rseqc_output_folder: align_qc/rseqc/
-samtools_output_folder: align_qc/samtools/
+rseqc_output_folder: qc/rseqc/
+# This is for output of samtools flagstat (sorted & indexed bams go to star_output_folder)
+# samtools_output_folder: qc/samtools/
 tpmcalculator_output_folder: TPMcalculator/ #this is redundant due to only outputting to working dir unless make simple rule to copy output here
+
+# MultiQC reports for EACH workflow will be stored in subdirectories under here
+# e.g. if run fastq_qc & align_qc separately won't overwrite reports
+multiqc_output_folder: multiqc/
 interleave_master_output_folder: interleaved_fastq/
 
 
