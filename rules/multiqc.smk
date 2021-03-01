@@ -33,7 +33,7 @@ rule all:
 
 rule multiqc:
     input:
-        multiqc_target_files(workflow, SAMPLE_NAMES, UNITS)
+        multiqc_target_files(workflow_str, SAMPLE_NAMES, UNITS)
 
     output:
         os.path.join(multiqc_output_folder, "multiqc_report.html")
