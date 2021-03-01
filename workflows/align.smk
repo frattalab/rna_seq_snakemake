@@ -4,6 +4,15 @@ import subprocess
 
 configfile: "config/config.yaml"
 include: "../rules/helpers.py"
+include: "../rules/fastp.smk"
+include: "../rules/fastqc.smk"
+include: "../rules/generate_star_index.smk"
+include: "../rules/star.smk"
+include: "../rules/feature_counts.smk"
+include: "../rules/tpmcalculator.smk"
+include: "../rules/rseqc.smk"
+include: "../rules/multiqc.smk"
+
 
 SPECIES_VERSION = get_species_version(config['species'])
 GENOME_DIR = os.path.join(config['STAR_indices'],config['species'],SPECIES_VERSION,"star_indices_overhang" + str(config['readLen']))
@@ -26,14 +35,6 @@ feature_counts_outdir = get_output_dir(config["project_top_level"], config["feat
 tpm_outdir = get_output_dir(config['project_top_level'], config['tpmcalculator_output_folder'])
 multiqc_output_folder = os.path.join(get_output_dir(config["project_top_level"], config["multiqc_output_folder"]), workflow, "")
 
-include: "../rules/fastp.smk"
-include: "../rules/fastqc.smk"
-include: "../rules/generate_star_index.smk"
-include: "../rules/star.smk"
-include: "../rules/feature_counts.smk"
-include: "../rules/tpmcalculator.smk"
-include: "../rules/rseqc.smk"
-include: "../rules/multiqc.smk"
 
 
 
