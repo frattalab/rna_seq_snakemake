@@ -27,6 +27,10 @@ include: "../rules/star.smk"
 include: "../rules/feature_counts.smk"
 include: "../rules/tpmcalculator.smk"
 
+
+# This is to help multiqc know which files to track
+workflow = "align"
+
 rule all:
     input:
         GENOME_DIR + "/SA",

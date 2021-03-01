@@ -20,6 +20,9 @@ fastqc_outdir = get_output_dir(config["project_top_level"], config["fastqc_outpu
 include: "../rules/fastp.smk"
 include: "../rules/fastqc.smk"
 
+# This is to help multiqc know which files to track
+workflow = "fastq_qc"
+
 rule all:
     input:
         expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)

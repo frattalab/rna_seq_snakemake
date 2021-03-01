@@ -35,6 +35,10 @@ include: "../rules/fastqc.smk"
 include: "../rules/generate_salmon_index.smk"
 include: "../rules/salmon_quant.smk"
 
+# This is to help multiqc know which files to track
+workflow = "salmon"
+
+
 rule all:
     input:
         expand(salmon_outdir + "{sample}/" + "quant.sf", sample = SAMPLE_NAMES),
