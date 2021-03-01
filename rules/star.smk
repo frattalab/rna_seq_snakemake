@@ -82,7 +82,7 @@ rule run_star_se:
 
 	conda:
 		"../env/align.yaml"
-		
+
 	threads:
 		4
 	shell:
@@ -133,7 +133,7 @@ rule flagstat:
 		star_outdir + "{name}.Aligned.sorted.out.bam.bai"
 
 	output:
-		flagstat_outdir + "{name}.flagstat.txt"
+		star_outdir + "{name}.flagstat.txt"
 
 	conda:
 		"../env/align.yaml"
