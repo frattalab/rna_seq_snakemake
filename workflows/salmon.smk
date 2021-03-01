@@ -36,7 +36,7 @@ include: "../rules/generate_salmon_index.smk"
 include: "../rules/salmon_quant.smk"
 
 # This is to help multiqc know which files to track
-workflow = "salmon"
+workflow_str = "salmon"
 
 
 rule all:

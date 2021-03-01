@@ -21,7 +21,7 @@ include: "../rules/fastp.smk"
 include: "../rules/fastqc.smk"
 
 # This is to help multiqc know which files to track
-workflow = "fastq_qc"
+workflow_str = "fastq_qc"
 
 rule all:
     input:

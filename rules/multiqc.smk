@@ -15,16 +15,15 @@ FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
 ## if not then not defined (i.e. if just want to run multiqc), so give it a dummy value
 
 try:
-    workflow
+    workflow_str
 except NameError:
     # Wasn't defined, give a dummy value
-    workflow = "multiqc_output"
+    workflow_str = "multiqc_output"
 else:
     # Already defined, no need to change
     pass
 
 
-workflow_str = workflow
 multiqc_output_folder = os.path.join(get_output_dir(config["project_top_level"], config["multiqc_output_folder"]), workflow_str, "")
 
 rule all:

@@ -24,7 +24,7 @@ SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
 # This is to help multiqc know which files to track
-workflow = "align"
+workflow_str = "align"
 
 
 #Construct all output directory strings needed for workflow definition
@@ -33,7 +33,7 @@ interleaved_outdir = get_output_dir(config['project_top_level'], config['interle
 star_outdir = get_output_dir(config["project_top_level"], config['star_output_folder'])
 feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
 tpm_outdir = get_output_dir(config['project_top_level'], config['tpmcalculator_output_folder'])
-multiqc_output_folder = os.path.join(get_output_dir(config["project_top_level"], config["multiqc_output_folder"]), workflow, "")
+multiqc_output_folder = os.path.join(get_output_dir(config["project_top_level"], config["multiqc_output_folder"]), workflow_str, "")
 
 
 
