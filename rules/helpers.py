@@ -300,6 +300,6 @@ def multiqc_target_dirs():
     all_dir_paths = [get_output_dir(config["project_top_level"], config[x]) for x in outdir_keys]
 
     # Return only potential directories that have already exist
-    target_dir_paths = [p if os.path.exists(p) for p in all_dir_paths]
+    target_dir_paths = [p for p in all_dir_paths if os.path.exists(p)]
 
     return target_dir_paths
