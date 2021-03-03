@@ -251,7 +251,7 @@ def multiqc_target_files(workflow_str, sample_names, units):
 
         # Define target files for each step
         targets_fastqc = expand(fastqc_outdir + "{unit}/{name}_fastqc.html",zip, name=sample_names, unit=units)
-        print("fastqc targets - {0}".format(", ".join(targets_fastqc)))
+        # print("fastqc targets - {0}".format(", ".join(targets_fastqc)))
         # print(targets_fastqc)
         # print(type(targets_fastqc))
 
@@ -279,7 +279,7 @@ def multiqc_target_files(workflow_str, sample_names, units):
             out_targets.extend(targets_star)
             out_targets.extend(targets_rseqc)
 
-            print("out_targets for align - {0}".format(", ".join(out_targets)))
+            # print("out_targets for align - {0}".format(", ".join(out_targets)))
 
         elif workflow_str == "salmon":
             # Just fastq QC & salmon
@@ -291,7 +291,7 @@ def multiqc_target_files(workflow_str, sample_names, units):
             # This is dummy for if run independently (i.e. has no dependent rules so no targets)
             pass
 
-    print("this is out_targets for multiqc_target_files - {0}".format(",".join(out_targets)))
+    # print("this is out_targets for multiqc_target_files - {0}".format(",".join(out_targets)))
 
     return out_targets
 
