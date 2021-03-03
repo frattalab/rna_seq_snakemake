@@ -279,7 +279,7 @@ def multiqc_target_files(workflow_str, sample_names, units):
             out_targets.extend(targets_star)
             out_targets.extend(targets_rseqc)
 
-            print(out_targets)
+            print("out_targets for align - {0}".format(", ".join(out_targets)))
 
         elif workflow_str == "salmon":
             # Just fastq QC & salmon
