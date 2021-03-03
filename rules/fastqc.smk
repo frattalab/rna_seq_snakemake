@@ -16,6 +16,9 @@ FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
 print("FASTQ_NAME values - {0}".format(", ".join(FASTQ_NAME)))
 #zip them into a directory to make getting the location easier
 ORDER_DICT = dict(zip(FASTQ_NAME, FILE_LOCATION))
+print("\nThis is ORDER_DICT\n")
+print(ORDER_DICT)
+
 #first rule is a general rule that specifies the final output of everything, here we have the expected
 #output of the individual fastqc's and the multiqc html file. snakemake will check to see if these output files
 #exist if they dont it will keep going
@@ -33,7 +36,7 @@ rule fastqc:
 	output:
 		out_fastqc = fastqc_outdir + "{unit}/{fastq_name}_fastqc.html"
 	params:
-		fq_name = lambda wildcards, input: re.sub(".fastq.gz","_fastqc", input.fastq_file.rpartition('/')[2]),
+		#fq_name = lambda wildcards, input: re.sub(".fastq.gz","_fastqc", input.fastq_file.rpartition('/')[2]),
 		outdir = fastqc_outdir
 	log:
         "logs/{fastq_name}_fastqc.log"
