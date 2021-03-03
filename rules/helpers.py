@@ -9,10 +9,13 @@ def get_fastq_names(DATA):
     samples = pd.read_csv(DATA, sep = ",")
     #take all the fasqs and combine them to a list remove any nas
     fastq_list = samples.fast1.dropna().tolist() + samples.fast2.dropna().tolist()
+    print("get_fastq_names - fastq_list values - {}".format(", ".join(fastq_list)))
     #if there are any missing values pandas gets annoyed so replace nans with empty string
     samples = samples.replace(np.nan, '', regex=True)
+
     #get the associated sample and unit name for each fastq using and or operator to get either fast1 or fast2, works for both single-end and paired end this way
     unit_name = [samples.loc[(samples['fast1'] == fq)| (samples['fast2'] == fq)].unit.iloc[0] for fq in fastq_list]
+
     #strip it down to just the name of the file bit
     #stripped = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in fastq_list]
     sample_names = samples.sample_name.tolist()
