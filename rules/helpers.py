@@ -252,6 +252,8 @@ def multiqc_target_files(workflow_str, sample_names, units):
         # Define target files for each step
         targets_fastqc = expand(fastqc_outdir + "{unit}/{name}_fastqc.html",zip, name=sample_names, unit=units)
         print("fastqc targets - {0}".format(", ".join(targets_fastqc)))
+        print(targets_fastqc)
+        print(type(targets_fastqc))
         targets_fastp = expand(fastp_outdir + "{unit}_{name}_fastp.json", zip, name = sample_names, unit = units)
 
         # Created in same dir as STAR logs (but after bams generated)
@@ -302,10 +304,10 @@ def multiqc_target_dirs():
     # List of all output directories specified in config
     all_dir_paths = [get_output_dir(config["project_top_level"], config[x]) for x in outdir_keys]
 
-    print("this is all_dir_paths for multiqc {0}".format(",".join(all_dir_paths)))
+    # print("this is all_dir_paths for multiqc {0}".format(",".join(all_dir_paths)))
     # Return only potential directories that have already exist
     target_dir_paths = [p for p in all_dir_paths if os.path.exists(p)]
 
-    print("this is target_dir_paths for multiqc - {0}".format(",".join(all_dir_paths)))
+    # print("this is target_dir_paths for multiqc - {0}".format(",".join(all_dir_paths)))
 
     return target_dir_paths
