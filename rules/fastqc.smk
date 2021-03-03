@@ -12,6 +12,8 @@ os.system("mkdir -p {0}".format(fastqc_outdir))
 
 #fastq name is the sample_unit_fastqfile
 FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
+
+print("FASTQ_NAME values - {0}".format(", ".join(FASTQ_NAME)))
 #zip them into a directory to make getting the location easier
 ORDER_DICT = dict(zip(FASTQ_NAME, FILE_LOCATION))
 #first rule is a general rule that specifies the final output of everything, here we have the expected
