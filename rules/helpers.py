@@ -252,8 +252,8 @@ def multiqc_target_files(workflow_str, sample_names, units):
         # Define target files for each step
         targets_fastqc = expand(fastqc_outdir + "{unit}/{name}_fastqc.html",zip, name=sample_names, unit=units)
         print("fastqc targets - {0}".format(", ".join(targets_fastqc)))
-        print(targets_fastqc)
-        print(type(targets_fastqc))
+        # print(targets_fastqc)
+        # print(type(targets_fastqc))
 
         targets_fastp = expand(fastp_outdir + "{unit}_{name}_fastp.json", zip, name = sample_names, unit = units)
 
@@ -274,10 +274,12 @@ def multiqc_target_files(workflow_str, sample_names, units):
         elif workflow_str == "align":
             # Basically everything but salmon
             out_targets.extend(targets_fastqc)
-            print(out_targets)
+            # print(out_targets)
             out_targets.extend(targets_fastp)
             out_targets.extend(targets_star)
             out_targets.extend(targets_rseqc)
+
+            print(out_targets)
 
         elif workflow_str == "salmon":
             # Just fastq QC & salmon
