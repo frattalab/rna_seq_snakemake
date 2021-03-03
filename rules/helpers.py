@@ -251,7 +251,7 @@ def multiqc_target_files(workflow_str, sample_names, units):
 
         # Define target files for each step
         targets_fastqc = expand(fastqc_outdir + "{unit}/{name}_fastqc.html",zip, name=sample_names, unit=units)
-        print("fastqc targets - {}".join(targets_fastqc))
+        print("fastqc targets - {0}".format(", ".join(targets_fastqc)))
         targets_fastp = expand(fastp_outdir + "{unit}_{name}_fastp.json", zip, name = sample_names, unit = units)
 
         # Created in same dir as STAR logs (but after bams generated)
