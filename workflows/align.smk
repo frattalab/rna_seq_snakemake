@@ -2,6 +2,9 @@ import pandas as pd
 import os
 import subprocess
 
+# This is to help multiqc know which files to track
+workflow_str = "align"
+
 configfile: "config/config.yaml"
 include: "../rules/helpers.py"
 include: "../rules/fastp.smk"
@@ -23,8 +26,6 @@ SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
-# This is to help multiqc know which files to track
-workflow_str = "align"
 
 
 #Construct all output directory strings needed for workflow definition
