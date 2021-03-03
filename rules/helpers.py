@@ -225,7 +225,7 @@ def salmon_target_index(txome_dir, species, species_version, decoy_type, annot_v
         return os.path.join(txome_dir, species, species_version, decoy_type, ".".join([annot_version, "kmer_" + str(kmer_size)]))
 
 
-def multiqc_target_files(workflow, sample_names, units):
+def multiqc_target_files(workflow_str, sample_names, units):
     '''
     Returns list of target files for multiqc depending on the workflow being ran
     This is mostly manually defined (like our workflows) for now until I find a better solution
@@ -235,7 +235,7 @@ def multiqc_target_files(workflow, sample_names, units):
     # Last one is a dummy value
     valid_workflows = ["fastq_qc", "align", "salmon", "multiqc_output"]
 
-    if workflow not in valid_workflows:
+    if workflow_str not in valid_workflows:
         raise ValueError("{0} is not a supported value for 'workflow' - use one of {1}".format(workflow, ",".join(valid_workflows)))
 
     else:
@@ -251,6 +251,7 @@ def multiqc_target_files(workflow, sample_names, units):
 
         # Define target files for each step
         targets_fastqc = expand(fastqc_outdir + "{unit}/{name}_fastqc.html",zip, name=sample_names, unit=units)
+        print("fastqc targets - {}".join(targets_fastqc))
         targets_fastp = expand(fastp_outdir + "{unit}_{name}_fastp.json", zip, name = sample_names, unit = units)
 
         # Created in same dir as STAR logs (but after bams generated)
@@ -262,25 +263,25 @@ def multiqc_target_files(workflow, sample_names, units):
 
 
 
-        if workflow == "fastq_qc":
+        if workflow_str == "fastq_qc":
             # Only need output from fastqc & fastp
             out_targets.extend(targets_fastqc)
             out_targets.extend(targets_fastp)
 
-        elif workflow == "align":
+        elif workflow_str == "align":
             # Basically everything but salmon
             out_targets.extend(targets_fastqc)
             out_targets.extend(targets_fastp)
             out_targets.extend(targets_star)
             out_targets.extend(targets_rseqc)
 
-        elif workflow == "salmon":
+        elif workflow_str == "salmon":
             # Just fastq QC & salmon
             out_targets.extend(targets_fastqc)
             out_targets.extend(targets_fastp)
             out_targets.extend(targets_salmon)
 
-        elif workflow == "multiqc_output":
+        elif workflow_str == "multiqc_output":
             # This is dummy for if run independently (i.e. has no dependent rules so no targets)
             pass
 
