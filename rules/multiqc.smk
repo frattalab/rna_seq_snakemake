@@ -23,6 +23,7 @@ else:
     # Already defined, no need to change
     pass
 
+print("this is value for workflow_str - {0}".format(workflow_str))
 
 multiqc_output_folder = os.path.join(get_output_dir(config["project_top_level"], config["multiqc_output_folder"]), workflow_str, "")
 
