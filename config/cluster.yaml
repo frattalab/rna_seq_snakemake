@@ -92,3 +92,31 @@ gtf_to_bed12:
     h_vmem:   8G
     tmem:   8G
     h_rt: 72:00:00
+multiqc:
+    h_vmem:   8G
+    tmem:   8G
+    h_rt: 72:00:00
+flagstat:
+    h_vmem:   6G
+    tmem:   6G
+    h_rt: 72:00:00
+gene_body_coverage:
+    h_vmem:   8G
+    tmem:   8G
+    h_rt: 72:00:00
+infer_experiment:
+    h_vmem:   8G
+    tmem:   8G
+    h_rt: 72:00:00
+inner_distance_freq:
+    h_vmem:   8G
+    tmem:   8G
+    h_rt: 72:00:00
+junction_saturation:
+    h_vmem:   8G
+    tmem:   8G
+    h_rt: 72:00:00
+read_distribution:
+    h_vmem:   8G
+    tmem:   8G
+    h_rt: 72:00:00
