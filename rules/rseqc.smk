@@ -40,7 +40,7 @@ SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
 rule all_rseqc:
     input:
-        expand(RSEQC_OUTDIR + "{sample}.geneBodyCoverage.txt", sample = SAMPLE_NAMES), #gene_body_coverage
+        os.path.join(RSEQC_OUTDIR + "{sample}.geneBodyCoverage.txt", sample = SAMPLE_NAMES), #gene_body_coverage
         expand(RSEQC_OUTDIR + "{sample}.infer_experiment.txt", sample = SAMPLE_NAMES), #infer_experiment
         expand(RSEQC_OUTDIR + "{sample}.inner_distance_freq.txt", sample = SAMPLE_NAMES), # inner_distance
         expand(RSEQC_OUTDIR + "{sample}.junctionSaturation_plot.r", sample = SAMPLE_NAMES), # junction_saturation
@@ -52,14 +52,13 @@ rule all_rseqc:
 
 rule gene_body_coverage:
     input:
-        bams = expand(STAR_OUTDIR + "{sample}.Aligned.sorted.out.bam", sample = SAMPLE_NAMES),
-        idxs = expand(STAR_OUTDIR + "{sample}.Aligned.sorted.out.bam.bai", sample = SAMPLE_NAMES)
+        bams = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
+        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam.bai")
 
     output:
         os.path.join(RSEQC_OUTDIR, "{sample}.geneBodyCoverage.txt")
 
     params:
-        samples = lambda wildards, input: ",".join(input.bams),
         annotation = BED12,
         prefix = RSEQC_OUTDIR
 
@@ -69,7 +68,7 @@ rule gene_body_coverage:
     shell:
         """
         geneBody_coverage.py \
-        -i {params.samples} \
+        -i {input.bam} \
         -r {params.annotation} \
         -l 100 \
         -o {params.prefix}
