@@ -32,11 +32,12 @@ rule all_fstq:
 
 rule fastqc:
 	input:
-		fastq_file = lambda wildcards: return_fastq_location(wildcards.fastq_name)
-	output:
-		out_fastqc = fastqc_outdir + "{unit}/{fq_name}_fastqc.html"
-	params:
+		fastq_file = lambda wildcards: return_fastq_location(wildcards.fastq_name),
 		fq_name = lambda wildcards, input: re.sub(".fastq.gz","", ORDER_DICT[input.fastq_file].rpartition('/')[2]),
+	output:
+		out_fastqc = fastqc_outdir + "{unit}/{input.fq_name}_fastqc.html"
+	params:
+		#fq_name = lambda wildcards, input: re.sub(".fastq.gz","", ORDER_DICT[input.fastq_file].rpartition('/')[2]),
 		outdir = fastqc_outdir
 	log:
         "logs/{fastq_name}_fastqc.log"
