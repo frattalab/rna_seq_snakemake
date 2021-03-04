@@ -40,7 +40,7 @@ SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
 rule all_rseqc:
     input:
-        os.path.join(RSEQC_OUTDIR + "{sample}.geneBodyCoverage.txt", sample = SAMPLE_NAMES), #gene_body_coverage
+        expand(RSEQC_OUTDIR + "{sample}.geneBodyCoverage.txt", sample = SAMPLE_NAMES), #gene_body_coverage
         expand(RSEQC_OUTDIR + "{sample}.infer_experiment.txt", sample = SAMPLE_NAMES), #infer_experiment
         expand(RSEQC_OUTDIR + "{sample}.inner_distance_freq.txt", sample = SAMPLE_NAMES), # inner_distance
         expand(RSEQC_OUTDIR + "{sample}.junctionSaturation_plot.r", sample = SAMPLE_NAMES), # junction_saturation
