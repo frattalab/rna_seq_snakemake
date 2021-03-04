@@ -229,11 +229,12 @@ def salmon_target_index(txome_dir, species, species_version, decoy_type, annot_v
         return os.path.join(txome_dir, species, species_version, decoy_type, ".".join([annot_version, "kmer_" + str(kmer_size)]))
 
 
-def multiqc_target_files(workflow_str, sample_names, units):
+def multiqc_target_files(workflow_str, sample_names, fastq_prefixes, units):
     '''
     Returns list of target files for multiqc depending on the workflow being ran
     This is mostly manually defined (like our workflows) for now until I find a better solution
     Use this as an 'input function'
+    Indexes of sample names, prefixes & units should match
     '''
 
     # Last one is a dummy value
@@ -254,7 +255,7 @@ def multiqc_target_files(workflow_str, sample_names, units):
         feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
 
         # Define target files for each step
-        targets_fastqc = expand(fastqc_outdir + "{unit}/{name}_fastqc.html",zip, name=sample_names, unit=units)
+        targets_fastqc = expand(fastqc_outdir + "{sample}/{unit}/{fastq_prefix}_fastqc.html",zip, sample=sample_names, unit=units, fastq_prefix = fastq_prefixes)
         # print("fastqc targets - {0}".format(", ".join(targets_fastqc)))
         # print(targets_fastqc)
         # print(type(targets_fastqc))

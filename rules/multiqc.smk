@@ -11,6 +11,12 @@ SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 # Need units from here for fastq files
 FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
 
+# FASTQ_NAME = sample ID, FILE_LOCATION = path to fastq file
+# Fastqc gets it's filename by stripping ".fastq.gz" from the input FASTQ
+# FASTQ_PREFIX is a list of <prefix> for each sample (from /path/to/<prefix>.fastq.gz)
+FASTQ_PREFIX = [re.sub(".fastq.gz","", location.rpartition('/')[2]) for location in FILE_LOCATION]
+
+
 ## This loop checks if workflow has already been defined (i.e. running inside workflow)
 ## if not then not defined (i.e. if just want to run multiqc), so give it a dummy value
 
@@ -34,7 +40,7 @@ rule all_multiqc:
 
 rule multiqc:
     input:
-        multiqc_target_files(workflow_str, SAMPLE_NAMES, UNITS)
+        multiqc_target_files(workflow_str, SAMPLE_NAMES, FASTQ_PREFIX, UNITS)
 
     output:
         os.path.join(multiqc_output_folder, "multiqc_report.html")
