@@ -40,7 +40,7 @@ SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
 rule all_rseqc:
     input:
-        expand(RSEQC_OUTDIR + "{sample}.geneBodyCoverage.txt", sample = SAMPLE_NAMES), #gene_body_coverage
+        os.path.join(RSEQC_OUTDIR, "all_bams_output.geneBodyCoverage.txt"), #gene_body_coverage
         expand(RSEQC_OUTDIR + "{sample}.infer_experiment.txt", sample = SAMPLE_NAMES), #infer_experiment
         expand(RSEQC_OUTDIR + "{sample}.inner_distance_freq.txt", sample = SAMPLE_NAMES), # inner_distance
         expand(RSEQC_OUTDIR + "{sample}.junctionSaturation_plot.r", sample = SAMPLE_NAMES), # junction_saturation
@@ -52,15 +52,16 @@ rule all_rseqc:
 
 rule gene_body_coverage:
     input:
-        bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
-        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam.bai")
+        bams = expand(STAR_OUTDIR + "{sample}.Aligned.sorted.out.bam", sample = SAMPLE_NAMES),
+        idxs = expand(STAR_OUTDIR + "{sample}.Aligned.sorted.out.bam.bai", sample = SAMPLE_NAMES)
 
     output:
-        os.path.join(RSEQC_OUTDIR, "{sample}.geneBodyCoverage.txt")
+        os.path.join(RSEQC_OUTDIR, "all_bams_output.geneBodyCoverage.txt")
 
     params:
+        samples = lambda wildcards, input: ",".join(input.bams),
         annotation = BED12,
-        prefix = RSEQC_OUTDIR
+        prefix = os.path.join(RSEQC_OUTDIR, "all_bams_output")
 
     conda:
         "../env/align.yaml"
@@ -68,7 +69,7 @@ rule gene_body_coverage:
     shell:
         """
         geneBody_coverage.py \
-        -i {input.bam} \
+        -i {params.samples} \
         -r {params.annotation} \
         -l 100 \
         -o {params.prefix}
