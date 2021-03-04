@@ -52,7 +52,7 @@ rule all_rseqc:
 
 rule gene_body_coverage:
     input:
-        bams = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
+        bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
         idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam.bai")
 
     output:
