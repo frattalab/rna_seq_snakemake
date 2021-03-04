@@ -266,9 +266,9 @@ def multiqc_target_files(workflow_str, sample_names, fastq_prefixes, units):
         targets_star = expand(star_outdir + "{name}.flagstat.txt", name = sample_names)
         targets_salmon = expand(salmon_outdir + "{sample}/" + "quant.sf", sample = sample_names)
 
-        rseq_target_suffixes = [".geneBodyCoverage.txt", ".infer_experiment.txt", ".inner_distance_freq.txt", ".junctionSaturation_plot.r", ".read_distribution.txt"]
+        rseq_target_suffixes = [".infer_experiment.txt", ".inner_distance_freq.txt", ".junctionSaturation_plot.r", ".read_distribution.txt"]
         targets_rseqc = expand(rseqc_outdir + "{name}" + "{suffix}", name = sample_names, suffix = rseq_target_suffixes)
-
+        targets_rseqc.append(os.path.join(rseqc_outdir, "all_bams_output.geneBodyCoverage.txt"))
 
 
         if workflow_str == "fastq_qc":
