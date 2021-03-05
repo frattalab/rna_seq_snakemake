@@ -24,6 +24,8 @@ SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
+# This is to help multiqc know which files to track
+workflow_str = "salmon"
 
 
 #Construct all output directory strings needed for workflow definition
@@ -34,6 +36,9 @@ include: "../rules/fastp.smk"
 include: "../rules/fastqc.smk"
 include: "../rules/generate_salmon_index.smk"
 include: "../rules/salmon_quant.smk"
+include: "../rules/multiqc.smk"
+
+
 
 rule all:
     input:

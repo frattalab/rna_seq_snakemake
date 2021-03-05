@@ -10,15 +10,19 @@ def get_fastq_names(DATA):
     samples = pd.read_csv(DATA, sep = ",")
     #take all the fasqs and combine them to a list remove any nas
     fastq_list = samples.fast1.dropna().tolist() + samples.fast2.dropna().tolist()
+    # print("get_fastq_names - fastq_list values - {}".format(", ".join(fastq_list)))
     #if there are any missing values pandas gets annoyed so replace nans with empty string
     samples = samples.replace(np.nan, '', regex=True)
+
     #get the associated sample and unit name for each fastq using and or operator to get either fast1 or fast2, works for both single-end and paired end this way
     unit_name = [samples.loc[(samples['fast1'] == fq)| (samples['fast2'] == fq)].unit.iloc[0] for fq in fastq_list]
+
     #strip it down to just the name of the file bit
-    stripped = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in fastq_list]
+    #stripped = [re.sub(".fastq.gz","",strpd.rpartition('/')[2]) for strpd in fastq_list]
+    sample_names = samples.sample_name.tolist()
     #now combine these three lists to get a meaningfull and unique string for each fastq file
 
-    return(stripped, fastq_list, unit_name)
+    return(sample_names, fastq_list, unit_name)
 
 def return_fastq_location(wildcards):
 	#return the file location from the fastq name
@@ -105,7 +109,6 @@ def get_annotation_version(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return (temp.annotation_version[temp.species == species].tolist()[0])
 
-
 def get_genome_fasta(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return(temp.genome_fa[temp.species == species].tolist()[0])
@@ -117,6 +120,10 @@ def get_transcriptome_fasta(species):
 def get_gtf(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
     return(temp.gtf[temp.species == species].tolist()[0])
+
+def get_bed12(species):
+    temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
+    return (temp.bed12[temp.species == species].tolist()[0])
 
 # takes the featurcounts strand and returns the interpretation for kallisto_output_folder
 def get_kallisto_strand(fcStrand):
@@ -236,6 +243,101 @@ def salmon_target_index(txome_dir, species, species_version, decoy_type, annot_v
     else:
         return os.path.join(txome_dir, species, species_version, decoy_type, ".".join([annot_version, "kmer_" + str(kmer_size)]))
 
+
+
+def multiqc_target_files(workflow_str, sample_names, fastq_prefixes, units):
+    '''
+    Returns list of target files for multiqc depending on the workflow being ran
+    This is mostly manually defined (like our workflows) for now until I find a better solution
+    Use this as an 'input function'
+    Indexes of sample names, prefixes & units should match
+    '''
+
+    # Last one is a dummy value
+    valid_workflows = ["fastq_qc", "align", "salmon", "multiqc_output"]
+
+    if workflow_str not in valid_workflows:
+        raise ValueError("{0} is not a supported value for 'workflow' - use one of {1}".format(workflow, ",".join(valid_workflows)))
+
+    else:
+        out_targets = []
+
+        # Define all possible output directories for different qc metrics
+        fastqc_outdir = get_output_dir(config["project_top_level"], config["fastqc_output_folder"])
+        fastp_outdir = get_output_dir(config["project_top_level"], config["fastp_trimmed_output_folder"])
+        star_outdir = get_output_dir(config["project_top_level"], config["star_output_folder"])
+        salmon_outdir = get_output_dir(config["project_top_level"], config["salmon_output_folder"])
+        rseqc_outdir = get_output_dir(config["project_top_level"], config["rseqc_output_folder"])
+        feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
+
+        # Define target files for each step
+        targets_fastqc = expand(fastqc_outdir + "{sample}/{unit}/{fastq_prefix}_fastqc.html",zip, sample=sample_names, unit=units, fastq_prefix = fastq_prefixes)
+        # print("fastqc targets - {0}".format(", ".join(targets_fastqc)))
+        # print(targets_fastqc)
+        # print(type(targets_fastqc))
+
+        targets_fastp = expand(fastp_outdir + "{unit}_{name}_fastp.json", zip, name = sample_names, unit = units)
+
+        # Created in same dir as STAR logs (but after bams generated)
+        targets_star = expand(star_outdir + "{name}.flagstat.txt", name = sample_names)
+        targets_salmon = expand(salmon_outdir + "{sample}/" + "quant.sf", sample = sample_names)
+
+        rseq_target_suffixes = [".infer_experiment.txt", ".inner_distance_freq.txt", ".junctionSaturation_plot.r", ".read_distribution.txt"]
+        targets_rseqc = expand(rseqc_outdir + "{name}" + "{suffix}", name = sample_names, suffix = rseq_target_suffixes)
+        targets_rseqc.append(os.path.join(rseqc_outdir, "all_bams_output.geneBodyCoverage.txt"))
+
+
+        if workflow_str == "fastq_qc":
+            # Only need output from fastqc & fastp
+            out_targets.extend(targets_fastqc)
+            out_targets.extend(targets_fastp)
+
+        elif workflow_str == "align":
+            # Basically everything but salmon
+            out_targets.extend(targets_fastqc)
+            # print(out_targets)
+            out_targets.extend(targets_fastp)
+            out_targets.extend(targets_star)
+            out_targets.extend(targets_rseqc)
+
+            # print("out_targets for align - {0}".format(", ".join(out_targets)))
+
+        elif workflow_str == "salmon":
+            # Just fastq QC & salmon
+            out_targets.extend(targets_fastqc)
+            out_targets.extend(targets_fastp)
+            out_targets.extend(targets_salmon)
+
+        elif workflow_str == "multiqc_output":
+            # This is dummy for if run independently (i.e. has no dependent rules so no targets)
+            pass
+
+    # print("this is out_targets for multiqc_target_files - {0}".format(",".join(out_targets)))
+
+    return out_targets
+
+
+def multiqc_target_dirs():
+    '''
+    Returns list of paths to directories for multiqc to scan for log files
+    Since it scan recursively through dirs, and only penalty to searching extra dirs is added run-time
+    For simplicity, this returns paths to all potential directories, provided they exist / have been created
+    '''
+
+    outdir_keys = ["fastqc_output_folder", "fastp_trimmed_output_folder", "star_output_folder", "salmon_output_folder", "rseqc_output_folder", "feature_counts_output_folder"]
+
+    # List of all output directories specified in config
+    all_dir_paths = [get_output_dir(config["project_top_level"], config[x]) for x in outdir_keys]
+
+    # print("this is all_dir_paths for multiqc {0}".format(",".join(all_dir_paths)))
+    # Return only potential directories that have already exist
+    target_dir_paths = [p for p in all_dir_paths if os.path.exists(p)]
+
+    # print("this is target_dir_paths for multiqc - {0}".format(",".join(all_dir_paths)))
+
+    return target_dir_paths
+
+
 def sample_names_from_contrast(grp):
     """
     given a contrast name or list of groups return a list of the files in that group
@@ -283,6 +385,7 @@ def featurecounts_files_from_contrast(grp):
     print(fc_files)
     return(fc_files)
 
+
 def load_comparisons():
     comparisons = "config/DESeq2comparisons.yaml"
     with open(comparisons, 'r') as stream:
@@ -291,6 +394,8 @@ def load_comparisons():
         except yaml.YAMLError as exc:
             print(exc)
     return(compare_dict)
+
+
 def check_key(dict, key):
      """
      simple funciton to check if a key is in a dictionary, if it's not returns false and if it is returns the value
@@ -299,6 +404,8 @@ def check_key(dict, key):
          return(dict[key])
      else:
          return(False)
+      
+
 def return_sample_names_group(grp):
     """
     given a group, return the names and the column_name associated with that
@@ -310,3 +417,4 @@ def return_sample_names_group(grp):
             column_name = compare_dict[key]['column_name'][0]
             return(grp_names,column_name)
     return("","")
+

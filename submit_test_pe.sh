@@ -26,6 +26,7 @@ cp config/test_pe_config.yaml ${FOLDER}/${RUN_NAME}_config.yaml
 
 
 snakemake -s ${WORKFLOW} \
+--use-conda \
 --configfile config/test_pe_config.yaml \
 --jobscript cluster_qsub.sh \
 --cluster-config config/cluster.yaml \

@@ -37,10 +37,10 @@ project_top_level:  /SAN/vyplab/alb_projects/data/ursa_mouse
 #if the provided path string is ABSOLUTE, the output for the given rule will be stored in the provided string (NOT WITHIN project_top_level)
 #In practice leaving as relative defaults is best option...
 
-#suggest name like <rule>_output_folder & <rule>_subdir_folder - can split key/string by '_'[0] to map keys (NO - this is way too complicated...)
+fastqc_output_folder: qc/fastqc/
+fastp_trimmed_output_folder: fastp_trimmed/
+rseqc_output_folder: qc/rseqc/
 
-fastqc_output_folder: fastqc/
-fastp_trimmed_output_folder: fastp_trimmed_again/
 star_output_folder: STAR_aligned/
 merged_fastq_folder: pulled_fastq/
 scallop_output: scallop_output/
@@ -51,6 +51,12 @@ tpmcalculator_output_folder: TPMcalculator/
 interleave_master_output_folder: interleaved_fastq/
 DESeq2_output: deseq2/
 
+# MultiQC reports for EACH workflow will be stored in subdirectories under here
+# e.g. if run fastq_qc & align_qc separately won't overwrite reports
+multiqc_output_folder: multiqc/
+interleave_master_output_folder: interleaved_fastq/
+
+
 ###### By defaulteverything aligned with this
 ###### pipeline will get the suffix "Aligned.sorted.out.bam"
 ###### but if you want to run scallop  with bams aligned somewhere else
@@ -59,6 +65,8 @@ bam_suffix: ".Aligned.sorted.out.bam"
 
 ###### Do you want to use a custom salmon index? If yes, give a file path to one build with the single_step generate_salmon_dex, otherwise leave false
 custom_salmon_index: False
+
+
 #########################
 ##FASTP PARAMETERS - TRIMMING HERE######
 #########################

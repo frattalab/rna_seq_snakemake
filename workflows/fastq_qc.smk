@@ -17,8 +17,13 @@ SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 fastqc_outdir = get_output_dir(config["project_top_level"], config["fastqc_output_folder"])
 
 
+# This is to help multiqc know which files to track
+workflow_str = "fastq_qc"
+
+
 include: "../rules/fastp.smk"
 include: "../rules/fastqc.smk"
+include: "../rules/multiqc.smk"
 
 rule all:
     input:
