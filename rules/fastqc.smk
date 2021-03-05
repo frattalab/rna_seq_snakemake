@@ -18,11 +18,11 @@ FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
 # FASTQ_PREFIX is a list of <prefix> for each sample (from /path/to/<prefix>.fastq.gz)
 FASTQ_PREFIX = [re.sub(".fastq.gz","", location.rpartition('/')[2]) for location in FILE_LOCATION]
 
-print("FASTQ_NAME values - {0}".format(", ".join(FASTQ_NAME)))
+# print("FASTQ_NAME values - {0}".format(", ".join(FASTQ_NAME)))
 #zip them into a directory to make getting the location easier
 ORDER_DICT = dict(zip(FASTQ_NAME, FILE_LOCATION))
-print("\nThis is ORDER_DICT\n")
-print(ORDER_DICT)
+# print("\nThis is ORDER_DICT\n")
+# print(ORDER_DICT)
 
 #
 

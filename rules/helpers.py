@@ -9,7 +9,7 @@ def get_fastq_names(DATA):
     samples = pd.read_csv(DATA, sep = ",")
     #take all the fasqs and combine them to a list remove any nas
     fastq_list = samples.fast1.dropna().tolist() + samples.fast2.dropna().tolist()
-    print("get_fastq_names - fastq_list values - {}".format(", ".join(fastq_list)))
+    # print("get_fastq_names - fastq_list values - {}".format(", ".join(fastq_list)))
     #if there are any missing values pandas gets annoyed so replace nans with empty string
     samples = samples.replace(np.nan, '', regex=True)
 
