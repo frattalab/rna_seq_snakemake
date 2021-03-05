@@ -31,4 +31,5 @@ snakemake -s ${WORKFLOW} \
 -j 40 \
 --nolock \
 --rerun-incomplete \
---latency-wait 100
+--latency-wait 100 \
+--use-conda
