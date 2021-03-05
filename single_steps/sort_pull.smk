@@ -1,11 +1,11 @@
 import os
 # a top level folder where the bams reside
-project_dir = "/SAN/vyplab/alb_projects/data/linked_bams_agaribotag/"
+project_dir = "/home/annbrown/data/ursa_mouse"
 out_spot = "name_sortbams/"
-bam_spot = "bams/"
+bam_spot = "ori_bams/"
 fastq_dir = "pulled_fastq/"
-bam_suffix = "_unique_rg_fixed.bam"
-end_type = "se"
+bam_suffix = ".bam"
+end_type = "pe"
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
 
 output_dir = os.path.join(project_dir,out_spot)
@@ -17,25 +17,25 @@ print(SAMPLES)
 
 rule all:
   input:
-    #expand(output_dir + "{sample}_namesorted.bam", sample = SAMPLES),
     expand(fastq_dir + "{sample}_1.merged.fastq.gz", sample = SAMPLES)
 
 rule name_sort:
     input:
         aligned_bam = bam_dir + "{sample}" + bam_suffix
     output:
-       temp(out_name = output_dir + "{sample}_namesorted.bam")
+       temp(output_dir + "{sample}_namesorted.bam")
     shell:
         """
-        samtools sort -n -@ 2 {input.aligned_bam} -o {output.out_name}
+        mkdir -p {output_dir}
+        samtools sort -n -@ 2 {input.aligned_bam} -o {output}
         """
 if end_type == "pe":
   rule bam_to_fastq:
       input:
           name_sort_bam = output_dir + "{sample}_namesorted.bam"
       output:
-          one = fastq_dir + "{sample}_1.merged.fastq",
-          two = fastq_dir + "{sample}_2.merged.fastq"
+          one = temp(fastq_dir + "{sample}_1.merged.fastq"),
+          two = temp(fastq_dir + "{sample}_2.merged.fastq")
       shell:
           """
           bedtools bamtofastq -i {input} \
@@ -59,7 +59,7 @@ else:
       input:
           name_sort_bam = output_dir + "{sample}_namesorted.bam"
       output:
-          one = fastq_dir + "{sample}_1.merged.fastq"
+          one = temp(fastq_dir + "{sample}_1.merged.fastq")
       shell:
           """
           bedtools bamtofastq -i {input} \

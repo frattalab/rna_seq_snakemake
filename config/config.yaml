@@ -6,10 +6,10 @@
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
 # Double check README for instructions for constructing a valid sample csv table
-sampleCSVpath:  /home/annbrown/data/briese_tdp43_mouse_motorneuron/briese_axonal_tdp.csv
+sampleCSVpath:  /SAN/vyplab/alb_projects/data/ursa_mouse/mouse_ursa_neuron_muscle.csv
 
 #If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
-end_type: se
+end_type: pe
 
 #mouse or human
 species: "mouse"
@@ -18,9 +18,7 @@ readLen: 150
 ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
 #consult featureCounts documentation for correct string to pass
 feature_counts_strand_info: "-s 0"
-# one of 'fastq_qc', 'align', 'interleave_fastq_qc' or 'salmon'
-#See README for description of what each workflow involves
-workflow: align
+
 
 
 
@@ -31,7 +29,7 @@ workflow: align
 #always end paths with a trailing slash, or there will be errors :)
 
 #master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
-project_top_level: /home/annbrown/data/briese_tdp43_mouse_motorneuron/
+project_top_level:  /SAN/vyplab/alb_projects/data/ursa_mouse
 
 
 #below you can specify the names of rulesubdirectories
@@ -40,20 +38,34 @@ project_top_level: /home/annbrown/data/briese_tdp43_mouse_motorneuron/
 #In practice leaving as relative defaults is best option...
 
 fastqc_output_folder: qc/fastqc/
-fastp_trimmed_output_folder: qc/fastp_trimmed/
+fastp_trimmed_output_folder: fastp_trimmed/
 rseqc_output_folder: qc/rseqc/
 
 star_output_folder: STAR_aligned/
-merged_fastq_folder: merged_fastqs/
+merged_fastq_folder: pulled_fastq/
+scallop_output: scallop_output/
+stringtie_output: stringtie_output/
 feature_counts_output_folder: feature_counts/
 salmon_output_folder: salmon_quant/
-tpmcalculator_output_folder: TPMcalculator/ #this is redundant due to only outputting to working dir unless make simple rule to copy output here
+tpmcalculator_output_folder: TPMcalculator/
 interleave_master_output_folder: interleaved_fastq/
+DESeq2_output: deseq2/
 
 # MultiQC reports for EACH workflow will be stored in subdirectories under here
 # e.g. if run fastq_qc & align_qc separately won't overwrite reports
 multiqc_output_folder: multiqc/
 interleave_master_output_folder: interleaved_fastq/
+
+
+###### By defaulteverything aligned with this
+###### pipeline will get the suffix "Aligned.sorted.out.bam"
+###### but if you want to run scallop  with bams aligned somewhere else
+###### you'll have to tweak this
+bam_suffix: ".Aligned.sorted.out.bam"
+
+###### Do you want to use a custom salmon index? If yes, give a file path to one build with the single_step generate_salmon_dex, otherwise leave false
+custom_salmon_index: False
+
 
 #########################
 ##FASTP PARAMETERS - TRIMMING HERE######
@@ -159,6 +171,24 @@ tpmcalculator_path: /SAN/vyplab/alb_projects/tools/TPMCalculator/bin/TPMCalculat
 #put anything other than "true" if you're not AL
 tpm_singlestep: "false"
 
+#########################
+## Scallop PARAMETERS
+#########################
+scallop_path: /SAN/vyplab/alb_projects/tools/scallop-0.10.4/src/scallop
+scallop_extra_parameters:
+  min_transcript_length_increase: 25
+  min_single_exon_coverage: 15
+  min_transcript_length_base: 50
+  min_transcript_length_increase: 10
+  min_transcript_coverage: 0.01
+
+#########################
+##SCALLOP HELPER TOOLS PATHS######
+#########################
+gffcompare: /SAN/vyplab/alb_projects/tools/gffcompare-0.11.6.Linux_x86_64/gffcompare
+gtfcuff: /SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfcuff/gtfcuff
+gtfmerge: /SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfmerge/gtfmerge
+gffread: /SAN/vyplab/alb_projects/tools/gffread-0.11.8.Linux_x86_64/gffread
 
 
 #########################

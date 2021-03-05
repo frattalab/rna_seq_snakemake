@@ -37,8 +37,6 @@ tpm_outdir = get_output_dir(config['project_top_level'], config['tpmcalculator_o
 multiqc_output_folder = os.path.join(get_output_dir(config["project_top_level"], config["multiqc_output_folder"]), workflow_str, "")
 
 
-
-
 rule all:
     input:
         GENOME_DIR + "/SA",

@@ -2,7 +2,7 @@ import os
 configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml"
 include: "helpers.py"
-include: "fastp.smk"
+
 # RULE ORDER DIRECTIVE
 # if paired end, use the paired end rule to run, if single end use the single end rule to run
 if config['end_type'] == "pe":

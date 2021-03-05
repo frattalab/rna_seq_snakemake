@@ -16,7 +16,10 @@ DECOY_TYPE = config["salmon_index_type"]
 KMER_SIZE = config["salmon_index_kmer_size"]
 
 # dir for Index generated for each species's genome assembly, each type of decoy sequence (homologous only or whole genome), provided txome annotation and kmer size
-TXOME_DIR = salmon_target_index(INDEX_DIR, SPECIES, SPECIES_VERSION, DECOY_TYPE, ANNOTATION_VERSION, KMER_SIZE)
+if config['custom_salmon_index'] == False:
+    TXOME_DIR = salmon_target_index(INDEX_DIR, SPECIES, SPECIES_VERSION, DECOY_TYPE, ANNOTATION_VERSION, KMER_SIZE)
+else:
+    TXOME_DIR = config['custom_salmon_index']
 
 
 #####
@@ -79,7 +82,7 @@ rule salmon_quant:
         gtf = get_gtf(SPECIES),
         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"])
 
-    threads: 4
+    # threads: 4
 
     shell:
         """
@@ -89,7 +92,6 @@ rule salmon_quant:
         --mates1 {input.fast1} \
         --mates2 {input.fast2} \
         --geneMap {params.gtf} \
-        --threads {threads} \
         {params.extra_params} \
         -o {params.output_dir} \
         """

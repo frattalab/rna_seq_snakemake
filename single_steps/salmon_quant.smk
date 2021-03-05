@@ -25,7 +25,6 @@ rule salmon_quant:
     params:
         tempout = output_dir + "{sample}",
         tempout2 = output_dir + "{sample}" + "/quant.sf"
-    threads: 2
     shell:
         """
         /SAN/vyplab/alb_projects/tools/salmon-latest_linux_x86_64/bin/salmon quant\
@@ -36,4 +35,4 @@ rule salmon_quant:
          -o {params.tempout}\
          --geneMap /SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v34.annotation.gtf
          mv {params.tempout2} {output}
-        """  
+        """

@@ -4,7 +4,8 @@ make_deseq_dfs = function(total_table, grep_pattern = "", leave_out = "", base_g
 
   if(grep_pattern == ""){
 
-    grep_pattern = paste0(colnames(total_table[,2:length(total_table)]),collapse = "|")
+    grep_pattern = glue::glue("{base_grep}|{contrast_grep}")
+
   }
   #grep pattern is being used to select small parts of this overall
   total_table = as.data.table(total_table, keep.rownames = TRUE)
@@ -37,23 +38,19 @@ make_deseq_dfs = function(total_table, grep_pattern = "", leave_out = "", base_g
   ###damn I really need to delte this...it's vestigal
   coldata = as.data.table(names(conv_df))
   if(base_grep == "" & contrast_grep == ""){
-    coldata[grep("a.a",V1), cond := "base"]
-    coldata[grep("b.a",V1), cond := "during"]
-    coldata[grep("c.a",V1), cond := "post"]
-    coldata[grep("wt",V1), cell := "wt"]
-    coldata[grep("f",V1), cell := "f210i"]
   }else if(base_grep != ""){
     coldata[grep(base_grep,V1), cond := "base"]
   }else if(contrast_grep != ""){
     coldata[grep(contrast_grep,V1), cond := "contrast"]
   }
   coldata[is.na(cond), cond := "contrast"]
-
+  print("This is your metaData")
+  print(coldata)
   coldata = as.data.frame(coldata[,2:ncol(coldata)])
   rownames(coldata) = names(conv_df)
   morphed = list(conv_df,coldata)
   names(morphed) = c("conv_df","coldata")
-  print(names(conv_df))
+
 
   return(morphed)
 }
