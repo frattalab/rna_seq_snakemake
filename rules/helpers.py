@@ -4,6 +4,7 @@ import os
 import numpy as np
 import subprocess
 from subprocess import PIPE
+import yaml
 
 def get_fastq_names(DATA):
     samples = pd.read_csv(DATA, sep = ",")
@@ -127,6 +128,20 @@ def get_kallisto_strand(fcStrand):
         return("--rf-stranded")
 
 
+def get_scallop_strand(fcStrand):
+    '''
+    Return string for scallop libtype denoting strandedness/orientation of library.
+    Parses featureCounts strand and returns corresponding Scallop libtype string
+    '''
+    if fcStrand == "-s 0":
+        return "unstranded"
+
+    elif fcStrand == "-s 1":
+        return "second"
+
+    elif fcStrand == "-s 2":
+        return "first"
+
 def get_salmon_strand(fcStrand):
     '''
     Return string for salmon libtype denoting strandedness/orientation of library.
@@ -220,3 +235,78 @@ def salmon_target_index(txome_dir, species, species_version, decoy_type, annot_v
 
     else:
         return os.path.join(txome_dir, species, species_version, decoy_type, ".".join([annot_version, "kmer_" + str(kmer_size)]))
+
+def sample_names_from_contrast(grp):
+    """
+    given a contrast name or list of groups return a list of the files in that group
+    """
+    #reading in the samples
+    samples = pd.read_csv(config['sampleCSVpath'])
+    #there should be a column which allows you to exclude samples
+    samples2 = samples.loc[samples.exclude_sample_downstream_analysis != 1]
+    #read in the comparisons and make a dictionary of comparisons, comparisons needs to be in the config file
+    compare_dict = load_comparisons()
+    #go through the values of the dictionary and break when we find the right groups in that contrast
+    grps, comparison_column = return_sample_names_group(grp)
+    #take the sample names corresponding to those groups
+    if comparison_column == "":
+        print(grp)
+        return([""])
+    grp_samples = "|".join(set(list(samples2[samples2[comparison_column].isin(grps)].sample_name)))
+    print(grp_samples)
+    return(grp_samples)
+
+
+def featurecounts_files_from_contrast(grp):
+    """
+    given a contrast name or list of groups return a list of the files in that group
+    """
+    #reading in the samples
+    samples = pd.read_csv(config['sampleCSVpath'])
+    #there should be a column which allows you to exclude samples
+    samples2 = samples.loc[samples.exclude_sample_downstream_analysis != 1]
+    #read in the comparisons and make a dictionary of comparisons, comparisons needs to be in the config file
+    compare_dict = load_comparisons()
+    #go through the values of the dictionary and break when we find the right groups in that contrast
+    grps, comparison_column = return_sample_names_group(grp)
+    #take the sample names corresponding to those groups
+    if comparison_column == "":
+        return([""])
+    grp_samples = list(set(list(samples2[samples2[comparison_column].isin(grps)].sample_name)))
+    feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
+    fc_suffix = "_featureCounts_results.txt"
+
+    #build a list with the full path from those sample names
+    fc_files = [os.path.join(feature_counts_outdir,x + fc_suffix) \
+                   for x in grp_samples]
+    fc_files = list(set(fc_files))
+    print(fc_files)
+    return(fc_files)
+
+def load_comparisons():
+    comparisons = "config/DESeq2comparisons.yaml"
+    with open(comparisons, 'r') as stream:
+        try:
+            compare_dict = yaml.safe_load(stream)
+        except yaml.YAMLError as exc:
+            print(exc)
+    return(compare_dict)
+def check_key(dict, key):
+     """
+     simple funciton to check if a key is in a dictionary, if it's not returns false and if it is returns the value
+     """
+     if key in dict:
+         return(dict[key])
+     else:
+         return(False)
+def return_sample_names_group(grp):
+    """
+    given a group, return the names and the column_name associated with that
+    """
+    compare_dict = load_comparisons()
+    for key in compare_dict.keys():
+        grp_names = check_key(compare_dict[key],grp)
+        if grp_names:
+            column_name = compare_dict[key]['column_name'][0]
+            return(grp_names,column_name)
+    return("","")
