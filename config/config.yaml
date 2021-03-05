@@ -39,10 +39,10 @@ project_top_level: /home/annbrown/data/briese_tdp43_mouse_motorneuron/
 #if the provided path string is ABSOLUTE, the output for the given rule will be stored in the provided string (NOT WITHIN project_top_level)
 #In practice leaving as relative defaults is best option...
 
-#suggest name like <rule>_output_folder & <rule>_subdir_folder - can split key/string by '_'[0] to map keys (NO - this is way too complicated...)
+fastqc_output_folder: qc/fastqc/
+fastp_trimmed_output_folder: qc/fastp_trimmed/
+rseqc_output_folder: qc/rseqc/
 
-fastqc_output_folder: fastqc/
-fastp_trimmed_output_folder: fastp_trimmed/
 star_output_folder: STAR_aligned/
 merged_fastq_folder: merged_fastqs/
 feature_counts_output_folder: feature_counts/
@@ -50,7 +50,10 @@ salmon_output_folder: salmon_quant/
 tpmcalculator_output_folder: TPMcalculator/ #this is redundant due to only outputting to working dir unless make simple rule to copy output here
 interleave_master_output_folder: interleaved_fastq/
 
-
+# MultiQC reports for EACH workflow will be stored in subdirectories under here
+# e.g. if run fastq_qc & align_qc separately won't overwrite reports
+multiqc_output_folder: multiqc/
+interleave_master_output_folder: interleaved_fastq/
 
 #########################
 ##FASTP PARAMETERS - TRIMMING HERE######
