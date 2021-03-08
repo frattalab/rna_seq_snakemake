@@ -27,7 +27,7 @@ mkdir -p ${FOLDER}
 cp config/config.yaml ${FOLDER}/${RUN_NAME}_config.yaml
 
 snakemake -s ${WORKFLOW} \
---conda-prefix "/SAN/vyplab/vyplab_reference_genomes/conda_envs/"
+--conda-prefix "/SAN/vyplab/vyplab_reference_genomes/conda_envs/" \
 --use-conda \
 --jobscript cluster_qsub.sh \
 --cluster-config config/cluster.yaml \
@@ -36,4 +36,3 @@ snakemake -s ${WORKFLOW} \
 --nolock \
 --rerun-incomplete \
 --latency-wait 100 \
-/SAN/vyplab/alb_projects/data/4su_better_design_ward_ipsc/fastp_trimmed/filler_TDP43kd_4_8h_R1_trimmed.fastq.gz
