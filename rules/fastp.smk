@@ -38,7 +38,7 @@ if config['end_type'] == "pe":
             name="|".join(SAMPLE_NAMES),
             unit="|".join(UNITS)
         conda:
-            "../env/align.yml"
+            "../env/align.yaml"
         output:
             out_fastqc = fastp_outdir + "{unit}_{name}_R1_trimmed.fastq.gz",
             out_fastqc2 = fastp_outdir + "{unit}_{name}_R2_trimmed.fastq.gz",
