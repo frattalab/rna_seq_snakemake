@@ -11,6 +11,8 @@
 #$ -j y
 #$ -R y
 
+source activate /SAN/vyplab/vyplab_reference_genomes/conda_envs/splicing_env/
+
 WORKFLOW="workflows/${1}.smk"
 
 if [ "$2" != "" ]; then

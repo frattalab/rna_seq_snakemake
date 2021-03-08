@@ -5,6 +5,7 @@ channels:
   - conda-forge
 
 dependencies:
+  - fastp=0.20.1-0
   - python=3.6
   - star=2.7.8a
   - samtools=1.11-0
