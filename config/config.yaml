@@ -98,10 +98,10 @@ fastp_parameters:
 
 extra_star_parameters:
   outSAMattributes: MD NH XS
-  quantMode: GeneCounts
   outSAMtype: BAM Unsorted
   outSAMunmapped: Within
   twopassMode: Basic
+  alignEndsType: EndToEnd
 
 #DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
 STAR_indices: /SAN/vyplab/vyplab_reference_genomes/STAR/
