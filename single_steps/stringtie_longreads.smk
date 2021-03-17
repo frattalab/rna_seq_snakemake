@@ -36,8 +36,8 @@ if not os._exists(stringtie_outdir):
 rule all_stringtie:
     input:
         expand(stringtie_outdir + "{sample}.assemble.gtf", sample = SAMPLE_NAMES),
-        os.path.join(stringtie_outdir, "stringtie_merged.unique.gtf"),
-        os.path.join(stringtie_outdir, "stringtie_merged.gtf")
+        os.path.join(stringtie_outdir, "stringtie_merged.gtf"),
+        # os.path.join(stringtie_outdir, "stringtie_merged.unique.gtf")
 
 rule StringTie_Assemble:
     input:
