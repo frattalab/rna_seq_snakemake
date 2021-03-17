@@ -24,7 +24,7 @@ bam_dir = os.path.join(options_dict["bam_spot"], "")
 stringtie_outdir = os.path.join(options_dict["out_spot"], "")
 GTF = options_dict['gtf']
 
-SAMPLE_NAMES = glob_wildcards(os.path.join(bam_dir, "{sample}" + options_dict["bam_suffix"]))
+SAMPLE_NAMES = list(glob_wildcards(os.path.join(bam_dir, "{sample}" + options_dict["bam_suffix"])))
 print(SAMPLE_NAMES)
 
 
