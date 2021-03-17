@@ -21,16 +21,21 @@ localrules: compose_gtf_list
 options_dict = config["stringtie_longreads"]
 
 bam_dir = os.path.join(options_dict["bam_spot"], "")
+bam_suffix = options_dict['bam_suffix']
 stringtie_outdir = os.path.join(options_dict["out_spot"], "")
 GTF = options_dict['gtf']
 
-SAMPLE_NAMES = list(glob_wildcards(os.path.join(bam_dir, "{sample}" + options_dict["bam_suffix"])))
+SAMPLE_NAMES = [f.replace(bam_suffix, "") for f in os.listdir(bam_dir) if f.endswith(bam_suffix)]
 print(SAMPLE_NAMES)
+
+if not os._exists(stringtie_outdir):
+    os.system("mkdir -p {0}".format(stringtie_outdir))
+
 
 
 rule all_stringtie:
     input:
-        expand(stringtie_outdir + "{sample}.assemble.gtf", sample = glob_wildcards(os.path.join(bam_dir, "{sample}" + options_dict["bam_suffix"]))),
+        expand(stringtie_outdir + "{sample}.assemble.gtf", sample = SAMPLE_NAMES),
         os.path.join(stringtie_outdir, "stringtie_merged.unique.gtf"),
         os.path.join(stringtie_outdir, "stringtie_merged.gtf")
 
