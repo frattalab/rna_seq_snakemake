@@ -30,7 +30,7 @@ print(SAMPLE_NAMES)
 
 rule all_stringtie:
     input:
-        expand(stringtie_outdir + "{sample}.assemble.gtf", sample = glob_wildcards(os.path.join(bam_dir, "{sample}" + options_dict["bam_suffix"])),
+        expand(stringtie_outdir + "{sample}.assemble.gtf", sample = glob_wildcards(os.path.join(bam_dir, "{sample}" + options_dict["bam_suffix"]))),
         os.path.join(stringtie_outdir, "stringtie_merged.unique.gtf"),
         os.path.join(stringtie_outdir, "stringtie_merged.gtf")
 
