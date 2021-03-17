@@ -27,17 +27,16 @@ GTF = options_dict['gtf']
 SAMPLE_NAMES = list(glob_wildcards(os.path.join(bam_dir, "{sample}" + options_dict["bam_suffix"])))
 print(SAMPLE_NAMES)
 
-# sample = glob_wildcards(os.path.join(bam_dir, "{sample}" + options_dict["bam_suffix"]))
 
 rule all_stringtie:
     input:
-        expand(stringtie_outdir + "{sample}.assemble.gtf"),
+        expand(stringtie_outdir + "{sample}.assemble.gtf", sample = glob_wildcards(os.path.join(bam_dir, "{sample}" + options_dict["bam_suffix"]))),
         os.path.join(stringtie_outdir, "stringtie_merged.unique.gtf"),
         os.path.join(stringtie_outdir, "stringtie_merged.gtf")
 
 rule StringTie_Assemble:
     input:
-        bam = os.path.join(bam_dir, "{sample}" + options_dict['bam_suffix']),
+        bam = lambda wildcards: os.path.join(bam_dir, wildcards.sample + options_dict['bam_suffix']),
         ref_gtf = GTF
     output:
         stringtie_outdir + "{sample}.assemble.gtf"
