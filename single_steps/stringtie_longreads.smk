@@ -32,7 +32,7 @@ rule all_stringtie:
     input:
         expand(stringtie_outdir + "{sample}.assemble.gtf", sample = SAMPLE_NAMES),
         os.path.join(stringtie_outdir, "stringtie_merged.unique.gtf"),
-        os.path.join(stringtie_outdir,"stringtie_merged.gtf")
+        os.path.join(stringtie_outdir, "stringtie_merged.gtf")
 
 rule StringTie_Assemble:
     input:
@@ -43,7 +43,7 @@ rule StringTie_Assemble:
     conda:
         "../envs/stringtie.yaml"
     shell:
-        "stringtie {input.bam} -G {input.ref_gtf} -o {output}"
+        "stringtie -L -G {input.ref_gtf} -o {output} {input.bam}"
 
 
 rule compose_gtf_list_stringtie:
