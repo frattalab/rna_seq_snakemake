@@ -11,6 +11,8 @@ stringtie_longreads:
 
     gtfmerge: /SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfmerge/gtfmerge
 
+    gffcompare: /SAN/vyplab/alb_projects/tools/gffcompare-0.11.6.Linux_x86_64/gffcompare
+
 
 
 
