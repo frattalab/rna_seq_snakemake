@@ -7,14 +7,13 @@ stringtie_longreads:
 
     out_spot: /SAN/vyplab/alb_projects/data/nanopore_tdp_kd_ipsc/dec_2020/2021-03-17_stringtie/
 
-    gtf: /SAN/vyplab/vyplab_reference_genomes/annotation/human/GRCh38/gencode.v34.annotation.gtf
+    gtf: /SAN/vyplab/vyplab_reference_genomes/annotation/human/ensembl/Homo_sapiens.GRCh38.100.gtf
 
     gtfmerge: /SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfmerge/gtfmerge
 
     gffcompare: /SAN/vyplab/alb_projects/tools/gffcompare-0.11.6.Linux_x86_64/gffcompare
 
-
-
+    gtfcuff: /SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfcuff/gtfcuff
 
 
 feature_counts:
