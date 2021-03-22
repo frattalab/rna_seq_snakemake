@@ -107,7 +107,7 @@ rule salmon_quant_pe:
 
 rule salmon_quant_se:
     input:
-        fast1 = merged_outdir + "{name}_1.merged.fastq.gz",
+        fast1 = merged_outdir + "{sample}_1.merged.fastq.gz",
         index = os.path.join(TXOME_DIR, "seq.bin")
 
     output:
