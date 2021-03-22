@@ -13,7 +13,7 @@ print(singlestep)
 if singlestep == "true":
     project_folder =  "/SAN/vyplab/alb_projects/data/liu_facs_neurons/"
     end_type = "pe"
-    suffix = ".Aligned.sorted.out.bam"
+    suffix = ".Aligned.sorted.out"
     star_output_folder = project_folder + "STAR_aligned/"
     SAMPLE_NAMES, = glob_wildcards(star_output_folder + "{sample}" + suffix + ".bam")
 
