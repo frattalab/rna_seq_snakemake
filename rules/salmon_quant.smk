@@ -6,6 +6,15 @@ configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml"
 include: "helpers.py"
 
+
+# RULE ORDER DIRECTIVE
+# if paired end, use the paired end rule to run, if single end use the single end rule to run
+if config['end_type'] == "pe":
+    ruleorder: salmon_quant_pe > salmon_quant_se
+else:
+    ruleorder: salmon_quant_se > salmon_quant_pe
+
+
 ## Define target salmon transcriptome index
 
 INDEX_DIR = config["salmon_indices"]
@@ -65,7 +74,7 @@ rule salmon_quant_all:
         expand(OUTPUT_DIR + "{sample}/" + "quant.sf", sample = SAMPLE_NAMES)
 
 
-rule salmon_quant:
+rule salmon_quant_pe:
     input:
         fast1 = FASTQ_DIR  + "{sample}_1.merged.fastq.gz",
         fast2 = FASTQ_DIR  + "{sample}_2.merged.fastq.gz",
@@ -91,6 +100,33 @@ rule salmon_quant:
         --libType {params.libtype} \
         --mates1 {input.fast1} \
         --mates2 {input.fast2} \
+        --geneMap {params.gtf} \
+        {params.extra_params} \
+        -o {params.output_dir} \
+        """
+
+rule salmon_quant_se:
+    input:
+        fast1 = merged_outdir + "{name}_1.merged.fastq.gz",
+        index = os.path.join(TXOME_DIR, "seq.bin")
+
+    output:
+        os.path.join(OUTPUT_DIR, "{sample}", "quant.sf")
+
+    params:
+        salmon = config["salmon_path"],
+        index_dir = TXOME_DIR,
+        output_dir = os.path.join(OUTPUT_DIR, "{sample}"),
+        libtype = get_salmon_strand(config["feature_counts_strand_info"]),
+        gtf = get_gtf(SPECIES),
+        extra_params = return_parsed_extra_params(config["extra_salmon_parameters"])
+
+    shell:
+        """
+        {params.salmon} quant \
+        --index {params.index_dir} \
+        --libType {params.libtype} \
+        -r {input.fast1} \
         --geneMap {params.gtf} \
         {params.extra_params} \
         -o {params.output_dir} \

@@ -43,6 +43,7 @@ include: "../rules/multiqc.smk"
 rule all:
     input:
         expand(salmon_outdir + "{sample}/" + "quant.sf", sample = SAMPLE_NAMES),
+        os.path.join(multiqc_output_folder, "multiqc_report.html")
         #os.path.join(TXOME_DIR, "seq.bin"),
         #os.path.join(TXOME_DIR, "pos.bin")
         #expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
