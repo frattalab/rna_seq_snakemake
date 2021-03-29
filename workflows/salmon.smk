@@ -3,7 +3,7 @@ import os
 import subprocess
 
 configfile: "config/config.yaml"
-include: "rules/helpers.py"
+include: "../rules/helpers.py"
 
 
 
@@ -32,11 +32,11 @@ workflow_str = "salmon"
 fastqc_outdir = get_output_dir(config["project_top_level"], config["fastqc_output_folder"])
 salmon_outdir = get_output_dir(config["project_top_level"], config["salmon_output_folder"])
 
-include: "rules/fastp.smk"
-include: "rules/fastqc.smk"
-include: "rules/generate_salmon_index.smk"
-include: "rules/salmon_quant.smk"
-include: "rules/multiqc.smk"
+include: "../rules/fastp.smk"
+include: "../rules/fastqc.smk"
+include: "../rules/generate_salmon_index.smk"
+include: "../rules/salmon_quant.smk"
+include: "../rules/multiqc.smk"
 
 
 
