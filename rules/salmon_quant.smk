@@ -1,11 +1,17 @@
 import os
 import pandas as pd
 import numpy as np
-#import yaml
+import yaml
 
 configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml"
 include: "helpers.py"
+
+# I shouldn't be doing this - can't work why cluster_config[<rule name>] returns a key error...
+# Dirty, easy way out
+with open("config/cluster.yaml", "r") as stream:
+    cluster_dict = yaml.safe_load(stream)
+
 
 
 # RULE ORDER DIRECTIVE
@@ -91,7 +97,7 @@ rule salmon_quant_pe:
         libtype = get_salmon_strand(config["feature_counts_strand_info"]),
         gtf = get_gtf(SPECIES),
         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"]),
-        threads = cluster_config["salmon_quant_pe"]["smp"]
+        threads = cluster_dict["salmon_quant_pe"]["smp"]
 
     # threads: 4
 
@@ -123,7 +129,7 @@ rule salmon_quant_se:
         libtype = get_salmon_strand(config["feature_counts_strand_info"]),
         gtf = get_gtf(SPECIES),
         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"]),
-        threads = cluster_config["salmon_quant_se"]["smp"]
+        threads = cluster_dict["salmon_quant_se"]["smp"]
 
     shell:
         """
