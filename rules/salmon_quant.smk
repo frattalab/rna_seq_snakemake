@@ -91,7 +91,7 @@ rule salmon_quant_pe:
         libtype = get_salmon_strand(config["feature_counts_strand_info"]),
         gtf = get_gtf(SPECIES),
         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"]),
-        threads = cluster["salmon_quant_pe"]["smp"]
+        threads = cluster_config["salmon_quant_pe"]["smp"]
 
     # threads: 4
 
@@ -123,7 +123,7 @@ rule salmon_quant_se:
         libtype = get_salmon_strand(config["feature_counts_strand_info"]),
         gtf = get_gtf(SPECIES),
         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"]),
-        threads = cluster["salmon_quant_se"]["smp"]
+        threads = cluster_config["salmon_quant_se"]["smp"]
 
     shell:
         """
