@@ -1,6 +1,7 @@
 import os
 import pandas as pd
 import numpy as np
+#import yaml
 
 configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml"
@@ -89,7 +90,8 @@ rule salmon_quant_pe:
         output_dir = os.path.join(OUTPUT_DIR, "{sample}"),
         libtype = get_salmon_strand(config["feature_counts_strand_info"]),
         gtf = get_gtf(SPECIES),
-        extra_params = return_parsed_extra_params(config["extra_salmon_parameters"])
+        extra_params = return_parsed_extra_params(config["extra_salmon_parameters"]),
+        threads = cluster["salmon_quant_pe"]["smp"]
 
     # threads: 4
 
@@ -101,6 +103,7 @@ rule salmon_quant_pe:
         --mates1 {input.fast1} \
         --mates2 {input.fast2} \
         --geneMap {params.gtf} \
+        --threads {params.threads} \
         {params.extra_params} \
         -o {params.output_dir} \
         """
@@ -119,7 +122,8 @@ rule salmon_quant_se:
         output_dir = os.path.join(OUTPUT_DIR, "{sample}"),
         libtype = get_salmon_strand(config["feature_counts_strand_info"]),
         gtf = get_gtf(SPECIES),
-        extra_params = return_parsed_extra_params(config["extra_salmon_parameters"])
+        extra_params = return_parsed_extra_params(config["extra_salmon_parameters"]),
+        threads = cluster["salmon_quant_se"]["smp"]
 
     shell:
         """
@@ -128,6 +132,7 @@ rule salmon_quant_se:
         --libType {params.libtype} \
         -r {input.fast1} \
         --geneMap {params.gtf} \
+        --threads {params.threads} \
         {params.extra_params} \
         -o {params.output_dir} \
         """
