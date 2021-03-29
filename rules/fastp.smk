@@ -48,10 +48,22 @@ if config['end_type'] == "pe":
             fastp_parameters = return_parsed_extra_params(config['fastp_parameters']),
             fastpjson = fastp_outdir + "{unit}_{name}_fastp.json",
             fastphtml = fastp_outdir + "{unit}_{name}_fastp.html"
+
+        log:
+            os.path.join(config['project_top_level'], "logs", "{unit}_{name}.fastp_stdout.log")
+
         shell:
             """
             free -h
-            {config[fastp_path]} --in1 {input.fastq_file} --in2 {input.fastq_file2} --out1 {output.out_fastqc} --out2 {output.out_fastqc2} --json {output.fastpjson} --html {output.fastphtml} {params.fastp_parameters}
+            {config[fastp_path]} \
+            --in1 {input.fastq_file} \
+            --in2 {input.fastq_file2} \
+            --out1 {output.out_fastqc} \
+            --out2 {output.out_fastqc2} \
+            --json {output.fastpjson} \
+            --html {output.fastphtml} \
+            {params.fastp_parameters} \
+            2> {log}
             """
 else:
         rule fastp_trimming:
@@ -73,9 +85,18 @@ else:
             #out_fastqc2 = lambda wildcards: return_fastq2_name(wildcards.name,wildcards.unit),
                 fastpjson = fastp_outdir + "{unit}_{name}_fastp.json",
                 fastphtml = fastp_outdir + "{unit}_{name}_fastp.html"
+
+            log:
+                os.path.join(config['project_top_level'], "logs", "{unit}_{name}.fastp_stdout.log")
+
             shell:
                 """
-                {config[fastp_path]} -i {input.fastq_file} -o {output.out_fastqc} --json {output.fastpjson} --html {output.fastphtml} {params.fastp_parameters}
+                {config[fastp_path]} -i {input.fastq_file} \
+                -o {output.out_fastqc} \
+                --json {output.fastpjson} \
+                --html {output.fastphtml} \
+                {params.fastp_parameters} \
+                2> {log}
                 """
 
 if config['end_type'] == "pe":
