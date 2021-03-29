@@ -62,7 +62,7 @@ else:
                 name="|".join(SAMPLE_NAMES),
                 unit="|".join(UNITS)
             conda:
-                "../env/align.yml"
+                "../env/align.yaml"
             output:
                 out_fastqc = fastp_outdir + "{unit}_{name}_R1_trimmed.fastq.gz",
                 fastpjson = fastp_outdir + "{unit}_{name}_fastp.json",
