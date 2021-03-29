@@ -13,7 +13,7 @@
 
 # source activate /SAN/vyplab/vyplab_reference_genomes/conda_envs/splicing_env/
 
-WORKFLOW="${1}.smk"
+WORKFLOW="workflows/${1}.smk"
 
 if [ "$2" != "" ]; then
     RUN_NAME="$1"_"$2"
