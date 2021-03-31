@@ -19,6 +19,7 @@ localrules: compose_gtf_list
 
 
 options_dict = config["stringtie_longreads"]
+config_path = "config/single_steps_config.yaml" # this is for copying later
 
 bam_dir = os.path.join(options_dict["bam_spot"], "")
 bam_suffix = options_dict['bam_suffix']
@@ -31,13 +32,15 @@ print(SAMPLE_NAMES)
 if not os._exists(stringtie_outdir):
     os.system("mkdir -p {0}".format(stringtie_outdir))
 
-
+localrules: all_stringtie, copy_config
 
 rule all_stringtie:
     input:
         expand(stringtie_outdir + "{sample}.assemble.gtf", sample = SAMPLE_NAMES),
         os.path.join(stringtie_outdir, "stringtie_merged.gtf"),
-        os.path.join(stringtie_outdir, "stringtie_merged.unique.gtf")
+        os.path.join(stringtie_outdir, "stringtie_merged.unique.gtf"),
+        os.path.join(stringtie_outdir, "config.yaml")
+
 
 rule StringTie_Assemble:
     input:
@@ -97,4 +100,17 @@ rule fetch_unique_stringtie:
     shell:
         """
         {params.gtfcuff} puniq {input.sample_tmap} {input.sample_gtf} {params.ref_gtf} {output}
+        """
+
+rule copy_config:
+    input:
+        os.path.join(stringtie_outdir, "stringtie_merged.unique.gtf"),
+        conf = config_path
+
+    output:
+        os.path.join(stringtie_outdir, "config.yaml")
+
+    shell:
+        """
+        cp {input.conf} {output}
         """
