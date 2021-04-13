@@ -23,6 +23,10 @@ feature_counts:
     # Count reads at 'feature' level (each exon) or for whole gene (put sth other than "feature")
     count_at: "gene"
 
+    # What identifier in GTF to use for constructing meta-features if counting at the gene level
+    # usually 'gene_id' is best
+    attribute_type: "gene_id"
+
     # No need to change this
     feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
 
