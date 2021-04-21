@@ -1,8 +1,26 @@
+stringtie_longreads:
+    # Dir when bams to quant are stored (include slash at end)
+    # Sample wildcards will be globbed from here
+    bam_spot: /SAN/vyplab/alb_projects/data/nanopore_tdp_kd_ipsc/dec_2020/bam_links/
+
+    bam_suffix: .reads.sanitize.noribo.toGenome.sorted.uxi.bam
+
+    out_spot: /SAN/vyplab/alb_projects/data/nanopore_tdp_kd_ipsc/dec_2020/2021-03-17_stringtie/
+
+    gtf: /SAN/vyplab/vyplab_reference_genomes/annotation/human/ensembl/Homo_sapiens.GRCh38.100.gtf
+
+    gtfmerge: /SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfmerge/gtfmerge
+
+    gffcompare: /SAN/vyplab/alb_projects/tools/gffcompare-0.11.6.Linux_x86_64/gffcompare
+
+    gtfcuff: /SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfcuff/gtfcuff
+
+
 feature_counts:
     # Path to directory where results should be output (include slash at end)
     out_spot: /SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/intronic_feature_counts/ispc_one_per_gene/feature_counts/
 
-    # Dir when bams to quant are stored (include slash at end)
+    # Dir when bams to assemble are stored (include slash at end)
     bam_spot: /SAN/vyplab/alb_projects/data/ward_bams/bam_files/
 
     # Pick out bams from bam_dir with this bam_suffix
