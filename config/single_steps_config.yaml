@@ -18,28 +18,35 @@ stringtie_longreads:
 
 feature_counts:
     # Path to directory where results should be output (include slash at end)
-    out_spot: /SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/intronic_feature_counts/ispc_one_per_gene/feature_counts/
+    out_spot: /SAN/vyplab/alb_projects/data/nanopore_tdp_kd_ipsc/dec_2020/2021-03-29_ensembl_feature_counts/
 
-    # Dir when bams to assemble are stored (include slash at end)
-    bam_spot: /SAN/vyplab/alb_projects/data/ward_bams/bam_files/
+
+    # Dir when bams to quant are stored (include slash at end)
+    bam_spot: /SAN/vyplab/alb_projects/data/nanopore_tdp_kd_ipsc/dec_2020/bam_links/
+
 
     # Pick out bams from bam_dir with this bam_suffix
     # Also used to strip from file to get sample name
     # e.g. Cont-B_S2.pass2Aligned.sortedByCoord.out.bam becomes Cont-B_S2
-    bam_suffix: ".pass2Aligned.sortedByCoord.out.bam"
+    bam_suffix: ".reads.sanitize.noribo.toGenome.sorted.uxi.bam"
 
     # Path to GTF file of genes/regions want to quantify
-    gtf:  /SAN/vyplab/sbs_projects/data/nanopore/IPSC_TDP43_KD_direct_rna/intronic_feature_counts/ispc_one_per_gene/intron_bins.one_per_gene.high_confidence.gtf
+    gtf:  /SAN/vyplab/vyplab_reference_genomes/annotation/human/ensembl/Homo_sapiens.GRCh38.100.gtf
 
     # What is strandedness of data (super nice guide below)
     # https://littlebitofdata.com/en/2017/08/strandness_in_rnaseq/
-    feature_counts_strand_info: "-s 2"
+    feature_counts_strand_info: "-s 1"
 
     #"pe" if paired-end data, "se" if single-end data
-    end_type: "pe"
+    # if using long read setting (long_reads = True), put se (I think...)
+    end_type: "se"
 
     # Count reads at 'feature' level (each exon) or for whole gene (put sth other than "feature")
     count_at: "gene"
+
+    # Use long reads (-L) setting
+    # True if use, else False
+    long_reads: True
 
     # No need to change this
     feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
