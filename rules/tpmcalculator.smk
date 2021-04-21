@@ -6,14 +6,15 @@ configfile: "config/config.yaml"
 
 #AL - I have to do this to stop align workflow breaking - you can edit the config/uncomment the second line to get it to do what you want...
 singlestep = config["tpm_singlestep"]
+singlestep = "true"
 print(singlestep)
 
 
 if singlestep == "true":
-    project_folder =  "/SAN/vyplab/alb_projects/data/sinai_splice_junctions/"
+    project_folder =  "/SAN/vyplab/alb_projects/data/liu_facs_neurons/"
     end_type = "pe"
-    suffix = ".cut"
-    star_output_folder = project_folder + "NYGC_bams/"
+    suffix = ".Aligned.sorted.out"
+    star_output_folder = project_folder + "STAR_aligned/"
     SAMPLE_NAMES, = glob_wildcards(star_output_folder + "{sample}" + suffix + ".bam")
 
     tpm_output_folder = project_folder + "TPMcalculator/"
