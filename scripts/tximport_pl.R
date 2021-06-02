@@ -70,30 +70,30 @@ if(all(file.exists(files)) == FALSE) {
 species = opt$species
 
 if(species =="mouse"){library(annotables)
-  an_ms = annotables::grcm38_tx2gene %>% 
+  an = annotables::grcm38_tx2gene %>% 
     left_join(annotables::grch38 %>% 
                 dplyr::select(c("ensgene","symbol")))
-  tx2gene = an_ms %>% select(c("enstxp,ensgene"))
+  tx2gene = an_ms %>% select(c("enstxp","ensgene"))
 }
 
 if(species == "human"){library(annotables)
-  an_hm = annotables::grch38_tx2gene %>% 
+  an = annotables::grch38_tx2gene %>% 
     left_join(annotables::grch38 %>% 
                 dplyr::select(c("ensgene","symbol")))
-  tx2gene = an_hm %>% select(c("enstxp,ensgene"))
+  tx2gene = an_hm %>% select(c("enstxp","ensgene"))
 }
 
 if(species == "none"){library(rtracklayer)
   gtf = import.gff2(gtf_dir)
-  edb = as.data.frame(gtf@elementMetadata@listData)[,c("gene_id","transcript_id","gene_name")] %>%
+  an = as.data.frame(gtf@elementMetadata@listData)[,c("gene_id","transcript_id","gene_name")] %>%
     separate("transcript_id",c("transcript_id","transcript_version")) %>% 
     separate("gene_id",c("gene_id","gene_version")) %>%
-    dplyr::select(c("transcript_id","gene_id")) %>%
+    dplyr::select(c("transcript_id","gene_id","gene_name")) %>%
     unique(.)
-  tx2gene = select(edb, c("transcript_id","gene_id"))
+  tx2gene = select(an, c("transcript_id","gene_id","gene_name"))
 }
 
-if(species != "mouse"| species!= "human"| species != "none"){
+if(species != "mouse"& species!= "human"& species != "none"){
   stop("please specify your species, or provide a reference gtf")
 }
 
@@ -111,11 +111,11 @@ txi = tximport(files,
 # make it csv
 TPM = as.data.frame(txi$abundance) %>% 
   tibble::rownames_to_column(.,var="ensembl_gene_id")
-# edb containing 3 columns, gene id/transcript id/gene name. because there is possibility that user will use their gtf, so I think it is better to make the columns name with a fixed name.
-edb = edb %>% rename(ensembl_gene_id= colnames(edb)[1]) %>%
-  rename(ensembl_transcript_id = colnames(edb)[2]) %>%
-  rename(gene_name = colnames(edb)[3])
-symbol = unique(edb[,c("gene_name","ensembl_gene_id")])
+# The annotation table contains 3 columns, gene id/transcript id/gene name. because there is possibility that user will use their gtf, so I think it is better to make the columns name with a fixed name.
+an = an %>% dplyr::rename(ensembl_transcript_id= colnames(an)[1]) %>%
+  rename(ensembl_gene_id = colnames(an)[2]) %>%
+  rename(gene_name = colnames(an)[3])
+symbol = unique(an[,c("gene_name","ensembl_gene_id")])
 TPM = left_join(TPM,symbol,by="ensembl_gene_id") %>% tibble::column_to_rownames(.,var = "ensembl_gene_id")
 
 write.csv(TPM,file=paste0(opt$directory,"TPM.csv"))
@@ -123,7 +123,7 @@ write.csv(TPM,file=paste0(opt$directory,"TPM.csv"))
 
 # ========================================== section 4: RUN A DEFAULT DESEQ 2 (optional) =============================================================
 
-#if (opt$deseq2ornot == TRUE) {
+if (opt$deseq2ornot == TRUE) {
 library(DESeq2)
 deseq2_metadata = unique(metadata[,!(names(metadata) %in% c("unit","fast1","fast2","exclude_sample_downstream_analysis"))])
 if(!is.na(opt$pattern)){
@@ -145,8 +145,10 @@ dds = DESeq(dds)
 
 # Now, extract the result and named them by their contrast group
 for (disease_vs_control in resultsNames(dds)) {
-  assign(paste0(disease_vs_control,"_result"),
-         DESeq2::results(dds,name= disease_vs_control)) %>%
+  a= as.data.frame(DESeq2::results(dds,name= disease_vs_control)) %>%
+    tibble::rownames_to_column("ensembl_gene_id")%>%
+    full_join(symbol,by="ensembl_gene_id")
+  assign(paste0(disease_vs_control,"_result"),a)%>%
     write.csv(file = paste0(opt$savedirectory,disease_vs_control,".csv"))
 }
-#}
+}
