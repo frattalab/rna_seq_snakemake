@@ -38,7 +38,10 @@ output_dir = options_dict["output_dir"]
 # -S - only report hits overlapping on opposite strands
 strandedness = options_dict["strandedness"]
 
-# Report the depth at each position in each interval
+# This treats split reads (i.e. spliced reads) as non-contiguous blocks for counting (i.e. essential for RNA-seq)
+split = options_dict["split"]
+
+# Report the depth at each position in each interval?
 depth = options_dict["depth"]
 # what operations to summarise coverage in each intervals from bed_path? All below are valid strings
 # sum, count, count_distinct, min, max, last
@@ -111,6 +114,7 @@ rule bedtools_coverage:
         strand = strandedness,
         per_base = depth,
         sorted = sorted,
+        split = split,
         genome = " ".join(["-g", os.path.join(output_dir + "{sample}.genome.txt")]) if sorted == "-sorted" else ""
 
     group: "group1"
@@ -122,6 +126,7 @@ rule bedtools_coverage:
         -a stdin \
         -b {input.bam} \
         {params.strand} \
+        {params.split} \
         {params.per_base} \
         {params.genome} \
         {params.sorted} > {output}
