@@ -43,9 +43,11 @@ feature_counts:
     # if using long read setting (long_reads = True), put se (I think...)
     end_type: "pe"
 
+    # Count reads at What feature type?
+    feature_type: "Name"
+
     # Count reads at 'feature' level (each exon) or for whole gene (put sth other than "feature")
     count_at: "Name"
-
     # What identifier in GTF to use for constructing meta-features if counting at the gene level
     # usually 'gene_id' is best
     attribute_type: "Name"

@@ -51,7 +51,7 @@ rule feature_counts:
         ref_anno = gtf,
         stranded = feature_counts_strand_info,
         feature_counts = feature_counts_path,
-        feature_type = "exon", # exons extracted for counting from ref_anno
+        feature_type = options_dict["feature_type"], # exons extracted for counting from ref_anno
         attr_type = options_dict["attribute_type"], # Generate meta-features for counting via this group/id
         extra_attr = ",".join(["gene_name"]), # extra metadata to extract & report in count output
         count_level = "-f" if options_dict["count_at"] == "feature" else "", # count at exon or gene level?
