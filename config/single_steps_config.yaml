@@ -17,6 +17,10 @@ stringtie_longreads:
 
 
 feature_counts:
+    # if you're using a SAF
+    gtf_used: False
+    saf:  /SAN/vyplab/NYGC_ALSFTD/analysis_nygc/extensions.saf
+    
     # Path to directory where results should be output (include slash at end)
     out_spot: /SAN/vyplab/NYGC_ALSFTD/analysis_nygc/utr_extensions_counts/
 

@@ -39,39 +39,65 @@ rule all:
   input:
     expand(output_dir + "{sample}_featureCounts_results.txt", sample = SAMPLES),
     os.path.join(output_dir, "config.yaml")
+if options_dict["gtf_used"]: 
+    rule feature_counts:
+        input:
+            aligned_bam = os.path.join(bam_dir,"{sample}" + bam_suffix)
 
-rule feature_counts:
-    input:
-        aligned_bam = os.path.join(bam_dir,"{sample}" + bam_suffix)
+        output:
+            out_name = os.path.join(output_dir, "{sample}_featureCounts_results.txt")
 
-    output:
-        out_name = os.path.join(output_dir, "{sample}_featureCounts_results.txt")
+        params:
+            ref_anno = gtf,
+            stranded = feature_counts_strand_info,
+            feature_counts = feature_counts_path,
+            feature_type = options_dict["feature_type"], # exons extracted for counting from ref_anno
+            attr_type = options_dict["attribute_type"], # Generate meta-features for counting via this group/id
+            extra_attr = ",".join(["gene_name"]), # extra metadata to extract & report in count output
+            count_level = "-f" if options_dict["count_at"] == "feature" else "", # count at exon or gene level?
+            paired_end = "-p" if end_type == "pe" else "", #count fragments if paired end
+            long_reads = "-L" if options_dict["long_reads"] else "" # turn on/off long reads setting
 
-    params:
-        ref_anno = gtf,
-        stranded = feature_counts_strand_info,
-        feature_counts = feature_counts_path,
-        feature_type = options_dict["feature_type"], # exons extracted for counting from ref_anno
-        attr_type = options_dict["attribute_type"], # Generate meta-features for counting via this group/id
-        extra_attr = ",".join(["gene_name"]), # extra metadata to extract & report in count output
-        count_level = "-f" if options_dict["count_at"] == "feature" else "", # count at exon or gene level?
-        paired_end = "-p" if end_type == "pe" else "", #count fragments if paired end
-        long_reads = "-L" if options_dict["long_reads"] else "" # turn on/off long reads setting
+        shell:
+            """
+            {params.feature_counts} \
+            -a {params.ref_anno} \
+            -t {params.feature_type} \
+            -g {params.attr_type} \
+            --extraAttributes {params.extra_attr} \
+            {params.count_level} \
+            {params.paired_end} \
+            {params.stranded} \
+            {params.long_reads} \
+            -o {output.out_name} \
+            {input.aligned_bam}
+            """
+else:
+    rule feature_counts:
+        input:
+            aligned_bam = os.path.join(bam_dir,"{sample}" + bam_suffix)
 
-    shell:
-        """
-        {params.feature_counts} \
-        -a {params.ref_anno} \
-        -t {params.feature_type} \
-        -g {params.attr_type} \
-        --extraAttributes {params.extra_attr} \
-        {params.count_level} \
-        {params.paired_end} \
-        {params.stranded} \
-        {params.long_reads} \
-        -o {output.out_name} \
-        {input.aligned_bam}
-        """
+        output:
+            out_name = os.path.join(output_dir, "{sample}_featureCounts_results.txt")
+
+        params:
+            ref_anno = options_dict["saf"],
+            stranded = feature_counts_strand_info,
+            feature_counts = feature_counts_path,
+            paired_end = "-p" if end_type == "pe" else "", #count fragments if paired end
+            long_reads = "-L" if options_dict["long_reads"] else "" # turn on/off long reads setting
+
+        shell:
+            """
+            {params.feature_counts} \
+            -a {params.ref_anno} \
+            -F SAF \
+            {params.paired_end} \
+            {params.stranded} \
+            {params.long_reads} \
+            -o {output.out_name} \
+            {input.aligned_bam}
+            """
 
 rule copy_config:
     input:
