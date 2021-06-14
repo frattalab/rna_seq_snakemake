@@ -47,7 +47,7 @@ feature_counts:
     feature_type: "Name"
 
     # Count reads at 'feature' level (each exon) or for whole gene (put sth other than "feature")
-    count_at: "Name"
+    count_at: "feature"
     # What identifier in GTF to use for constructing meta-features if counting at the gene level
     # usually 'gene_id' is best
     attribute_type: "Name"
