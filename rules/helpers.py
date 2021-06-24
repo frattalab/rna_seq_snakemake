@@ -77,6 +77,8 @@ def get_trimmed(name):
 
     return(trimmed_files)
 
+
+
 def return_all_trimmed(SAMPLES, pair = 1):
     #make a list of all the files trimme
     if pair == 1:
@@ -99,6 +101,38 @@ def return_all_trimmed(SAMPLES, pair = 1):
             return(list_of_trimmed)
         else:
             return(" ")
+
+def get_processed_fastq(sample_name, pair=1, pair_prefix="_", trimmed_suffix=".trimmed.fastq.gz", merged_suffix=".merged.fastq.gz"):
+    '''
+    Return path to target processed FASTQ file for given sample and mate pair
+    If sample only had a single FASTQ file in sample sheet, there is no need to do unnecessary 'merge_trimmed'
+    --> return path to trimmed FASTQ
+    If sample has multiple units (reads split across files), need to point to merged file
+    '''
+
+    # _1 or _2 after sample_name in filename
+    rpair_str = pair_prefix + str(pair)
+
+    fastp_outdir = get_output_dir(config['project_top_level'], config["fastp_trimmed_output_folder"])
+    merged_outdir = get_output_dir(config['project_top_level'], config['merged_fastq_folder'])
+
+    SAMPLES = pd.read_csv(config["sampleCSVpath"])
+    SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
+
+    if SAMPLES.loc[SAMPLES["sample_name"] == "sample_name", "unit"].nunique() > 1:
+        # sample had multiple fastq files, so need to point to merged FASTQ
+        target_fastq = os.path.join(merged_outdir, sample_name + rpair_str + merged_suffix)
+
+    else:
+        # Sample had a single fastq file/unit, so need to point to trimmed FASTQ
+
+        # Trimmed fastq names have {unit}_{sample_name}_{pair}{trimmed_suffix}
+        unit = SAMPLES.loc[SAMPLES["sample_name"], "unit"]
+        target_fastq = os.path.join(fastp_outdir, unit + "_" + sample_name + rpair_str + trimmed_suffix)
+
+
+    return target_fastq
+
 
 def get_species_version(species):
     temp = pd.read_csv("config/reference_files_species.csv",sep = ",")
@@ -404,7 +438,7 @@ def check_key(dict, key):
          return(dict[key])
      else:
          return(False)
-      
+
 
 def return_sample_names_group(grp):
     """
@@ -417,4 +451,3 @@ def return_sample_names_group(grp):
             column_name = compare_dict[key]['column_name'][0]
             return(grp_names,column_name)
     return("","")
-
