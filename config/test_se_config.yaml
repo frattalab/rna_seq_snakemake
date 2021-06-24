@@ -98,6 +98,14 @@ star_path: /SAN/vyplab/alb_projects/tools/STAR/bin/Linux_x86_64_static/STAR
 ## SALMON PARAMETERS
 #########################
 
+# Note: if you're quantifying single-end libraries, fragment sizes cannot be estimated from the mates
+# THese two options become extra important
+# The defaults should be sufficient in most cases, but I haven't played around with this too much
+#  --fldMean arg (=250)                  The mean used in the fragment length
+#                                        distribution prior
+#  --fldSD arg (=25)                     The standard deviation used in the
+#                                        fragment length distribution prior
+
 
 extra_salmon_parameters:
   gcBias:
