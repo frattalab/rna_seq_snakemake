@@ -41,7 +41,7 @@ rule all:
     input:
         GENOME_DIR + "/SA",
         expand(feature_counts_outdir + "{name}_featureCounts_results.txt", name = SAMPLE_NAMES),
-        expand(tpm_outdir + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES),
+        # expand(tpm_outdir + "{name}" + suffix + "_genes.out", name = SAMPLE_NAMES),
         expand(star_outdir + "{name}.Aligned.sorted.out.bam", name = SAMPLE_NAMES),
         expand(star_outdir + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES),
         os.path.join(multiqc_output_folder, "multiqc_report.html")
