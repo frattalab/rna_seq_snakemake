@@ -20,8 +20,8 @@ SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
 rule merge_all_trimmed:
     input:
-        expand(fastp_outdir + "{unit}_{name}_R1_trimmed.fastq.gz",zip, unit = UNITS,name = SAMPLE_NAMES),
-        expand(fastp_outdir + "{unit}_{name}_R2_trimmed.fastq.gz" if config["end_type"] == "pe" else [],zip, unit = UNITS,name = SAMPLE_NAMES),
+        expand(fastp_outdir + "{unit}_{name}_1.trimmed.fastq.gz",zip, unit = UNITS,name = SAMPLE_NAMES),
+        expand(fastp_outdir + "{unit}_{name}_2.trimmed.fastq.gz" if config["end_type"] == "pe" else [],zip, unit = UNITS,name = SAMPLE_NAMES),
         expand(merged_outdir + "{name}_1.merged.fastq.gz", name = SAMPLE_NAMES),
         expand(merged_outdir + "{name}_2.merged.fastq.gz" if config["end_type"] == "pe" else [],name = SAMPLE_NAMES)
     wildcard_constraints:
@@ -40,8 +40,8 @@ if config['end_type'] == "pe":
         conda:
             "../env/align.yaml"
         output:
-            out_fastqc = fastp_outdir + "{unit}_{name}_R1_trimmed.fastq.gz",
-            out_fastqc2 = fastp_outdir + "{unit}_{name}_R2_trimmed.fastq.gz",
+            out_fastqc = fastp_outdir + "{unit}_{name}_1.trimmed.fastq.gz",
+            out_fastqc2 = fastp_outdir + "{unit}_{name}_2.trimmed.fastq.gz",
             fastpjson = fastp_outdir + "{unit}_{name}_fastp.json",
             fastphtml = fastp_outdir + "{unit}_{name}_fastp.html",
         params:
@@ -64,7 +64,7 @@ else:
             conda:
                 "../env/align.yml"
             output:
-                out_fastqc = fastp_outdir + "{unit}_{name}_R1_trimmed.fastq.gz",
+                out_fastqc = fastp_outdir + "{unit}_{name}_1.trimmed.fastq.gz",
                 fastpjson = fastp_outdir + "{unit}_{name}_fastp.json",
                 fastphtml = fastp_outdir + "{unit}_{name}_fastp.html",
             params:
