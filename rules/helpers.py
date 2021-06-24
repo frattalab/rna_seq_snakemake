@@ -119,7 +119,7 @@ def get_processed_fastq(sample_name, pair=1, pair_prefix="_", trimmed_suffix=".t
     SAMPLES = pd.read_csv(config["sampleCSVpath"])
     SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
-    if SAMPLES.loc[SAMPLES["sample_name"] == "sample_name", "unit"].nunique() > 1:
+    if SAMPLES.loc[SAMPLES["sample_name"] == sample_name, "unit"].nunique() > 1:
         # sample had multiple fastq files, so need to point to merged FASTQ
         target_fastq = os.path.join(merged_outdir, sample_name + rpair_str + merged_suffix)
 
