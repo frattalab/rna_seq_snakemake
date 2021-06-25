@@ -146,8 +146,8 @@ rule salmon_index_extended:
 
 rule salmon_quant:
     input:
-        fast1 = FASTQ_DIR  + "{sample}_1.merged.fastq.gz",
-        fast2 = FASTQ_DIR  + "{sample}_2.merged.fastq.gz",
+        fast1 = lambda wildcards: get_processed_fastq(wildcards.sample, pair=1),
+        fast2 = lambda wildcards: get_processed_fastq(wildcards.sample, pair=1),
         index = os.path.join(scallop_outdir, "extended_transcriptome/seq.bin"),
         scallop_ref = os.path.join(scallop_outdir,"scallop.tx_gene.tsv")
     output:

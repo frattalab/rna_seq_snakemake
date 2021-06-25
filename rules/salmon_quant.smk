@@ -83,8 +83,8 @@ rule salmon_quant_all:
 
 rule salmon_quant_pe:
     input:
-        fast1 = FASTQ_DIR  + "{sample}_1.merged.fastq.gz",
-        fast2 = FASTQ_DIR  + "{sample}_2.merged.fastq.gz",
+        fast1 = lambda wildcards: get_processed_fastq(wildcards.sample, pair=1),
+        fast2 = lambda wildcards: get_processed_fastq(wildcards.sample, pair=2),
         index = os.path.join(TXOME_DIR, "seq.bin")
 
     output:
@@ -116,7 +116,7 @@ rule salmon_quant_pe:
 
 rule salmon_quant_se:
     input:
-        fast1 = merged_outdir + "{sample}_1.merged.fastq.gz",
+        fast1 = lambda wildcards: get_processed_fastq(wildcards.sample, pair=1),
         index = os.path.join(TXOME_DIR, "seq.bin")
 
     output:
