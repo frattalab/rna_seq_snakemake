@@ -40,8 +40,8 @@ rule run_star_pe:
 		sample="|".join(SAMPLE_NAMES)
 	input:
 		generated_index = GENOME_DIR + "/SA",
-		one = merged_outdir + "{name}_1.merged.fastq.gz",
-		two = merged_outdir + "{name}_2.merged.fastq.gz"
+		one = lambda wildcards: get_processed_fastq(wildcards.name, pair=1),
+		two = lambda wildcards: get_processed_fastq(wildcards.name, pair=2)
 	output:
 		star_outdir + "{name}.SJ.out.tab",
 		star_outdir + "{name}.Log.final.out",
@@ -67,7 +67,7 @@ rule run_star_pe:
 rule run_star_se:
 	input:
 		generated_index = GENOME_DIR + "/SA",
-		one = merged_outdir + "{name}_1.merged.fastq.gz"
+		one = lambda wildcards: get_processed_fastq(wildcards.name, pair=1)
 	output:
 		star_outdir + "{name}.SJ.out.tab",
 		star_outdir + "{name}.Log.final.out",

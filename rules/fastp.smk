@@ -20,8 +20,8 @@ SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
 rule merge_all_trimmed:
     input:
-        expand(fastp_outdir + "{unit}_{name}_R1_trimmed.fastq.gz",zip, unit = UNITS,name = SAMPLE_NAMES),
-        expand(fastp_outdir + "{unit}_{name}_R2_trimmed.fastq.gz" if config["end_type"] == "pe" else [],zip, unit = UNITS,name = SAMPLE_NAMES),
+        expand(fastp_outdir + "{unit}_{name}_1.trimmed.fastq.gz",zip, unit = UNITS,name = SAMPLE_NAMES),
+        expand(fastp_outdir + "{unit}_{name}_2.trimmed.fastq.gz" if config["end_type"] == "pe" else [],zip, unit = UNITS,name = SAMPLE_NAMES),
         expand(merged_outdir + "{name}_1.merged.fastq.gz", name = SAMPLE_NAMES),
         expand(merged_outdir + "{name}_2.merged.fastq.gz" if config["end_type"] == "pe" else [],name = SAMPLE_NAMES)
     wildcard_constraints:
@@ -40,18 +40,30 @@ if config['end_type'] == "pe":
         conda:
             "../env/align.yaml"
         output:
-            out_fastqc = fastp_outdir + "{unit}_{name}_R1_trimmed.fastq.gz",
-            out_fastqc2 = fastp_outdir + "{unit}_{name}_R2_trimmed.fastq.gz",
+            out_fastqc = fastp_outdir + "{unit}_{name}_1.trimmed.fastq.gz",
+            out_fastqc2 = fastp_outdir + "{unit}_{name}_2.trimmed.fastq.gz",
             fastpjson = fastp_outdir + "{unit}_{name}_fastp.json",
             fastphtml = fastp_outdir + "{unit}_{name}_fastp.html",
         params:
             fastp_parameters = return_parsed_extra_params(config['fastp_parameters']),
             fastpjson = fastp_outdir + "{unit}_{name}_fastp.json",
             fastphtml = fastp_outdir + "{unit}_{name}_fastp.html"
+
+        log:
+            os.path.join(config['project_top_level'], "logs", "{unit}_{name}.fastp_stdout.log")
+
         shell:
             """
             free -h
-            {config[fastp_path]} --in1 {input.fastq_file} --in2 {input.fastq_file2} --out1 {output.out_fastqc} --out2 {output.out_fastqc2} --json {output.fastpjson} --html {output.fastphtml} {params.fastp_parameters}
+            {config[fastp_path]} \
+            --in1 {input.fastq_file} \
+            --in2 {input.fastq_file2} \
+            --out1 {output.out_fastqc} \
+            --out2 {output.out_fastqc2} \
+            --json {output.fastpjson} \
+            --html {output.fastphtml} \
+            {params.fastp_parameters} \
+            2> {log}
             """
 else:
         rule fastp_trimming:
@@ -62,9 +74,9 @@ else:
                 name="|".join(SAMPLE_NAMES),
                 unit="|".join(UNITS)
             conda:
-                "../env/align.yml"
+                "../env/align.yaml"
             output:
-                out_fastqc = fastp_outdir + "{unit}_{name}_R1_trimmed.fastq.gz",
+                out_fastqc = fastp_outdir + "{unit}_{name}_1.trimmed.fastq.gz",
                 fastpjson = fastp_outdir + "{unit}_{name}_fastp.json",
                 fastphtml = fastp_outdir + "{unit}_{name}_fastp.html",
             params:
@@ -73,9 +85,18 @@ else:
             #out_fastqc2 = lambda wildcards: return_fastq2_name(wildcards.name,wildcards.unit),
                 fastpjson = fastp_outdir + "{unit}_{name}_fastp.json",
                 fastphtml = fastp_outdir + "{unit}_{name}_fastp.html"
+
+            log:
+                os.path.join(config['project_top_level'], "logs", "{unit}_{name}.fastp_stdout.log")
+
             shell:
                 """
-                {config[fastp_path]} -i {input.fastq_file} -o {output.out_fastqc} --json {output.fastpjson} --html {output.fastphtml} {params.fastp_parameters}
+                {config[fastp_path]} -i {input.fastq_file} \
+                -o {output.out_fastqc} \
+                --json {output.fastpjson} \
+                --html {output.fastphtml} \
+                {params.fastp_parameters} \
+                2> {log}
                 """
 
 if config['end_type'] == "pe":
