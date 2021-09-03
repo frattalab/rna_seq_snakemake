@@ -30,11 +30,12 @@ rule name_sort:
         temp(os.path.join(nsort_out_spot, "{sample}_namesorted.bam"))
 
     params:
-        samtools = options["samtools_path"]
+        samtools = options["samtools_path"],
+        outdir = nsort_out_spot
 
     shell:
         """
-        mkdir -p {output_dir}
+        mkdir -p {params.outdir}
         {params.samtools} sort -n -@ 2 {input.aligned_bam} -o {output}
         """
 
