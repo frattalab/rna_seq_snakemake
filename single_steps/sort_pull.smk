@@ -20,7 +20,7 @@ print(SAMPLES)
 rule all:
     input:
         expand(os.path.join(fastq_dir, "{sample}_1.merged.fastq.gz"), sample = SAMPLES),
-        expand(os.path.join(fastq_dir, "{sample}_1.merged_fastq.gz") if end_type == "pe" else [], sample = SAMPLES)
+        expand(os.path.join(fastq_dir, "{sample}_2.merged_fastq.gz") if end_type == "pe" else [], sample = SAMPLES)
 
 rule name_sort:
     input:
