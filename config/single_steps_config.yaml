@@ -1,3 +1,22 @@
+sort_pull:
+    # Dir containing target BAMs (include slash at end)
+    bam_spot: /SAN/vyplab/alb_projects/data/ward_bams/bam_files/
+
+    bam_suffix: .pass2Aligned.sortedByCoord.out.bam
+
+    # output dir for name sorted bam files. Usually these files are temporary, so set to wherever have space if don't want to keep
+    name_sort_outspot: /SAN/vyplab/alb_projects/data/ward_bams/pulled_fastq/
+
+    # output dir for fastq files
+    out_spot: /SAN/vyplab/alb_projects/data/ward_bams/pulled_fastq/
+
+    # paired end or single end FASTQs? ("pe" for paired end, anything else for single end ("se" is sensible))
+    end_type: "pe"
+
+    bedtools_path: /SAN/vyplab/alb_projects/tools/bedtools
+
+    samtools_path: /share/apps/genomics/samtools-1.9/bin/samtools
+
 stringtie_longreads:
     # Dir when bams to quant are stored (include slash at end)
     # Sample wildcards will be globbed from here
@@ -20,7 +39,7 @@ feature_counts:
     # if you're using a SAF
     gtf_used: False
     saf:  /SAN/vyplab/NYGC_ALSFTD/analysis_nygc/extensions.saf
-    
+
     # Path to directory where results should be output (include slash at end)
     out_spot: /SAN/vyplab/NYGC_ALSFTD/analysis_nygc/utr_extensions_counts/
 
