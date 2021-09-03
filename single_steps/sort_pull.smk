@@ -13,7 +13,7 @@ bam_suffix = options["bam_suffix"]
 end_type = options["end_type"]
 
 
-SAMPLES = glob_wildcards(os.path.join(bam_dir,"") + "{sample}" + bam_suffix)
+SAMPLES = [f.replace(bam_suffix, "") for f in os.listdir(bam_dir) if f.endswith(bam_suffix)]
 
 print(SAMPLES)
 
