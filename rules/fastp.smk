@@ -99,7 +99,7 @@ else:
                 2> {log}
                 """
 
-if config['end_type'] == "pe":
+if config['end_type'] == "pe" and config['mult_fastq']:
     rule merge_trimmed:
         input:
             one = lambda wildcards: get_trimmed(wildcards.name)[0],
@@ -118,7 +118,7 @@ if config['end_type'] == "pe":
             cat {params.two} > {output.out_two}
             cat {params.one} > {output.out_one}
             """
-else:
+elif config['end_type'] == "se" and config['mult_fastq']:
     rule merge_trimmed:
         input:
             one = lambda wildcards: get_trimmed(wildcards.name)[0]
@@ -132,4 +132,38 @@ else:
         shell:
             """
             cat {params.one} > {output.out_one}
+            """
+if config['end_type'] == "pe" and not config['mult_fastq']:
+    rule merge_trimmed:
+        input:
+            one = lambda wildcards: get_trimmed(wildcards.name)[0],
+            two = lambda wildcards: get_trimmed(wildcards.name)[1]
+        wildcard_constraints:
+            name="|".join(SAMPLE_NAMES)
+        output:
+            out_one = merged_outdir + "{name}_1.merged.fastq.gz",
+            out_two = merged_outdir + "{name}_2.merged.fastq.gz"
+        params:
+            #taking the input files and putting them into a comma separated list
+            one = lambda wildcards: ' '.join(get_trimmed(wildcards.name)[0]),
+            two = lambda wildcards: ' '.join(get_trimmed(wildcards.name)[1])
+        shell:
+            """
+            ln -s {params.two} {output.out_two}
+            ln -s {params.one} {output.out_one}
+            """
+if config['end_type'] == "se" and not config['mult_fastq']:
+    rule merge_trimmed:
+        input:
+            one = lambda wildcards: get_trimmed(wildcards.name)[0]
+        wildcard_constraints:
+            name="|".join(SAMPLE_NAMES)
+        output:
+            out_one = merged_outdir + "{name}_1.merged.fastq.gz"
+        params:
+            #taking the input files and putting them into a comma separated list
+            one = lambda wildcards: ' '.join(get_trimmed(wildcards.name)[0]),
+        shell:
+            """
+            ln -s {params.one} {output.out_one}
             """

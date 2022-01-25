@@ -22,7 +22,8 @@ readLen: 100
 # "1+-,1-+,2++,2--" is likely RF/fr-firststrand - s 2
 feature_counts_strand_info: "-s 1"
 
-
+#multiple fastq per sample?
+mult_fastq: False
 
 
 ######------------------------------
