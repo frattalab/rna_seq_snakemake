@@ -16,7 +16,7 @@ After that, you can include as many columns with sample metadata as you want.
 
 
 #### What to put in each columns
-`sample_name` - the name that you want each sample to have, for clarities sake I recommend using snake_case. Please no spaces, and don't start with a number.
+`sample_name` - the name that you want each sample to have, for clarities sake I recommend using snake_case. Please no spaces, and don't start with a number, and don't use an periods in the sample name. 
 
 
 `unit` - this is for the situation when there are multiple fastq's per sample, such as as the following case
