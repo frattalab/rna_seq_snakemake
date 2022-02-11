@@ -33,7 +33,7 @@ mult_fastq: False
 #always end paths with a trailing slash, or there will be errors :)
 
 #master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
-project_top_level:  /SAN/vyplab/alb_projects/data/4su_better_design_ward_ipsc/new_analysis/
+project_top_level:  /SAN/vyplab/FUS_RNA/AGA_RIBOSEQ_FUS_MOUSE_ADULT/
 
 
 #below you can specify the names of rulesubdirectories
