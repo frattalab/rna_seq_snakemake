@@ -6,13 +6,13 @@
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
 # Double check README for instructions for constructing a valid sample csv table
-sampleCSVpath:  /SAN/vyplab/alb_projects/data/4su_better_design_ward_ipsc/foursu_full_experiment.csv
+sampleCSVpath:  /SAN/vyplab/FUS_RNA/AGA_RIBOSEQ_FUS_MOUSE_ADULT/ribotag_sample_sheet.csv
 
 
 #If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
-end_type: pe
+end_type: se
 #mouse or human
-species: "human"
+species: "mouse"
 
 readLen: 100
 ####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
