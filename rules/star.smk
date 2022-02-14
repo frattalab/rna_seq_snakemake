@@ -88,7 +88,7 @@ rule run_star_se:
 	shell:
 		"""
 		rm -rf {params.outTmpDir}
-		STAR --genomeDir {params.genomeDir} \
+		{config[star_path]} --genomeDir {params.genomeDir} \
 		--readFilesIn {input.one} \
 		--outFileNamePrefix {params.outputPrefix} \
 		--readFilesCommand zcat --runThreadN {threads} \
