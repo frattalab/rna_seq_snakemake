@@ -37,15 +37,12 @@ SAMPLES = SAMPLES.replace(np.nan, '', regex=True)
 
 SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 
+# Script output suffixes for all scripts that want to run as part of this workflow
+RSEQC_SUFFIXES = get_rseqc_suffixes(config['rseqc_to_run'])
 
 rule all_rseqc:
     input:
-        expand(RSEQC_OUTDIR + "{sample}.geneBodyCoverage.txt", sample = SAMPLE_NAMES), #gene_body_coverage
-        expand(RSEQC_OUTDIR + "{sample}.infer_experiment.txt", sample = SAMPLE_NAMES), #infer_experiment
-        expand(RSEQC_OUTDIR + "{sample}.inner_distance_freq.txt", sample = SAMPLE_NAMES), # inner_distance
-        expand(RSEQC_OUTDIR + "{sample}.junctionSaturation_plot.r", sample = SAMPLE_NAMES), # junction_saturation
-        expand(RSEQC_OUTDIR + "{sample}.read_distribution.txt", sample = SAMPLE_NAMES) # read_distribution
-
+        expand(RSEQC_OUTDIR + "{sample}{suffix}", sample = SAMPLE_NAMES, suffix=RSEQC_SUFFIXES), #gene_body_coverage
 
 ##
 
@@ -79,7 +76,7 @@ rule gene_body_coverage:
 rule infer_experiment:
     input:
         bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
-        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam")
+        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam.bai")
 
     output:
         os.path.join(RSEQC_OUTDIR, "{sample}.infer_experiment.txt")
@@ -104,7 +101,7 @@ rule infer_experiment:
 rule inner_distance_freq:
     input:
         bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
-        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam")
+        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam.bai")
 
     output:
         os.path.join(RSEQC_OUTDIR, "{sample}.inner_distance_freq.txt")
@@ -127,7 +124,7 @@ rule inner_distance_freq:
 rule junction_saturation:
     input:
         bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
-        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam")
+        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam.bai")
 
     output:
         os.path.join(RSEQC_OUTDIR, "{sample}.junctionSaturation_plot.r")
@@ -150,7 +147,7 @@ rule junction_saturation:
 rule read_distribution:
     input:
         bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
-        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam")
+        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam.bai")
 
     output:
         os.path.join(RSEQC_OUTDIR, "{sample}.read_distribution.txt")

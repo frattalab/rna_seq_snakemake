@@ -162,6 +162,18 @@ mashmap_path: /SAN/vyplab/alb_projects/tools/mashmap-Linux64-v2.0/mashmap
 feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
 
 
+#########################
+## RSEQC PARAMETERS
+#########################
+
+# Which QC steps from RSeQC to run as part of pipeline
+# Note that many of these steps (especially geneBody_coverage) can be very slow, but am keeping option to run for legacy purposes (and some can be educational)
+# Docs - http://rseqc.sourceforge.net/
+# Valid options are - 'geneBody_coverage', 'infer_experiment', 'inner_distance', 'junction_saturation', 'read_distribution'
+# (Follows the naming convention of the scripts)
+#
+rseqc_to_run: ['read_distribution']
+
 
 #########################
 ## TPM CALCULATOR OPTIONS
@@ -234,3 +246,8 @@ samtools_path: /share/apps/genomics/samtools-1.9/bin/samtools
 
 #Path to directory containing all bbmap scripts (use os.path.join so trailing slash doesn't matter)
 bbmap_path: /SAN/vyplab/alb_projects/tools/BBMap_38_86/bbmap/
+
+
+# Where to find gtfToGenePred & genePredToBed scripts
+# Make sure has a slash at end
+ucsc_tools_dir: /SAN/vyplab/alb_projects/tools/UCSC_Tools_Jul2020/

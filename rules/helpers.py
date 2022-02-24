@@ -451,4 +451,36 @@ def return_sample_names_group(grp):
         if grp_names:
             column_name = compare_dict[key]['column_name'][0]
             return(grp_names,column_name)
-    return("","")
+    return("", "")
+
+
+def get_rseqc_suffixes(to_run,
+                       valid_options=['geneBody_coverage',
+                                      'infer_experiment',
+                                      'inner_distance',
+                                      'junction_saturation',
+                                      'read_distribution'],
+                       options_to_suffix={'geneBody_coverage': '.geneBodyCoverage.txt',
+                                          'infer_experiment': '.infer_experiment.txt',
+                                          'inner_distance': '.inner_distance_freq.txt',
+                                          'junction_saturation': '.junctionSaturation_plot.r',
+                                          'read_distribution': '.read_distribution.txt'
+                                          }
+                       ):
+    '''
+    Return output file suffixes for provided RSeQC steps/scripts
+    
+    to_run: list of RSeQC script names to run (e.g. 'config['rseqc_to_run']')
+    valid_options: list of names of supported RSeQC scripts. All values in to_run must be present in valid_options
+    options_to_suffix: dict of {<valid_options value>: <expected output file suffix>}. Every value in valid_options must be a key in this dict
+    '''
+
+    assert isinstance(to_run, list)
+    assert all([True if optn in options_to_suffix.keys() for optn in valid_options]), f"All values in 'valid_options' are not present as keys in options2suffix"
+
+    for step in to_run:
+        if step not in valid_options:
+            raise ValueError(f"{step} is invalid option in 'to_run' for RSeQC - must be one of {', '.join(valid_options)}")
+
+    # extract expected suffixes for provided steps to run
+    return [options_to_suffix[step] for step in to_run]

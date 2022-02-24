@@ -15,6 +15,7 @@ include: "../rules/feature_counts.smk"
 include: "../rules/tpmcalculator.smk"
 include: "../rules/rseqc.smk"
 include: "../rules/multiqc.smk"
+include: "../rules/convert_annotations.smk"
 
 
 SPECIES_VERSION = get_species_version(config['species'])
