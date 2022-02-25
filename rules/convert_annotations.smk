@@ -75,7 +75,7 @@ rule gtf_to_collapsed_gtf:
 
     shell:
         """
-        python collapse_annotation.py \
+        python scripts/collapse_annotation.py \
         {input} \
         {output} \
         {params.stranded}

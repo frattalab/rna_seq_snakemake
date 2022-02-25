@@ -303,6 +303,7 @@ def multiqc_target_files(workflow_str, sample_names, fastq_prefixes, units):
         star_outdir = get_output_dir(config["project_top_level"], config["star_output_folder"])
         salmon_outdir = get_output_dir(config["project_top_level"], config["salmon_output_folder"])
         rseqc_outdir = get_output_dir(config["project_top_level"], config["rseqc_output_folder"])
+        rnaseqc_outdir = get_output_dir(config["project_top_level"], config["rnaseqc_output_folder"])
         feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
 
         # Define target files for each step
@@ -321,6 +322,10 @@ def multiqc_target_files(workflow_str, sample_names, fastq_prefixes, units):
         targets_rseqc = expand(rseqc_outdir + "{name}" + "{suffix}", name = sample_names, suffix = rseq_target_suffixes)
         # targets_rseqc.append(os.path.join(rseqc_outdir, "all_bams_output.geneBodyCoverage.txt"))
 
+        # MultiQC only searches for metrics file & coverage file, so only need to track these
+        rnaseqc_target_suffixes = [".metrics.tsv", ".coverage.tsv"]
+        targets_rnaseqc = expand(os.path.join(rnaseqc_outdir, "{name}" + "{suffix}"), name = sample_names, suffix = rnaseqc_target_suffixes)
+
 
         if workflow_str == "fastq_qc":
             # Only need output from fastqc & fastp
@@ -334,6 +339,7 @@ def multiqc_target_files(workflow_str, sample_names, fastq_prefixes, units):
             out_targets.extend(targets_fastp)
             out_targets.extend(targets_star)
             out_targets.extend(targets_rseqc)
+            out_targets.extend(targets_rnaseqc)
 
             # print("out_targets for align - {0}".format(", ".join(out_targets)))
 
@@ -359,7 +365,7 @@ def multiqc_target_dirs():
     For simplicity, this returns paths to all potential directories of different workflows, provided they exist / have been created
     '''
 
-    outdir_keys = ["fastqc_output_folder", "fastp_trimmed_output_folder", "star_output_folder", "salmon_output_folder", "rseqc_output_folder", "feature_counts_output_folder"]
+    outdir_keys = ["fastqc_output_folder", "fastp_trimmed_output_folder", "star_output_folder", "salmon_output_folder", "rseqc_output_folder", "rnaseqc_output_folder", "feature_counts_output_folder"]
 
     # List of all output directories specified in config
     all_dir_paths = [get_output_dir(config["project_top_level"], config[x]) for x in outdir_keys]
@@ -469,7 +475,7 @@ def get_rseqc_suffixes(to_run,
                        ):
     '''
     Return output file suffixes for provided RSeQC steps/scripts
-    
+
     to_run: list of RSeQC script names to run (e.g. 'config['rseqc_to_run']')
     valid_options: list of names of supported RSeQC scripts. All values in to_run must be present in valid_options
     options_to_suffix: dict of {<valid_options value>: <expected output file suffix>}. Every value in valid_options must be a key in this dict

@@ -19,7 +19,7 @@ rule all_samtools:
 		flagstat_outdir + "{name}.flagstat.txt"
 
 
-rule sort_bams:
+rule sort_bam:
 	input:
 		star_outdir + "{name}.Aligned.out.bam"
 
@@ -34,7 +34,7 @@ rule sort_bams:
 		samtools sort {input} -o {output}
 		"""
 
-rule sort_index_bams:
+rule index_sorted_bam:
 	input:
 		star_outdir + "{name}.Aligned.sorted.out.bam"
 

@@ -14,6 +14,7 @@ include: "../rules/star.smk"
 include: "../rules/feature_counts.smk"
 include: "../rules/tpmcalculator.smk"
 include: "../rules/rseqc.smk"
+include: "../rules/rnaseqc.smk"
 include: "../rules/multiqc.smk"
 include: "../rules/convert_annotations.smk"
 

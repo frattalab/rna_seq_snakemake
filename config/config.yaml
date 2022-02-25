@@ -41,6 +41,7 @@ project_top_level:  /SAN/vyplab/alb_projects/data/liu_facs_neurons/
 fastqc_output_folder: qc/fastqc/
 fastp_trimmed_output_folder: fastp_trimmed/
 rseqc_output_folder: qc/rseqc/
+rnaseqc_output_folder: qc/rnaseqc/
 
 star_output_folder: STAR_aligned/
 merged_fastq_folder: pulled_fastq/
@@ -57,6 +58,7 @@ DESeq2_output: deseq2/
 multiqc_output_folder: multiqc/
 interleave_master_output_folder: interleaved_fastq/
 
+logs_output_folder: logs/
 
 ###### By defaulteverything aligned with this
 ###### pipeline will get the suffix "Aligned.sorted.out.bam"
