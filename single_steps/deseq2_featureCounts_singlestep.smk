@@ -22,7 +22,7 @@ FEATURECOUNTS_DIR = get_output_dir(project_top_level, feature_counts_output_fold
 
 DESEQ2_DIR = get_output_dir(project_top_level, DESeq2_output)
 DESEQ2_DIR = DESEQ2_DIR + "featureCounts/"
-print(SAMPLE_NAMES)
+
 
 rule deseqOutput:
     input:
@@ -43,8 +43,8 @@ rule run_standard_deseq:
         baseName = "{bse}",
         contrastName = "{contrast}",
         out = DESEQ2_DIR + "{bse}_{contrast}",
-        base_grep = lambda wildcards: sample_names_from_contrast(wildcards.bse),
-        contrast_grep = lambda wildcards: sample_names_from_contrast(wildcards.contrast)
+        base_grep = lambda wildcards: sample_names_from_contrast(wildcards.bse,sampleCSVpath),
+        contrast_grep = lambda wildcards: sample_names_from_contrast(wildcards.contrast,sampleCSVpath)
     shell:
         """
         Rscript scripts/standard_deseq2_command_line.R \
