@@ -17,3 +17,4 @@ dependencies:
   - multiqc=1.9-0
   - stringtie=2.1.4
   - r-optparse
+  - bioconductor-deseq2
