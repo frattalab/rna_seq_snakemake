@@ -22,7 +22,7 @@ FEATURECOUNTS_DIR = get_output_dir(project_top_level, feature_counts_output_fold
 
 DESEQ2_DIR = get_output_dir(project_top_level, DESeq2_output)
 DESEQ2_DIR = DESEQ2_DIR + "featureCounts/"
-
+print(SAMPLE_NAMES)
 
 rule deseqOutput:
     input:
