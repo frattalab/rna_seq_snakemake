@@ -6,7 +6,7 @@
 comparepostiveNegative:
   column_name:
     - group
-  tdpPositiveNuclei:
-    - positive
-  tdpNegativeNuclei:
-    - negative
+  ControlRescued:
+    - Rescued TDP-43 KO
+  TDP43KO:
+    - TDP-43 KO
