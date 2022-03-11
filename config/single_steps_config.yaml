@@ -19,14 +19,14 @@ stringtie_longreads:
 feature_counts:
     # if you're using a SAF
     gtf_used: False
-    saf:  /SAN/vyplab/NYGC_ALSFTD/analysis_nygc/extensions.saf
+    saf:  /SAN/vyplab/TDP43_RNA/IPSC_WARD_RIBOSEQ/cryptics_coordinates.saf
     
     # Path to directory where results should be output (include slash at end)
-    out_spot: /SAN/vyplab/NYGC_ALSFTD/analysis_nygc/utr_extensions_counts/
+    out_spot: /SAN/vyplab/TDP43_RNA/IPSC_WARD_RIBOSEQ/cryptic_feature_counts/
 
 
     # Dir when bams to quant are stored (include slash at end)
-    bam_spot: /SAN/vyplab/NYGC_ALSFTD/linked_als_bams/
+    bam_spot: /SAN/vyplab/TDP43_RNA/IPSC_WARD_RIBOSEQ/bams/
 
 
     # Pick out bams from bam_dir with this bam_suffix
@@ -45,7 +45,7 @@ feature_counts:
 
     #"pe" if paired-end data, "se" if single-end data
     # if using long read setting (long_reads = True), put se (I think...)
-    end_type: "pe"
+    end_type: "se"
 
     # Count reads at What feature type?
     feature_type: "Name"

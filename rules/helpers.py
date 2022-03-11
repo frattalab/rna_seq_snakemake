@@ -377,7 +377,6 @@ def sample_names_from_contrast(grp, sampleCSVpath):
     """
     given a contrast name or list of groups return a list of the files in that group
     """
-    print("HI AL - HERE I AM - RUNNING THE FUNCTION HI!!!!")
     #reading in the samples
     samples = pd.read_csv(sampleCSVpath)
     #there should be a column which allows you to exclude samples
