@@ -13,8 +13,8 @@ fastqc:
     tmem:   4G
     h_rt: 72:00:00
 run_ir_finder:
-    h_vmem:    4G
-    tmem:   4G
+    h_vmem:    8G
+    tmem:   8G
     h_rt: 72:00:00
 tpmcalculator_path:
     h_vmem:    4G
