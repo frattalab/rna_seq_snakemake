@@ -1,9 +1,9 @@
 import os
 # a top level folder where the bams reside
-project_dir = "/SAN/vyplab/first_weeks/WARD_BAMS_NEW/"
-out_spot = "IRFinder_both/"
-bam_spot = "both_together/"
-bam_suffix = ".pass2Aligned.sortedByCoord.out.bam"
+project_dir = "/SAN/vyplab/alb_projects/data/bdnf_4su_i3lmn/n_of_four/analysis/"
+out_spot = "IRFinder_HISAT3N/mdcalled/"
+bam_spot = "HISAT3N/mdcalled/"
+bam_suffix = ".calmd.sorted.bam"
 IRfinder_path = "/SAN/vyplab/alb_projects/tools/IRFinder/bin/IRFinder"
 IRfinder_reference = "/SAN/vyplab/alb_projects/tools/IRFinder/REF/human_gencode_v34/irfinder/"
 # =-------DON"T TOUCH ANYTHING PAST THIS POINT ----------------------------
