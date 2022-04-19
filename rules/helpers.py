@@ -62,12 +62,12 @@ def get_trimmed(name):
     unit_fastqs = SAMPLES.loc[(SAMPLES.sample_name == name),'unit'].tolist()
     unit_fastqs2 = [u + "_" + name for u in unit_fastqs]
 
-    trimmed_1 = [os.path.join(fastp_outdir,u + "_R1_trimmed.fastq.gz") for u in unit_fastqs2]
+    trimmed_1 = [os.path.join(fastp_outdir,u + "_1.trimmed.fastq.gz") for u in unit_fastqs2]
 
 
     #if we have paired end data there will also be a trimmed 2, same thing, using the fast2 column instead
     if config['end_type'] == "pe":
-        trimmed_2 = [os.path.join(fastp_outdir,u + "_R2_trimmed.fastq.gz") for u in unit_fastqs2]
+        trimmed_2 = [os.path.join(fastp_outdir,u + "_2.trimmed.fastq.gz") for u in unit_fastqs2]
 
         #trimmed files is a list of the two
         trimmed_files = [trimmed_1, trimmed_2]

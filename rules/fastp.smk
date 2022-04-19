@@ -115,8 +115,8 @@ if config['end_type'] == "pe":
             two = lambda wildcards: ' '.join(get_trimmed(wildcards.name)[1])
         shell:
             """
-            cat {params.two} > {output.out_two}
             cat {params.one} > {output.out_one}
+            cat {params.two} > {output.out_two}
             """
 else:
     rule merge_trimmed:
