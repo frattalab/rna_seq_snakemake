@@ -139,13 +139,16 @@ source submit_test_se.sh align {optional_run_name}
 **Dry run**
 
 ```
-snakemake -n -p -s workflows/align.smk --configfile config/test_pe_config.yaml
+snakemake -s workflows/align.smk --configfile test_data_configs/test_pe_config.yaml -c 4 --use-conda
 ```
 
-**Submit to cluster**
+**Run locally on an interactive node**
 
 ```
-source submit_test_pe.sh align {optional_run_name}
+qrsh -l tmem=16G,h_vmem=16G
+
+snakemake -s workflows/align.smk --configfile test_data_configs/test_pe_config.yaml -c 4 --use-conda
+
 ```
 
 
