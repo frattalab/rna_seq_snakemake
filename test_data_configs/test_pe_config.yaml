@@ -25,7 +25,7 @@ feature_counts_strand_info: "-s 0"
 #always end paths with a trailing slash, or there will be errors :)
 
 #master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
-project_top_level:  test_data_analyzed/paired/end
+project_top_level:  test_data_analyzed/paired_end
 
 
 #below you can specify the names of rulesubdirectories
