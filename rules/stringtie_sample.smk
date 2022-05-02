@@ -39,7 +39,7 @@ rule StringTie_Assemble:
     output:
         stringtie_outdir + "{sample}.assemble.gtf"
     conda:
-        "../envs/stringtie.yaml"
+        "../env/stringtie.yaml"
     shell:
         "stringtie {input.bam} -G {input.ref_gtf} -o {output}"
 
