@@ -162,3 +162,6 @@ Please make sure you have done the following before committing changes/submittin
 If you're adding a **new workflow**, also make sure to include a **submit script**.
 
 (this is mostly a reminder for me...(*Sam*))
+
+
+ multiqc         -p         -o test_data_analyzed/paired_end/multiqc/align/ test_data_analyzed/paired_end/qc/fastqc/ test_data_analyzed/paired_end/fastp_trimmed/ test_data_analyzed/paired_end/STAR_aligned/ test_data_analyzed/paired_end/feature_counts/
