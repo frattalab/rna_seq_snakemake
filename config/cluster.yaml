@@ -32,7 +32,7 @@ run_star_pe:
     submission_string: "-pe smp 4 -R y"
     h_vmem:   8G
     tmem:   8G
-    h_rt: 72:00:00
+    h_rt: 120:00:00
 run_star_se:
     submission_string: "-pe smp 4 -R y"
     h_vmem:   8G

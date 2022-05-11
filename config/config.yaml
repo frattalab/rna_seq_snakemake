@@ -43,7 +43,6 @@ star_output_folder: STAR_aligned/
 merged_fastq_folder: pulled_fastq/
 scallop_output: scallop_output/
 stringtie_output: stringtie_output/
-feature_counts_output_folder: feature_counts/
 salmon_output_folder: salmon_quant/
 tpmcalculator_output_folder: TPMcalculator/
 interleave_master_output_folder: interleaved_fastq/
