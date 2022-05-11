@@ -17,7 +17,7 @@ species: "human"
 
 readLen: 100
 
-
+feature_counts_output_folder: whats
 
 
 ######------------------------------
