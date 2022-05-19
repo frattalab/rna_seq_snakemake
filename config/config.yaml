@@ -16,11 +16,8 @@ end_type: pe
 species: "human"
 
 readLen: 100
-####use "infer_experiment.py" from  /SAN/vyplab/alb_projects/tools/RSeQC/bin/infer_experiment.py on the aligned bams if you are unsure of strandedness of your data
-#consult featureCounts documentation for correct string to pass
-feature_counts_strand_info: "-s 1"
 
-
+feature_counts_output_folder: whats
 
 
 ######------------------------------
@@ -46,7 +43,6 @@ star_output_folder: STAR_aligned/
 merged_fastq_folder: pulled_fastq/
 scallop_output: scallop_output/
 stringtie_output: stringtie_output/
-feature_counts_output_folder: feature_counts/
 salmon_output_folder: salmon_quant/
 tpmcalculator_output_folder: TPMcalculator/
 interleave_master_output_folder: interleaved_fastq/

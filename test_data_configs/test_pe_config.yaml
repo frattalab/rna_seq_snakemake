@@ -1,0 +1,231 @@
+######------------------------------------------------
+## UPDATE THIS SECTION WITH RUN SPECIFIC INFORMATION
+######------------------------------------------------
+
+#path to a csv with the follwing format:
+#sample_name,unit, fast1,fast2
+# # # # if the data is single end leave the fast2 column blank
+# Double check README for instructions for constructing a valid sample csv table
+sampleCSVpath:  test_data_configs/test_pe_sample_tbl.csv
+
+
+#If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
+end_type: pe
+
+#mouse or human
+species: "human"
+
+readLen: 100
+
+feature_counts_strand_info: "-s 0"
+######------------------------------
+## WHERE DO YOU WANT OUTPUT TO GO?
+######------------------------------
+
+#always end paths with a trailing slash, or there will be errors :)
+
+#master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
+project_top_level:  test_data_analyzed/paired_end
+
+
+#below you can specify the names of rulesubdirectories
+#if the provided path string is RELATIVE, the string will be joined with project_top_level to form the output directory path
+#if the provided path string is ABSOLUTE, the output for the given rule will be stored in the provided string (NOT WITHIN project_top_level)
+#In practice leaving as relative defaults is best option...
+
+fastqc_output_folder: qc/fastqc/
+fastp_trimmed_output_folder: fastp_trimmed/
+rseqc_output_folder: qc/rseqc/
+
+star_output_folder: STAR_aligned/
+merged_fastq_folder: pulled_fastq/
+scallop_output: scallop_output/
+stringtie_output: stringtie_output/
+feature_counts_output_folder: feature_counts/
+salmon_output_folder: salmon_quant/
+tpmcalculator_output_folder: TPMcalculator/
+interleave_master_output_folder: interleaved_fastq/
+DESeq2_output: deseq2/
+
+# MultiQC reports for EACH workflow will be stored in subdirectories under here
+# e.g. if run fastq_qc & align_qc separately won't overwrite reports
+multiqc_output_folder: multiqc/
+interleave_master_output_folder: interleaved_fastq/
+
+
+###### By defaulteverything aligned with this
+###### pipeline will get the suffix "Aligned.sorted.out.bam"
+###### but if you want to run scallop  with bams aligned somewhere else
+###### you'll have to tweak this
+bam_suffix: ".Aligned.sorted.out.bam"
+
+###### Do you want to use a custom salmon index? If yes, give a file path to one build with the single_step generate_salmon_dex, otherwise leave false
+custom_salmon_index: False
+
+
+#########################
+##FASTP PARAMETERS - TRIMMING HERE######
+#########################
+fastp_path: /SAN/vyplab/alb_projects/tools/fastp
+
+#quality trimming is debated, and harsh cutoff can effect expression, using a soft quality trim of 10 based on this paper
+#https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2
+#use this flag if there are UMI's present, if there are, there should be a file with fastq & umi fastq present, otherwise
+#additional parameters you might want to add on
+fastp_parameters:
+  qualified_quality_phred: 10
+  overrepresentation_analysis: ""
+  #use this flag if there are UMI's present, if there are, there should be a file with fastq & umi fastq present, otherwise
+  #leave this flag as an empty string: ""
+  #umi: ""
+  #umi_loc: /SAN/vyplab/IoN_RNAseq/Bilal_Muscle_biopsies/analysis/fastqc/
+
+
+
+#####------------------------------
+## STAR PARAMETERS
+#####------------------------------
+
+#########################
+## note: I'm using hard clipping because GRAND-SLAM perfers this, star
+## has a different default to perform softclipping, just be aware
+#########################
+
+extra_star_parameters:
+  outSAMattributes: MD NH XS
+  outSAMtype: BAM Unsorted
+  outSAMunmapped: Within
+  twopassMode: Basic
+  alignEndsType: EndToEnd
+
+#DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
+STAR_indices: /SAN/vyplab/vyplab_reference_genomes/STAR/
+
+#location of star exe
+star_path: /SAN/vyplab/alb_projects/tools/STAR/bin/Linux_x86_64_static/STAR
+
+
+#########################
+## SALMON PARAMETERS
+#########################
+
+
+extra_salmon_parameters:
+  gcBias:
+  seqBias:
+  #posBias:
+  numBootstraps: 50
+
+
+# Which type of decoy-aware transcriptome index to use for salmon quant
+# If reads align better to decoys than annotated transcripts, discarded for purposes of quantification
+# Consult docs or paper (*TO-DO* - ADD LINKS TO GENOME BIOLOGY PAPER & DOCS)
+# "partial" - decoys are sequences from genome with high sequence homology to sequences in transcriptome
+# "full" - whole genome is treated as decoy
+salmon_index_type: "full"
+
+# Size of k-mers used to generate index. 31 recommended for read lengths 75+ bp
+salmon_index_kmer_size: 31
+
+# "gencode" or anything else if transcriptome is not from gencode.
+# Controls whether --gencode is passed to salmon index command
+transcriptome_source: gencode
+
+# Master directory for salmon indexes. #DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
+salmon_indices: /SAN/vyplab/vyplab_reference_genomes/salmon/
+
+#Location of salmon exe
+salmon_path: /SAN/vyplab/alb_projects/tools/salmon-1.4.0/salmon-latest_linux_x86_64/bin/salmon
+
+
+#This is script provided/recommended in Salmon manual to generate a 'partial' decoy transcriptome for Salmon selective alignment
+# 'partial' = decoy sequences from genome that are highly similar to sequences in Txome
+# Decoys = Sequences from Txome with 80 % homology to exon-masked genome (uses mashmap)
+salmon_decoy_shell_script: /SAN/vyplab/alb_projects/tools/SalmonTools/scripts/generateDecoyTranscriptome.sh
+
+# Above decoy shell script requires bedtools and mashmap
+bedtools_path: /SAN/vyplab/alb_projects/tools/bedtools
+mashmap_path: /SAN/vyplab/alb_projects/tools/mashmap-Linux64-v2.0/mashmap
+
+
+#########################
+##FEATURECOUNTS PARAMETERS - COUNTING HERE######
+#########################
+
+
+
+feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
+
+
+
+#########################
+## TPM CALCULATOR OPTIONS
+#########################
+
+tpmcalculator_path: /SAN/vyplab/alb_projects/tools/TPMCalculator/bin/TPMCalculator
+
+#put anything other than "true" if you're not AL
+tpm_singlestep: "false"
+
+#########################
+## Scallop PARAMETERS
+#########################
+scallop_path: /SAN/vyplab/alb_projects/tools/scallop-0.10.4/src/scallop
+scallop_extra_parameters:
+  min_transcript_length_increase: 25
+  min_single_exon_coverage: 15
+  min_transcript_length_base: 50
+  min_transcript_length_increase: 10
+  min_transcript_coverage: 0.01
+
+#########################
+##SCALLOP HELPER TOOLS PATHS######
+#########################
+gffcompare: /SAN/vyplab/alb_projects/tools/gffcompare-0.11.6.Linux_x86_64/gffcompare
+gtfcuff: /SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfcuff/gtfcuff
+gtfmerge: /SAN/vyplab/alb_projects/tools/rnaseqtools-1.0.3/gtfmerge/gtfmerge
+gffread: /SAN/vyplab/alb_projects/tools/gffread-0.11.8.Linux_x86_64/gffread
+
+
+#########################
+##KALLISTO PARAMETERS - COUNTING HERE######
+#########################
+
+kallisto_indices: /SAN/vyplab/vyplab_reference_genomes/kallisto/
+
+
+
+#########################
+##FASTQC PARAMETERS######
+#########################
+
+#path to the fastqc executable
+fastqc_path: /share/apps/genomics/FastQC-0.11.8/fastqc
+
+
+
+#########################
+## MULTIQC PARAMETERS
+#########################
+
+###for any additional multiqc runtime commands, if you want them it would be something like --cl_config "qualimap_config: { general_stats_coverage: [20,40,200] }", otherwise leave the parameter blank
+multiqc_configparams: ""
+
+#path to the multiqc file
+multiqc_path: /share/apps/python-3.6.4-shared/bin/multiqc
+
+
+
+#########################
+## SAMTOOLS PARAMETERS - ALIGNMENT HERE######
+#########################
+samtools_path: /share/apps/genomics/samtools-1.9/bin/samtools
+
+
+
+########################
+## OTHER PATHS TO SCRIPT/TOOL DIRECTORIES
+########################
+
+#Path to directory containing all bbmap scripts (use os.path.join so trailing slash doesn't matter)
+bbmap_path: /SAN/vyplab/alb_projects/tools/BBMap_38_86/bbmap/

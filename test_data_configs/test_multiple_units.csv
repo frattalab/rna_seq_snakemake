@@ -1,0 +1,3 @@
+﻿sample_name,unit,fast1,fast2,exclude_sample_downstream_analysis,group
+actb.gapdh.chx-tdp_CTRL_ctrl_2,part1,test_data/test_1_part1.fastq.gz,test_data/test_2_part1.fastq.gz,,control
+actb.gapdh.chx-tdp_CTRL_ctrl_2,part2,test_data/test_1_part2.fastq.gz,test_data/test_2_part2.fastq.gz,,control

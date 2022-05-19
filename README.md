@@ -139,13 +139,16 @@ source submit_test_se.sh align {optional_run_name}
 **Dry run**
 
 ```
-snakemake -n -p -s workflows/align.smk --configfile config/test_pe_config.yaml
+snakemake -s workflows/align.smk --configfile test_data_configs/test_pe_config.yaml -c 4 --use-conda
 ```
 
-**Submit to cluster**
+**Run locally on an interactive node**
 
 ```
-source submit_test_pe.sh align {optional_run_name}
+qrsh -l tmem=16G,h_vmem=16G
+
+snakemake -s workflows/align.smk --configfile test_data_configs/test_pe_config.yaml -c 4 --use-conda
+
 ```
 
 
@@ -159,3 +162,6 @@ Please make sure you have done the following before committing changes/submittin
 If you're adding a **new workflow**, also make sure to include a **submit script**.
 
 (this is mostly a reminder for me...(*Sam*))
+
+
+ multiqc         -p         -o test_data_analyzed/paired_end/multiqc/align/ test_data_analyzed/paired_end/qc/fastqc/ test_data_analyzed/paired_end/fastp_trimmed/ test_data_analyzed/paired_end/STAR_aligned/ test_data_analyzed/paired_end/feature_counts/
