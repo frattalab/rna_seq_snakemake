@@ -13,17 +13,17 @@ BASES, CONTRASTS = return_bases_and_contrasts('config/DESeq2comparisons.yaml')
 print(BASES)
 print(CONTRASTS)
 
-FEATURECOUNTS_DIR = get_output_dir(config['project_top_level'], config['feature_counts_output_folder'])
+SALMON_DIR = get_output_dir(config['project_top_level'], config['salmon_output_folder'])
 
 DESEQ2_DIR = get_output_dir(config['project_top_level'], config['DESeq2_output'])
-DESEQ2_DIR = DESEQ2_DIR + "featureCounts/"
+DESEQ2_DIR = DESEQ2_DIR + "salmon/"
 
 
 rule deseqOutput:
     input:
         expand(os.path.join(DESEQ2_DIR,"{bse}_{contrast}" + "normed_counts.csv.gz"),zip, bse = BASES,contrast = CONTRASTS)
 
-rule run_standard_deseq:
+rule run_standard_deseq_salmon:
     input:
         base_group = lambda wildcards: featurecounts_files_from_contrast(wildcards.bse),
         contrast_group = lambda wildcards: featurecounts_files_from_contrast(wildcards.contrast)
@@ -34,7 +34,7 @@ rule run_standard_deseq:
         os.path.join(DESEQ2_DIR,"{bse}_{contrast}" + "normed_counts.csv.gz")
     params:
         bam_suffix = config['bam_suffix'],
-        feature_counts_path = FEATURECOUNTS_DIR,
+        salmon_output = SALMON_DIR,
         baseName = "{bse}",
         contrastName = "{contrast}",
         out = DESEQ2_DIR + "{bse}_{contrast}",
@@ -42,8 +42,8 @@ rule run_standard_deseq:
         contrast_grep = lambda wildcards: sample_names_from_contrast(wildcards.contrast)
     shell:
         """
-        Rscript scripts/featurecounts_deseq2.R \
-        --folder_of_featurecounts {params.feature_counts_path} \
+        Rscript scripts/salmon_deseq2.R \
+        --salmon_folder {params.feature_counts_path} \
         --base_grep '{params.base_grep}' \
         --contrast_grep '{params.contrast_grep}' \
         --suffix '{params.bam_suffix}' \
