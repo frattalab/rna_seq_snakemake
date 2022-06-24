@@ -31,8 +31,8 @@ GENOME_DIR = os.path.join(config['STAR_indices'],config['species'],SPECIES_VERSI
 
 rule all_samtools:
 	input:
-		expand(star_outdir + "{name}.Aligned.sorted.out.bam",name = SAMPLE_NAMES),
-		expand(star_outdir + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES),
+		expand(star_outdir + "{name}.Aligned.sortedByCoord.out.bam",name = SAMPLE_NAMES),
+		expand(star_outdir + "{name}.Aligned.sortedByCoord.out.bam.bai", name = SAMPLE_NAMES),
 		expand(star_outdir + "{name}.flagstat.txt", name = SAMPLE_NAMES)
 
 rule run_star_pe:
@@ -45,7 +45,7 @@ rule run_star_pe:
 	output:
 		star_outdir + "{name}.SJ.out.tab",
 		star_outdir + "{name}.Log.final.out",
-		temp(star_outdir + "{name}.Aligned.out.bam")
+		temp(star_outdir + "{name}.Aligned.sortedByCoord.out.bam")
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
@@ -71,7 +71,7 @@ rule run_star_se:
 	output:
 		star_outdir + "{name}.SJ.out.tab",
 		star_outdir + "{name}.Log.final.out",
-		temp(star_outdir + "{name}.Aligned.out.bam")
+		temp(star_outdir + "{name}.Aligned.sortedByCoord.out.bam")
 	params:
 		extra_star_parameters = return_parsed_extra_params(config['extra_star_parameters']),
 		genomeDir = GENOME_DIR,
@@ -94,27 +94,27 @@ rule run_star_se:
 		--outTmpDir {params.outTmpDir}
 		"""
 
-rule sort_bams:
-	input:
-		star_outdir + "{name}.Aligned.out.bam"
+# rule sort_bams:
+# 	input:
+# 		star_outdir + "{name}.Aligned.sortedByCoord.out.bam"
 
-	output:
-		star_outdir + "{name}.Aligned.sorted.out.bam"
+# 	output:
+# 		star_outdir + "{name}.Aligned.sorted.out.bam"
 
-	conda:
-		"../env/align.yaml"
+# 	conda:
+# 		"../env/align.yaml"
 
-	shell:
-		"""
-		samtools sort {input} -o {output}
-		"""
+# 	shell:
+# 		"""
+# 		samtools sort {input} -o {output}
+# 		"""
 
 rule sort_index_bams:
 	input:
-		star_outdir + "{name}.Aligned.sorted.out.bam"
+		star_outdir + "{name}.Aligned.sortedByCoord.out.bam"
 
 	output:
-		star_outdir + "{name}.Aligned.sorted.out.bam.bai"
+		star_outdir + "{name}.Aligned.sortedByCoord.out.bam.bai"
 
 	conda:
 		"../env/align.yaml"
@@ -127,8 +127,8 @@ rule sort_index_bams:
 
 rule flagstat:
 	input:
-		star_outdir + "{name}.Aligned.sorted.out.bam",
-		star_outdir + "{name}.Aligned.sorted.out.bam.bai"
+		star_outdir + "{name}.Aligned.sortedByCoord.out.bam",
+		star_outdir + "{name}.Aligned.sortedByCoord.out.bam.bai"
 
 	output:
 		star_outdir + "{name}.flagstat.txt"
