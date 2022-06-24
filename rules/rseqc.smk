@@ -52,8 +52,8 @@ rule all_rseqc:
 
 rule gene_body_coverage:
     input:
-        bam = STAR_OUTDIR + "{sample}.Aligned.sorted.out.bam",
-        idx = STAR_OUTDIR + "{sample}.Aligned.sorted.out.bam.bai"
+        bam = STAR_OUTDIR + "{sample}.Aligned.sortedByCoord.out.bam",
+        idx = STAR_OUTDIR + "{sample}.Aligned.sortedByCoord.out.bam.bai"
 
     output:
         os.path.join(RSEQC_OUTDIR, "{sample}.geneBodyCoverage.txt")
@@ -78,8 +78,8 @@ rule gene_body_coverage:
 
 rule infer_experiment:
     input:
-        bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
-        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam")
+        bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sortedByCoord.out.bam"),
+        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sortedByCoord.out.bam")
 
     output:
         os.path.join(RSEQC_OUTDIR, "{sample}.infer_experiment.txt")
@@ -103,8 +103,8 @@ rule infer_experiment:
 
 rule inner_distance_freq:
     input:
-        bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
-        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam")
+        bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sortedByCoord.out.bam"),
+        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sortedByCoord.out.bam")
 
     output:
         os.path.join(RSEQC_OUTDIR, "{sample}.inner_distance_freq.txt")
@@ -126,8 +126,8 @@ rule inner_distance_freq:
 
 rule junction_saturation:
     input:
-        bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
-        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam")
+        bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sortedByCoord.out.bam"),
+        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sortedByCoord.out.bam")
 
     output:
         os.path.join(RSEQC_OUTDIR, "{sample}.junctionSaturation_plot.r")
@@ -149,8 +149,8 @@ rule junction_saturation:
 
 rule read_distribution:
     input:
-        bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam"),
-        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sorted.out.bam")
+        bam = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sortedByCoord.out.bam"),
+        idx = os.path.join(STAR_OUTDIR, "{sample}.Aligned.sortedByCoord.out.bam")
 
     output:
         os.path.join(RSEQC_OUTDIR, "{sample}.read_distribution.txt")
