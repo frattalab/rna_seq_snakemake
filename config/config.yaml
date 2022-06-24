@@ -6,7 +6,7 @@
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
 # Double check README for instructions for constructing a valid sample csv table
-sampleCSVpath:  /SAN/vyplab/alb_projects/data/liu_facs_neurons/Liu_facs_samples.csv
+sampleCSVpath:  /SAN/vyplab/HuRNASeq/TDP43_RAVER_OW/raver1_construct_sample_sheet.csv
 
 
 #If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
@@ -27,7 +27,7 @@ feature_counts_output_folder: whats
 #always end paths with a trailing slash, or there will be errors :)
 
 #master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
-project_top_level:  /SAN/vyplab/alb_projects/data/liu_facs_neurons/
+project_top_level:  /SAN/vyplab/HuRNASeq/TDP43_RAVER_OW/
 
 
 #below you can specify the names of rulesubdirectories
@@ -89,7 +89,8 @@ fastp_parameters:
 
 #########################
 ## note: I'm using hard clipping because GRAND-SLAM perfers this, star
-## has a different default to perform softclipping, just be aware
+## has a different default to perform softclipping, just be aware - recommend
+## that un
 #########################
 
 extra_star_parameters:
@@ -97,7 +98,7 @@ extra_star_parameters:
   outSAMtype: BAM Unsorted
   outSAMunmapped: Within
   twopassMode: Basic
-  alignEndsType: EndToEnd
+  outWigType: wiggle
 
 #DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
 STAR_indices: /SAN/vyplab/vyplab_reference_genomes/STAR/
