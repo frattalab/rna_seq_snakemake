@@ -38,8 +38,8 @@ multiqc_output_folder = os.path.join(get_output_dir(config["project_top_level"],
 rule all:
     input:
         GENOME_DIR + "/SA",
-        expand(star_outdir + "{name}.Aligned.sorted.out.bam", name = SAMPLE_NAMES),
-        expand(star_outdir + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES),
+        expand(star_outdir + "{name}.Aligned.sortedByCoord.out.bam", name = SAMPLE_NAMES),
+        expand(star_outdir + "{name}.Aligned.sortedByCoord.out.bam.bai", name = SAMPLE_NAMES),
         os.path.join(multiqc_output_folder, "multiqc_report.html")
         # expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
         #expand(config['project_top_level'] + "multiqc_report.html")
