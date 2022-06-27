@@ -95,7 +95,7 @@ fastp_parameters:
 
 extra_star_parameters:
   outSAMattributes: MD NH XS
-  outSAMtype: BAM Unsorted
+  outSAMtype: BAM SortedByCoordinate
   outSAMunmapped: Within
   twopassMode: Basic
   outWigType: wiggle
