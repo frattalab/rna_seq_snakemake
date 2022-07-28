@@ -6,7 +6,7 @@
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
 # Double check README for instructions for constructing a valid sample csv table
-sampleCSVpath:  /SAN/vyplab/HuRNASeq/TDP43_RAVER_OW/raver1_construct_sample_sheet.csv
+sampleCSVpath:  /SAN/vyplab/alb_projects/data/4su_full_ward_tdp_kd_ipsc/ward_time_course_samples.csv
 
 
 #If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
