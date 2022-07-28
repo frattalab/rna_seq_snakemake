@@ -27,7 +27,7 @@ feature_counts_output_folder: whats
 #always end paths with a trailing slash, or there will be errors :)
 
 #master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
-project_top_level:  /SAN/vyplab/HuRNASeq/TDP43_RAVER_OW/
+project_top_level:  /SAN/vyplab/alb_projects/data/4su_full_ward_tdp_kd_ipsc/
 
 
 #below you can specify the names of rulesubdirectories
