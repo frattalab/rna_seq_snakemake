@@ -94,7 +94,7 @@ rule salmon_quant_pe:
         salmon = config["salmon_path"],
         index_dir = TXOME_DIR,
         output_dir = os.path.join(OUTPUT_DIR, "{sample}"),
-        libtype = get_salmon_strand(config["feature_counts_strand_info"]),
+        libtype = "A",
         gtf = get_gtf(SPECIES),
         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"]),
         threads = cluster_dict["salmon_quant_pe"]["smp"]
@@ -126,7 +126,7 @@ rule salmon_quant_se:
         salmon = config["salmon_path"],
         index_dir = TXOME_DIR,
         output_dir = os.path.join(OUTPUT_DIR, "{sample}"),
-        libtype = get_salmon_strand(config["feature_counts_strand_info"]),
+        libtype = "A",
         gtf = get_gtf(SPECIES),
         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"]),
         threads = cluster_dict["salmon_quant_se"]["smp"]

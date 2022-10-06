@@ -14,6 +14,8 @@ include: "../rules/star.smk"
 include: "../rules/tpmcalculator.smk"
 include: "../rules/rseqc.smk"
 include: "../rules/multiqc.smk"
+include: "../rules/generate_salmon_index.smk"
+include: "../rules/salmon_quant.smk"
 
 
 SPECIES_VERSION = get_species_version(config['species'])
@@ -31,7 +33,7 @@ SAMPLE_NAMES = SAMPLES['sample_name'].tolist()
 fastqc_outdir = get_output_dir(config["project_top_level"], config["fastqc_output_folder"])
 interleaved_outdir = get_output_dir(config['project_top_level'], config['interleave_master_output_folder'])
 star_outdir = get_output_dir(config["project_top_level"], config['star_output_folder'])
-feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
+salmon_outdir = get_output_dir(config["project_top_level"], config["salmon_output_folder"])
 multiqc_output_folder = os.path.join(get_output_dir(config["project_top_level"], config["multiqc_output_folder"]), workflow_str, "")
 
 
@@ -40,7 +42,8 @@ rule all:
         GENOME_DIR + "/SA",
         expand(star_outdir + "{name}.Aligned.sorted.out.bam", name = SAMPLE_NAMES),
         expand(star_outdir + "{name}.Aligned.sorted.out.bam.bai", name = SAMPLE_NAMES),
-        os.path.join(multiqc_output_folder, "multiqc_report.html")
+        os.path.join(multiqc_output_folder, "multiqc_report.html"),
+        expand(salmon_outdir + "{sample}/" + "quant.sf", sample = SAMPLE_NAMES)
         # expand(fastqc_outdir + "{unit}/{fastq_name}_fastqc.html",zip, fastq_name=FASTQ_NAME, unit=UNITS)
         #expand(config['project_top_level'] + "multiqc_report.html")
     shadow: "minimal"
