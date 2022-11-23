@@ -4,3 +4,5 @@
 .DS_Store
 submissions/
 .snakemake/
+test_indices/*
+test_output_sim/*

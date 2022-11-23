@@ -116,7 +116,6 @@ rule salmon_index:
         os.path.join(TXOME_DIR, "pos.bin")
 
     params:
-        salmon = config["salmon_path"],
         k = KMER_SIZE,
         outdir = TXOME_DIR,
         gencode = "--gencode" if config["transcriptome_source"] == "gencode" else ""
@@ -124,9 +123,12 @@ rule salmon_index:
     threads:
         4
 
+    conda:
+        "../env/align.yaml"
+
     shell:
         """
-        {params.salmon} index \
+        salmon index \
         -t {input.gentrome_fa} \
         -i {params.outdir} \
         --decoys {input.decoys} \

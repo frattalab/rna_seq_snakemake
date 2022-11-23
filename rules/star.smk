@@ -53,10 +53,13 @@ rule run_star_pe:
 		outputPrefix = os.path.join(star_outdir + "{name}.")
 	threads:
 		4
+	conda:
+		"../env/align.yaml"
+
 	shell:
 		"""
 		rm -rf {params.outTmpDir}
-		{config[star_path]} --genomeDir {params.genomeDir} \
+		STAR --genomeDir {params.genomeDir} \
 		--readFilesIn {input.one} {input.two} \
 		--outFileNamePrefix {params.outputPrefix} \
 		--readFilesCommand zcat --runThreadN {threads} \
@@ -79,14 +82,14 @@ rule run_star_se:
 		outputPrefix = os.path.join(star_outdir + "{name}.")
 	wildcard_constraints:
 		sample="|".join(SAMPLE_NAMES)
-#	conda:
-#		"../env/align.yaml"
+	conda:
+		"../env/align.yaml"
 	threads:
 		4
 	shell:
 		"""
 		rm -rf {params.outTmpDir}
-		{config[star_path]} --genomeDir {params.genomeDir} \
+		STAR --genomeDir {params.genomeDir} \
 		--readFilesIn {input.one} \
 		--outFileNamePrefix {params.outputPrefix} \
 		--readFilesCommand zcat --runThreadN {threads} \

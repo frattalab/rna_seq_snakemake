@@ -23,9 +23,11 @@ rule generate_genome:
 		sjdbOverhang = config['readLen'] - 1
 	threads:
 		4
+	conda:
+		"../env/align.yaml"
 	shell:
 		"""
-		{config[star_path]} \
+		STAR \
 	    --runThreadN {threads} \
 	    --runMode genomeGenerate \
 	    --genomeDir {GENOME_DIR} \

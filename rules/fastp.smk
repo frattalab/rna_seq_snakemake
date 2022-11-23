@@ -55,7 +55,7 @@ if config['end_type'] == "pe":
         shell:
             """
             free -h
-            {config[fastp_path]} \
+            fastp \
             --in1 {input.fastq_file} \
             --in2 {input.fastq_file2} \
             --out1 {output.out_fastqc} \
@@ -91,7 +91,7 @@ else:
 
             shell:
                 """
-                {config[fastp_path]} -i {input.fastq_file} \
+                fastp -i {input.fastq_file} \
                 -o {output.out_fastqc} \
                 --json {output.fastpjson} \
                 --html {output.fastphtml} \

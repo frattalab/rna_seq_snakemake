@@ -1,0 +1,7 @@
+sample_name,unit,fast1,fast2,group,exclude_sample_downstream_analysis
+group1_sample_01,placeholder,test_data/test_sequence/group1_sample_01_1.fastq.gz,test_data/test_sequence/group1_sample_01_2.fastq.gz,group1,
+group1_sample_02,placeholder,test_data/test_sequence/group1_sample_02_1.fastq.gz,test_data/test_sequence/group1_sample_02_2.fastq.gz,group1,
+group1_sample_03,placeholder,test_data/test_sequence/group1_sample_03_1.fastq.gz,test_data/test_sequence/group1_sample_03_2.fastq.gz,group1,
+group2_sample_04,placeholder,test_data/test_sequence/group2_sample_04_1.fastq.gz,test_data/test_sequence/group2_sample_04_2.fastq.gz,group2,
+group2_sample_05,placeholder,test_data/test_sequence/group2_sample_05_1.fastq.gz,test_data/test_sequence/group2_sample_05_2.fastq.gz,group2,
+group2_sample_06,placeholder,test_data/test_sequence/group2_sample_06_1.fastq.gz,test_data/test_sequence/group2_sample_06_2.fastq.gz,group2,
