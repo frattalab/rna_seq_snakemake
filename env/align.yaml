@@ -6,7 +6,7 @@ channels:
 
 dependencies:
   - fastp=0.20.1-0
-  - python=3.6
+  - python=3.7
   - star=2.7.8a
   - samtools=1.11-0
   - subread=2.0.1-0
@@ -17,3 +17,5 @@ dependencies:
   - multiqc=1.9-0
   - stringtie=2.1.4
   - r-optparse
+  - salmon=1.4.0
+  - fastqc=0.11.8

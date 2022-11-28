@@ -1,4 +1,5 @@
 
+import os
 include: "helpers.py"
 
 configfile: "config/config.yaml"
@@ -46,10 +47,12 @@ rule fastqc:
 	params:
 		#fq_name = lambda wildcards, input: re.sub(".fastq.gz","", ORDER_DICT[input.fastq_file].rpartition('/')[2]),
 		outdir = fastqc_outdir + "{sample}/{unit}/"
-	log:
-        "logs/{fastq_name}_fastqc.log"
+
+	conda:
+		"../env/align.yaml"
+
 	shell:
 		"""
 		mkdir -p {params.outdir}
-		{config[fastqc_path]} {input.fastq_file} -o {params.outdir}
+		fastqc {input.fastq_file} -o {params.outdir}
 		"""

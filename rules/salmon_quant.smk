@@ -91,7 +91,6 @@ rule salmon_quant_pe:
         os.path.join(OUTPUT_DIR, "{sample}", "quant.sf")
 
     params:
-        salmon = config["salmon_path"],
         index_dir = TXOME_DIR,
         output_dir = os.path.join(OUTPUT_DIR, "{sample}"),
         libtype = "A",
@@ -100,10 +99,12 @@ rule salmon_quant_pe:
         threads = cluster_dict["salmon_quant_pe"]["smp"]
 
     # threads: 4
+    conda:
+        "../env/align.yaml"
 
     shell:
         """
-        {params.salmon} quant \
+        salmon quant \
         --index {params.index_dir} \
         --libType {params.libtype} \
         --mates1 {input.fast1} \
@@ -123,7 +124,6 @@ rule salmon_quant_se:
         os.path.join(OUTPUT_DIR, "{sample}", "quant.sf")
 
     params:
-        salmon = config["salmon_path"],
         index_dir = TXOME_DIR,
         output_dir = os.path.join(OUTPUT_DIR, "{sample}"),
         libtype = "A",
@@ -131,9 +131,12 @@ rule salmon_quant_se:
         extra_params = return_parsed_extra_params(config["extra_salmon_parameters"]),
         threads = cluster_dict["salmon_quant_se"]["smp"]
 
+    conda:
+        "../env/align.yaml"
+
     shell:
         """
-        {params.salmon} quant \
+        salmon quant \
         --index {params.index_dir} \
         --libType {params.libtype} \
         -r {input.fast1} \
