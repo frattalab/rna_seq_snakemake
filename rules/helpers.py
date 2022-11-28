@@ -303,8 +303,6 @@ def multiqc_target_files(workflow_str, sample_names, fastq_prefixes, units):
         star_outdir = get_output_dir(config["project_top_level"], config["star_output_folder"])
         salmon_outdir = get_output_dir(config["project_top_level"], config["salmon_output_folder"])
         rseqc_outdir = get_output_dir(config["project_top_level"], config["rseqc_output_folder"])
-        feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
-
         # Define target files for each step
         targets_fastqc = expand(fastqc_outdir + "{sample}/{unit}/{fastq_prefix}_fastqc.html",zip, sample=sample_names, unit=units, fastq_prefix = fastq_prefixes)
         # print("fastqc targets - {0}".format(", ".join(targets_fastqc)))
@@ -359,7 +357,7 @@ def multiqc_target_dirs():
     For simplicity, this returns paths to all potential directories of different workflows, provided they exist / have been created
     '''
 
-    outdir_keys = ["fastqc_output_folder", "fastp_trimmed_output_folder", "star_output_folder", "salmon_output_folder", "rseqc_output_folder", "feature_counts_output_folder"]
+    outdir_keys = ["fastqc_output_folder", "fastp_trimmed_output_folder", "star_output_folder", "salmon_output_folder", "rseqc_output_folder"]
 
     # List of all output directories specified in config
     all_dir_paths = [get_output_dir(config["project_top_level"], config[x]) for x in outdir_keys]
