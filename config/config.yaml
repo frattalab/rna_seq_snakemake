@@ -6,7 +6,7 @@
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
 # Double check README for instructions for constructing a valid sample csv table
-sampleCSVpath: config/samplesheet_papa_sim.csv 
+sampleCSVpath: config/samplesheet_papa_sim.csv
 
 #If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
 end_type: pe
@@ -15,8 +15,6 @@ end_type: pe
 species: "human_sim"
 
 readLen: 100
-
-feature_counts_output_folder: whats
 
 
 ######------------------------------
@@ -62,10 +60,6 @@ bam_suffix: ".Aligned.sorted.out.bam"
 custom_salmon_index: False
 
 
-#########################
-##FASTP PARAMETERS - TRIMMING HERE######
-#########################
-fastp_path: /SAN/vyplab/alb_projects/tools/fastp
 
 #quality trimming is debated, and harsh cutoff can effect expression, using a soft quality trim of 10 based on this paper
 #https://bmcbioinformatics.biomedcentral.com/articles/10.1186/s12859-016-0956-2
@@ -100,9 +94,6 @@ extra_star_parameters:
 #DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
 STAR_indices: test_indices/STAR_indices/
 
-#location of star exe
-star_path: /SAN/vyplab/alb_projects/tools/STAR/bin/Linux_x86_64_static/STAR
-
 
 #########################
 ## SALMON PARAMETERS
@@ -133,8 +124,6 @@ transcriptome_source: gencode
 # Master directory for salmon indexes. #DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
 salmon_indices: test_indices/salmon/
 
-#Location of salmon exe
-salmon_path: /SAN/vyplab/alb_projects/tools/salmon-1.4.0/salmon-latest_linux_x86_64/bin/salmon
 
 
 #This is script provided/recommended in Salmon manual to generate a 'partial' decoy transcriptome for Salmon selective alignment
@@ -145,16 +134,6 @@ salmon_decoy_shell_script: /SAN/vyplab/alb_projects/tools/SalmonTools/scripts/ge
 # Above decoy shell script requires bedtools and mashmap
 bedtools_path: /SAN/vyplab/alb_projects/tools/bedtools
 mashmap_path: /SAN/vyplab/alb_projects/tools/mashmap-Linux64-v2.0/mashmap
-
-
-#########################
-##FEATURECOUNTS PARAMETERS - COUNTING HERE######
-#########################
-
-
-
-feature_counts_path: /SAN/vyplab/alb_projects/tools/subread-1.6.4-Linux-x86_64/bin/featureCounts
-
 
 
 #########################
@@ -194,13 +173,6 @@ kallisto_indices: /SAN/vyplab/vyplab_reference_genomes/kallisto/
 
 
 
-#########################
-##FASTQC PARAMETERS######
-#########################
-
-#path to the fastqc executable
-fastqc_path: /share/apps/genomics/FastQC-0.11.8/fastqc
-
 
 
 #########################
@@ -210,15 +182,6 @@ fastqc_path: /share/apps/genomics/FastQC-0.11.8/fastqc
 ###for any additional multiqc runtime commands, if you want them it would be something like --cl_config "qualimap_config: { general_stats_coverage: [20,40,200] }", otherwise leave the parameter blank
 multiqc_configparams: ""
 
-#path to the multiqc file
-multiqc_path: /share/apps/python-3.6.4-shared/bin/multiqc
-
-
-
-#########################
-## SAMTOOLS PARAMETERS - ALIGNMENT HERE######
-#########################
-samtools_path: /share/apps/genomics/samtools-1.9/bin/samtools
 
 
 
