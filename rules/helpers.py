@@ -354,7 +354,7 @@ def multiqc_target_dirs():
     '''
     Returns list of paths to directories for multiqc to scan for log files
     Since it scan recursively through dirs, and only penalty to searching extra dirs is added run-time
-    For simplicity, this returns paths to all potential directories of different workflows, provided they exist / have been created
+    For simplicity, this returns paths to all potential directories of different workflows, provided they exist / have been created prior to the DAG being generated
     '''
 
     outdir_keys = ["fastqc_output_folder", "fastp_trimmed_output_folder", "star_output_folder", "salmon_output_folder", "rseqc_output_folder"]
@@ -364,9 +364,10 @@ def multiqc_target_dirs():
 
     # print("this is all_dir_paths for multiqc {0}".format(",".join(all_dir_paths)))
     # Return only potential directories that have already exist
+    # The directory must be made in the snakefile prior to the rule being run for this to work (otherwise the path doesn't exist when the DAG is generated)
     target_dir_paths = [p for p in all_dir_paths if os.path.exists(p)]
 
-    # print("this is target_dir_paths for multiqc - {0}".format(",".join(all_dir_paths)))
+    # print("this is target_dir_paths for multiqc - {0}".format(",".join(target_dir_paths)))
 
     return target_dir_paths
 
