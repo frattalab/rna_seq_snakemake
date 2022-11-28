@@ -54,7 +54,7 @@ if config['end_type'] == "pe":
 
         shell:
             """
-            free -h
+            #free -h
             fastp \
             --in1 {input.fastq_file} \
             --in2 {input.fastq_file2} \
