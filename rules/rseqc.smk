@@ -28,6 +28,9 @@ STAR_OUTDIR = get_output_dir(config["project_top_level"], config['star_output_fo
 RSEQC_OUTDIR = get_output_dir(config["project_top_level"], config["rseqc_output_folder"])
 SPECIES = config["species"]
 
+#make sure the output folder for rseqc exists before running anything
+os.system("mkdir -p {0}".format(RSEQC_OUTDIR))
+
 # RSeQC wants annotation in BED12 format. This can be pulled from refence_files_species
 BED12 = get_bed12(SPECIES)
 
