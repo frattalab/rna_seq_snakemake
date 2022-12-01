@@ -12,7 +12,7 @@ sampleCSVpath: /SAN/vyplab/HuRNASeq/BDNF_NT4_comparisons/samplesheet_bdnf.csv
 end_type:
 
 #mouse or human
-species: "human"
+species: "human_v42"
 
 readLen: 100
 
