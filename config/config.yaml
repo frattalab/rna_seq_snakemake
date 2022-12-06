@@ -6,13 +6,13 @@
 #sample_name,unit, fast1,fast2
 # # # # if the data is single end leave the fast2 column blank
 # Double check README for instructions for constructing a valid sample csv table
-sampleCSVpath: config/samplesheet_papa_sim.csv
+sampleCSVpath: /SAN/vyplab/HuRNASeq/BDNF_NT4_comparisons/samplesheet_bdnf.csv
 
 #If input data is paired-end, put 'pe' (quotes not needed), otherwise leave blank (or put dummy value that is not pe)
-end_type: pe
+end_type:
 
 #mouse or human
-species: "human_sim"
+species: "human_v42"
 
 readLen: 100
 
@@ -24,7 +24,7 @@ readLen: 100
 #always end paths with a trailing slash, or there will be errors :)
 
 #master directory in which output from individual rules is stored (within individual subdirectories, unless overriden below)
-project_top_level: test_output_sim/test_aligned/
+project_top_level: /SAN/vyplab/HuRNASeq/BDNF_NT4_comparisons/test_aligned/
 
 #below you can specify the names of rulesubdirectories
 #if the provided path string is RELATIVE, the string will be joined with project_top_level to form the output directory path
