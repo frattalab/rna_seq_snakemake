@@ -92,7 +92,7 @@ extra_star_parameters:
   #alignEndsType: EndToEnd
 
 #DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
-STAR_indices: test_indices/STAR_indices/
+STAR_indices: /SAN/vyplab/vyplab_reference_genomes/STAR/
 
 
 #########################
@@ -122,7 +122,7 @@ salmon_index_kmer_size: 31
 transcriptome_source: gencode
 
 # Master directory for salmon indexes. #DON'T CHANGE THESE UNLESS ABSOLUTELY SURE
-salmon_indices: test_indices/salmon/
+salmon_indices: /SAN/vyplab/vyplab_reference_genomes/salmon/
 
 
 
