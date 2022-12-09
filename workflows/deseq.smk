@@ -58,6 +58,9 @@ rule run_deseq:
         deseq_dir = DESEQ_DIR.rstrip('\/'),
         tx2gene = tx_gene
 
+    conda:
+        "../env/deseq2.yaml"
+
     shell:
         """
         Rscript scripts/quick_salmon_deseq_command_line.R \

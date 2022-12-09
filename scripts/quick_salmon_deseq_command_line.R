@@ -1,7 +1,13 @@
-#!/usr/bin/env Rscript
-if (!require("pacman")) install.packages("pacman")
-library(pacman)
-pacman::p_load(dplyr,tidyr,tximport,rlang,DESeq2,data.table,annotables,tidyverse, optparse, yaml)
+library(dplyr)
+library(tidyr)
+library(tximport)
+library(rlang)
+library(DESeq2)
+library(annotables)
+library(tidyverse)
+library(optparse)
+library(yaml)
+library(data.table)
 
 
   

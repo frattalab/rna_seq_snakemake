@@ -1,0 +1,18 @@
+name: rna_seq_deseq2
+
+channels:
+  - bioconda
+  - conda-forge
+
+dependencies:
+  - r-dplyr = 1.0.10
+  - r-tidyr = 1.2.1
+  - bioconductor-tximport = 1.26.0
+  - bioconductor-deseq2 = 1.38.0
+  - r-data.table = 1.14.6
+  - r-annotables = 0.1.90
+  - r-tidyverse = 1.3.2
+  - r-yaml = 2.3.5
+  - R
+  - r-optparse = 1.7.3
+  - r-rlang = 1.0.6
