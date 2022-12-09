@@ -52,9 +52,8 @@ run_salmon_deseq = function(salmon_quant_directory,
   
   #Generate a vector of the wanted file names.
   
-  files = unique(file.path(salmon_quant_directory,paste0(metadata$unit,"_",metadata$sample_name),"quant.sf")) 
-  #for bdnf test run only(because I forgot the 'unit' column when running align.smk):
-  #files = unique(file.path(salmon_quant_directory,metadata$sample_name,"quant.sf")) 
+  #files = unique(file.path(salmon_quant_directory,paste0(metadata$unit,"_",metadata$sample_name),"quant.sf")) 
+  files = unique(file.path(salmon_quant_directory,metadata$sample_name,"quant.sf")) 
   
   names(files) = unique(metadata$sample_name)
   
