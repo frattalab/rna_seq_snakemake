@@ -5,7 +5,7 @@ import yaml
 
 configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml"
-include: "helpers.py"
+include: "rules/helpers.py"
 
 with open("config/config.yaml", "r") as stream:
     config = yaml.safe_load(stream)
