@@ -393,7 +393,7 @@ def sample_names_from_contrast(grp):
     return(grp_samples)
 
 
-def featurecounts_files_from_contrast(grp):
+def salmon_files_from_contrast(grp):
     """
     given a contrast name or list of groups return a list of the files in that group
     """
@@ -409,11 +409,11 @@ def featurecounts_files_from_contrast(grp):
     if comparison_column == "":
         return([""])
     grp_samples = list(set(list(samples2[samples2[comparison_column].isin(grps)].sample_name)))
-    feature_counts_outdir = get_output_dir(config["project_top_level"], config["feature_counts_output_folder"])
-    fc_suffix = "_featureCounts_results.txt"
+    salmon_outdir = get_output_dir(config["project_top_level"], config["salmon_output_folder"])
+    salmon_suffix = "quant.sf"
 
     #build a list with the full path from those sample names
-    fc_files = [os.path.join(feature_counts_outdir,x + fc_suffix) \
+    fc_files = [os.path.join(salmon_outdir, x , salmon_suffix) \
                    for x in grp_samples]
     fc_files = list(set(fc_files))
     print(fc_files)

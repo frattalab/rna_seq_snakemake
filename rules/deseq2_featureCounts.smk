@@ -1,7 +1,11 @@
 import os
+import yaml
 configfile: "config/config.yaml"
 cluster_config: "config/cluster.yaml"
 include: "helpers.py"
+
+with open("config/config.yaml", "r") as stream:
+    config = yaml.safe_load(stream)
 
 #reading in the samples and dropping the samples to be excluded in order to get a list of sample names
 samples = pd.read_csv(config['sampleCSVpath'])

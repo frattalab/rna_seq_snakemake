@@ -6,7 +6,7 @@
 comparepostiveNegative:
   column_name:
     - group
-  control:
-    - positive
-  bdnf:
-    - negative
+  Controls:
+    - control
+  BDNF:
+    - bdnf
