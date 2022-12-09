@@ -3,14 +3,14 @@ import pandas as pd
 import numpy as np
 import yaml
 
-configfile: "../config/config.yaml"
-cluster_config: "../config/cluster.yaml"
+configfile: "/config/config.yaml"
+cluster_config: "/config/cluster.yaml"
 include: "../rules/helpers.py"
 
-with open("../config/config.yaml", "r") as stream:
+with open("/config/config.yaml", "r") as stream:
     config = yaml.safe_load(stream)
 
-BASES, CONTRASTS = return_bases_and_contrasts('../config/DESeq2comparisons.yaml')
+BASES, CONTRASTS = return_bases_and_contrasts('/config/DESeq2comparisons.yaml')
 print(BASES)
 print(CONTRASTS)
 
