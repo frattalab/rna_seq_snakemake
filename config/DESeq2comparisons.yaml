@@ -6,7 +6,7 @@
 comparepostiveNegative:
   column_name:
     - group
-  tdpPositiveNuclei:
-    - positive
-  tdpNegativeNuclei:
-    - negative
+  Controls:
+    - control
+  BDNF:
+    - bdnf
