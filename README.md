@@ -6,7 +6,7 @@ See links to instruction sections below:
 - [Testing and updating the pipeline](#testing-and-updating-the-pipeline)
 - [Checklist before pull requests](#what-to-do-before-pull-requests-or-feature-additions)
 
-The only thing you should need to edit is the config.yaml file. All directory paths should end with a trailing /
+The only thing you should need to edit is the config.yaml file (and DESeq2comparisons.yaml file if you are running DESeq2). All directory paths should end with a trailing /
 
 ### How to make a sample sheet
 The necessary columns are
@@ -78,6 +78,10 @@ The pipeline has specific defined workflows. These are currently:
 3. Quantify transcripts with Salmon
 
 **NB: salmon workflow currently only supports PAIRED-END READS**
+
+#### deseq
+1. Generate transcript count tables from Salmon
+2. Run differential expression test with DESeq2
 
 #### Minimal dependencies
 
