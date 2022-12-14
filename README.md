@@ -79,8 +79,8 @@ The pipeline has specific defined workflows. These are currently:
 
 **NB: salmon workflow currently only supports PAIRED-END READS**
 
-#### deseq
-1. Generate transcript count tables from Salmon
+#### DESeq2
+1. Generate tx2gene mapping table for mapping genes to transcripts for DE from Salmon counts
 2. Run differential expression test with DESeq2
 
 #### Minimal dependencies
