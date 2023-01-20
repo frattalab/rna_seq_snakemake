@@ -22,7 +22,7 @@ tx_gene = gtf.rstrip('\annotation.gtf') + '.tx2gene.csv'
 
 rule all:
     input:
-        expand(os.path.join(DESEQ_DIR, "{bse}_{contrast}" + ".DESEQ2_results.csv"), bse = BASES, contrast = CONTRASTS),
+        expand(os.path.join(DESEQ_DIR, "{bse}_{contrast}" + ".DESEQ2_results.csv"), zip, bse = BASES, contrast = CONTRASTS),
         tx_gene = gtf.rstrip('\annotation.gtf') + '.tx2gene.csv'
 
 rule write_tx2gene:
