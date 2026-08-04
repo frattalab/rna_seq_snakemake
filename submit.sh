@@ -27,6 +27,7 @@ mkdir -p ${FOLDER}
 cp config/config.yaml ${FOLDER}/${RUN_NAME}_config.yaml
 
 snakemake -s ${WORKFLOW} \
+--conda-frontend conda \
 --conda-prefix "/SAN/vyplab/vyplab_reference_genomes/conda_envs/" \
 --use-conda \
 --jobscript cluster_qsub.sh \
