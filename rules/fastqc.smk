@@ -17,7 +17,7 @@ FASTQ_NAME, FILE_LOCATION, UNITS = get_fastq_names(config["sampleCSVpath"])
 # FASTQ_NAME = sample ID, FILE_LOCATION = path to fastq file
 # Fastqc gets it's filename by stripping ".fastq.gz" from the input FASTQ
 # FASTQ_PREFIX is a list of <prefix> for each sample (from /path/to/<prefix>.fastq.gz)
-FASTQ_PREFIX = [re.sub(".fastq.gz","", location.rpartition('/')[2]) for location in FILE_LOCATION]
+FASTQ_PREFIX = [re.sub(r"\.f(ast)?q\.gz$","", location.rpartition('/')[2]) for location in FILE_LOCATION]
 
 # print("FASTQ_NAME values - {0}".format(", ".join(FASTQ_NAME)))
 #zip them into a directory to make getting the location easier
